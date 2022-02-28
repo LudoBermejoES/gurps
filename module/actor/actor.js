@@ -848,7 +848,7 @@ export class GurpsActor extends Actor {
           xhr.onload = () => {
             if (xhr.status === 200) {
               // @ts-ignore
-              let s = arrayBuffertoBase64(xhr.response)
+              let s = new TextDecoder().decode(xhr.response)
               // @ts-ignore
               this.importFromGCSv1(s, m[1], p)
             } else this._openImportDialog()
