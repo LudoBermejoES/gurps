@@ -1,5 +1,6 @@
 import { arrayToObject, atou, i18n, i18n_f, objectToArray, zeroFill } from '../../lib/utilities.js'
 import { Melee, Reaction, Ranged, Advantage, Skill, Spell, Equipment, Note, Modifier } from './actor.js'
+import { getMagicalAdvantages, getMagicalSkills } from './magic.js'
 import { HitLocation, hitlocationDictionary } from '../hitlocation/hitlocation.js'
 import { parselink } from '../../lib/parselink.js'
 import * as CI from '../injury/domain/ConditionalInjury.js'
@@ -61,6 +62,18 @@ export class GurpsActorSheet extends ActorSheet {
     const sheetData = super.getData()
     sheetData.olddata = sheetData.data
     sheetData.data = sheetData.data.data
+    const magickAdvantages = getMagicalAdvantages(sheetData.data.ads);
+    sheetData.data.magickSkills =getMagicalSkills(sheetData.data.skills);
+
+    sheetData.data.magickSkills = sheetData.data.magickSkills.map((skill) => {
+      const match = magickAdvantages.spheres.filter(sphere => sphere.name.indexOf(skill.name) == 0)
+      if(match.length) {
+        skill.sphere = match[0];
+        skill.sphere.level = Number(skill.sphere.name.split(' ')[1]);
+      }
+      return skill;
+    })
+
     sheetData.ranges = GURPS.rangeObject.ranges
     sheetData.useCI = GURPS.ConditionalInjury.isInUse()
     sheetData.conditionalEffectsTable = GURPS.ConditionalInjury.conditionalEffectsTable()
@@ -1595,6 +1608,27 @@ export class GurpsActorTabSheet extends GurpsActorSheet {
   get template() {
     if (!game.user.isGM && this.actor.limited) return 'systems/gurps/templates/actor/actor-sheet-gcs-limited.hbs'
     return 'systems/gurps/templates/actor/actor-tab-sheet.hbs'
+  }
+}
+
+export class GurpsActorMageAscensionSheet extends GurpsActorSheet {
+  /** @override */
+  static get defaultOptions() {
+    return mergeObject(super.defaultOptions, {
+      classes: ['gurps', 'sheet', 'actor'],
+      width: 860,
+      height: 600,
+      tabs: [{ navSelector: '.gurps-sheet-tabs', contentSelector: '.sheet-body', initial: 'description' }],
+      dragDrop: [{ dragSelector: '.item-list .item', dropSelector: null }],
+    })
+  }
+
+  /* -------------------------------------------- */
+
+  /** @override */
+  get template() {
+    if (!game.user.isGM && this.actor.limited) return 'systems/gurps/templates/actor/actor-sheet-gcs-limited.hbs'
+    return 'systems/gurps/templates/actor/actor-tab-sheet-mage-ascension.hbs'
   }
 }
 

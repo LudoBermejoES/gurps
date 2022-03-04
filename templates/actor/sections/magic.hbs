@@ -1,0 +1,70 @@
+<style>
+    .sheet-spheres {
+        flex-wrap: wrap; !important;
+        display: flex; !important;
+        width: 100%; !important;
+        justify-content: space-between; !important;
+    }
+
+    .sheet-spheres > div {
+        width: calc((100% / 3) - 10px);
+    }
+
+    .sheet-spheres label {
+        font-size: 20px;
+    }
+
+</style>
+<div id='magic'>
+    <div data-i18n-list="spheres-list" class="sheet-spheres" >
+        {{# each data.magickSkills }}
+        <div>
+            <label>
+                <span  style='font-size:16px' class='rsl {{rollable this.level}} flex-center' data-otf='Sk:"{{this.name}}"'>{{this.name}} ({{this.level}})</span>
+            </label>
+            <div>
+                <label>
+                    {{#ifCond this.sphere.level '>=' 1}}
+                        &#9673;
+                    {{else}}
+                        &#9675;
+                    {{/ifCond}}
+                    <span></span>
+                </label>
+                <label>
+                    {{#ifCond this.sphere.level '>=' 2}}
+                        &#9673;
+                    {{else}}
+                        &#9675;
+                    {{/ifCond}}
+                    <span></span>
+                </label>
+                <label>
+                    {{#ifCond this.sphere.level '>=' 3}}
+                        &#9673;
+                    {{else}}
+                        &#9675;
+                    {{/ifCond}}
+                    <span></span>
+                </label>
+                <label>
+                    {{#ifCond this.sphere.level '>=' 4}}
+                        &#9673;
+                    {{else}}
+                        &#9675;
+                    {{/ifCond}}
+                    <span></span>
+                </label>
+                <label>
+                    {{#ifCond this.sphere.level '>=' 5}}
+                        &#9673;
+                    {{else}}
+                        &#9675;
+                    {{/ifCond}}
+                    <span></span>
+                </label>
+            </div>
+        </div>
+        {{/each}}
+    </div>
+</div>

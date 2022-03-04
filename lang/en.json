@@ -976,6 +976,8 @@
   "GURPS.lighting": "Lighting",
   "GURPS.location": "Location",
   "GURPS.lowPainThresholdDoubles": "Low Pain Threshold <i>doubles</i> penalty",
+  "GURPS.magic": "Magic",
+  "GURPS.magicTab": "Magic",
   "GURPS.majorWound": "Major Wound",
   "GURPS.majorWoundEffect": " to avoid Stun/Knockdown.",
   "GURPS.majorWoundEffectLabel": "{name}: roll {htCheck} to avoid Stun/Knockdown.",
