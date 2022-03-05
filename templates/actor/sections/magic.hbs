@@ -8,63 +8,154 @@
 
     .sheet-spheres > div {
         width: calc((100% / 3) - 10px);
+        text-align: center;
     }
 
     .sheet-spheres label {
         font-size: 20px;
     }
 
+    .info_container {
+        margin-bottom: 20px;
+    }
+    .info_title {
+        font-size:16px;
+        font-weight: bold;
+        margin-top:20px;
+        margin-bottom:20px;
+    }
+
+    .info_notes {
+        font-size:14px;
+        white-space: pre-line;
+    }
+
+    .header_title {
+        margin-top: 20px;
+    }
+
 </style>
 <div id='magic'>
-    <div data-i18n-list="spheres-list" class="sheet-spheres" >
-        {{# each data.magickSkills }}
+    <h1 class='header_title'>Magia verdadera</h1>
+    {{#if data.magickAdvantages.avatar}}
         <div>
             <label>
-                <span  style='font-size:16px' class='rsl {{rollable this.level}} flex-center' data-otf='Sk:"{{this.name}}"'>{{this.name}} ({{this.level}})</span>
+                <span  style='font-size:16px' class='flex-center'>{{data.magickAdvantages.avatar.name}}</span>
             </label>
+        </div>
+    {{/if}}
+    {{#if data.magickAdvantages.arete}}
+        <div>
+            <label>
+                <span  style='font-size:16px' class='flex-center'>{{data.magickAdvantages.arete.name}}</span>
+            </label>
+        </div>
+    {{/if}}
+    {{#if data.magickAdvantages.awareness}}
+        <div>
+            <label>
+                <span  style='font-size:16px' class='flex-center'>{{data.magickAdvantages.awareness.name}}</span>
+            </label>
+        </div>
+    {{/if}}
+    {{#if data.magickAdvantages.arcane}}
+        <div>
+            <label>
+                <span  style='font-size:16px' class='flex-center'>{{data.magickAdvantages.arcane.name}}</span>
+            </label>
+        </div>
+    {{/if}}
+
+    {{#if data.magickSkills }}
+        <h1 class='header_title'>Esferas</h1>
+        <div data-i18n-list="spheres-list" class="sheet-spheres" >
+            {{# each data.magickSkills }}
             <div>
                 <label>
-                    {{#ifCond this.sphere.level '>=' 1}}
-                        &#9673;
-                    {{else}}
-                        &#9675;
-                    {{/ifCond}}
-                    <span></span>
+                    <span  style='font-size:16px' class='rsl {{rollable this.level}} flex-center' data-otf='Sk:"{{this.name}}"'>{{this.name}} ({{this.level}})</span>
                 </label>
+                <div>
+                    <label>
+                        {{#ifCond this.sphere.level '>=' 1}}
+                            &#9673;
+                        {{else}}
+                            &#9675;
+                        {{/ifCond}}
+                        <span></span>
+                    </label>
+                    <label>
+                        {{#ifCond this.sphere.level '>=' 2}}
+                            &#9673;
+                        {{else}}
+                            &#9675;
+                        {{/ifCond}}
+                        <span></span>
+                    </label>
+                    <label>
+                        {{#ifCond this.sphere.level '>=' 3}}
+                            &#9673;
+                        {{else}}
+                            &#9675;
+                        {{/ifCond}}
+                        <span></span>
+                    </label>
+                    <label>
+                        {{#ifCond this.sphere.level '>=' 4}}
+                            &#9673;
+                        {{else}}
+                            &#9675;
+                        {{/ifCond}}
+                        <span></span>
+                    </label>
+                    <label>
+                        {{#ifCond this.sphere.level '>=' 5}}
+                            &#9673;
+                        {{else}}
+                            &#9675;
+                        {{/ifCond}}
+                        <span></span>
+                    </label>
+                </div>
+            </div>
+            {{/each}}
+        </div>
+    {{/if}}
+    {{#if data.magickRecipees}}
+        <h1 class='header_title'>Recetas</h1>
+        {{#each data.magickRecipees}}
+            <div>
                 <label>
-                    {{#ifCond this.sphere.level '>=' 2}}
-                        &#9673;
-                    {{else}}
-                        &#9675;
-                    {{/ifCond}}
-                    <span></span>
-                </label>
-                <label>
-                    {{#ifCond this.sphere.level '>=' 3}}
-                        &#9673;
-                    {{else}}
-                        &#9675;
-                    {{/ifCond}}
-                    <span></span>
-                </label>
-                <label>
-                    {{#ifCond this.sphere.level '>=' 4}}
-                        &#9673;
-                    {{else}}
-                        &#9675;
-                    {{/ifCond}}
-                    <span></span>
-                </label>
-                <label>
-                    {{#ifCond this.sphere.level '>=' 5}}
-                        &#9673;
-                    {{else}}
-                        &#9675;
-                    {{/ifCond}}
-                    <span></span>
+                    <span  style='font-size:16px' class='rsl {{rollable this.level}} flex-center' data-otf='Sk:"{{this.name}}"'>{{this.name}} ({{this.level}})</span>
                 </label>
             </div>
-        </div>
         {{/each}}
-    </div>
+    {{/if}}
+
+    {{#if data.magickAdvantages.paradigm}}
+        <h1 class='header_title'>Paradigma</h1>
+        <div class="info_container">
+            {{#each data.magickAdvantages.paradigm}}
+                <div  class='info_title flex-center'>{{this.name}}</div>
+                <span class='info_notes flex-center'>{{this.notes}}</span>
+            {{/each}}
+        </div>
+    {{/if}}
+    {{#if data.magickAdvantages.practique}}
+        <h1 class='header_title'>Práctica</h1>
+        <div class="info_container">
+            {{#each data.magickAdvantages.practique}}
+                <div  class='info_title flex-center'>{{this.name}}</div>
+                <span class='info_notes flex-center'>{{this.notes}}</span>
+            {{/each}}
+        </div>
+    {{/if}}
+    {{#if data.magickAdvantages.tools}}
+        <h1 class='header_title'>Instrumentos</h1>
+        <div class="info_container">
+            {{#each data.magickAdvantages.tools}}
+                <div  class='info_title flex-center'>{{this.name}}</div>
+                <span class='info_notes flex-center'>{{this.notes}}</span>
+            {{/each}}
+        </div>
+    {{/if}}
 </div>

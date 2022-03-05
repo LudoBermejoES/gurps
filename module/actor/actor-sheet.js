@@ -1,6 +1,6 @@
 import { arrayToObject, atou, i18n, i18n_f, objectToArray, zeroFill } from '../../lib/utilities.js'
 import { Melee, Reaction, Ranged, Advantage, Skill, Spell, Equipment, Note, Modifier } from './actor.js'
-import { getMagicalAdvantages, getMagicalSkills } from './magic.js'
+import { getMagicalAdvantages, getMagicalSkills, getRecipees } from './magic.js'
 import { HitLocation, hitlocationDictionary } from '../hitlocation/hitlocation.js'
 import { parselink } from '../../lib/parselink.js'
 import * as CI from '../injury/domain/ConditionalInjury.js'
@@ -63,9 +63,7 @@ export class GurpsActorSheet extends ActorSheet {
     sheetData.olddata = sheetData.data
     sheetData.data = sheetData.data.data
     const magickAdvantages = getMagicalAdvantages(sheetData.data.ads);
-    sheetData.data.magickSkills =getMagicalSkills(sheetData.data.skills);
-
-    sheetData.data.magickSkills = sheetData.data.magickSkills.map((skill) => {
+    sheetData.data.magickSkills = getMagicalSkills(sheetData.data.skills).map((skill) => {
       const match = magickAdvantages.spheres.filter(sphere => sphere.name.indexOf(skill.name) == 0)
       if(match.length) {
         skill.sphere = match[0];
@@ -73,7 +71,9 @@ export class GurpsActorSheet extends ActorSheet {
       }
       return skill;
     })
-
+    sheetData.data.magickRecipees = getRecipees(sheetData.data.skills);
+    sheetData.data.magickAdvantages = magickAdvantages;
+    debugger;
     sheetData.ranges = GURPS.rangeObject.ranges
     sheetData.useCI = GURPS.ConditionalInjury.isInUse()
     sheetData.conditionalEffectsTable = GURPS.ConditionalInjury.conditionalEffectsTable()
