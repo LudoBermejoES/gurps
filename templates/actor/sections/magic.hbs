@@ -125,7 +125,8 @@
         {{#each data.magickRecipees}}
             <div>
                 <label>
-                    <span  style='font-size:16px' class='rsl {{rollable this.level}} flex-center' data-otf='Sk:"{{this.name}}"'>{{this.name}} ({{this.level}})</span>
+                    <div  style='font-size:16px' class='rsl {{rollable this.level}} flex-center' data-otf='Sk:"{{this.name}}"'>{{this.name}} ({{this.level}})</div>
+                    <div class="recipe-description">{{this.notes}}</div>
                 </label>
             </div>
         {{/each}}
