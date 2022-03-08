@@ -128,19 +128,20 @@ GURPS.ClearLastActor = function (actor) {
 GURPS.lastTargetedRoll = {}
 GURPS.lastTargetedRolls = {} // mapped by both actor and token id
 
-GURPS.setLastTargetedRoll = function (chatdata, actorid, tokenid, updateOtherClients) {
+GURPS.setLastTargetedRoll = function (chatdata, actorid, tokenid, updateOtherClients = false) {
   let tmp = { ...chatdata }
   if (!!actorid) GURPS.lastTargetedRolls[actorid] = tmp
   if (!!tokenid) GURPS.lastTargetedRolls[tokenid] = tmp
-  if (updateOtherClients) GURPS.lastTargetedRoll = tmp // keep the local copy
-/**
-  game.socket.emit('system.gurps', {
-    type: 'setLastTargetedRoll',
-    chatdata: tmp,
-    actorid: actorid,
-    tokenid: tokenid,
-  })
-  */
+  GURPS.lastTargetedRoll = tmp // keep the local copy
+  // Interesting fields: GURPS.lastTargetedRoll.margin .isCritSuccess .IsCritFailure .thing
+  
+  if (updateOtherClients) 
+    game.socket.emit('system.gurps', {
+      type: 'setLastTargetedRoll',
+      chatdata: tmp,
+      actorid: actorid,
+      tokenid: tokenid,
+    })
 }
 
 // TODO Why are these global?
