@@ -1,5 +1,6 @@
 import { arrayToObject, atou, i18n, i18n_f, objectToArray, zeroFill } from '../../lib/utilities.js'
 import { Melee, Reaction, Ranged, Advantage, Skill, Spell, Equipment, Note, Modifier } from './actor.js'
+import { getTechniques } from './combat.js'
 import { getMagicalAdvantages, getMagicalSkills, getRecipees } from './magic.js'
 import { HitLocation, hitlocationDictionary } from '../hitlocation/hitlocation.js'
 import { parselink } from '../../lib/parselink.js'
@@ -73,6 +74,7 @@ export class GurpsActorSheet extends ActorSheet {
     })
     sheetData.data.magickRecipees = getRecipees(sheetData.data.skills);
     sheetData.data.magickAdvantages = magickAdvantages;
+    sheetData.data.combatTechniques = getTechniques(sheetData.data.skills);
     debugger;
     sheetData.ranges = GURPS.rangeObject.ranges
     sheetData.useCI = GURPS.ConditionalInjury.isInUse()
@@ -1629,6 +1631,27 @@ export class GurpsActorMageAscensionSheet extends GurpsActorSheet {
   get template() {
     if (!game.user.isGM && this.actor.limited) return 'systems/gurps/templates/actor/actor-sheet-gcs-limited.hbs'
     return 'systems/gurps/templates/actor/actor-tab-sheet-mage-ascension.hbs'
+  }
+}
+
+export class GurpsActorSkillsSheet extends GurpsActorSheet {
+  /** @override */
+  static get defaultOptions() {
+    return mergeObject(super.defaultOptions, {
+      classes: ['gurps', 'sheet', 'actor'],
+      width: 560,
+      height: 375,
+      tabs: [{ navSelector: '.gurps-sheet-tabs', contentSelector: '.sheet-body', initial: 'description' }],
+      dragDrop: [{ dragSelector: '.item-list .item', dropSelector: null }],
+    })
+  }
+
+  /* -------------------------------------------- */
+
+  /** @override */
+  get template() {
+    if (!game.user.isGM && this.actor.limited) return 'systems/gurps/templates/actor/actor-sheet-gcs-limited.hbs'
+    return 'systems/gurps/templates/actor/actor-sheet-gcs-skills.hbs'
   }
 }
 

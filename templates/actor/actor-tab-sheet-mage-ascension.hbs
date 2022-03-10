@@ -11,6 +11,7 @@
       <li><a class='tab-item' data-tab='stats'>{{i18n 'GURPS.statsTab'}}</a></li>
       <li><a class='tab-item' data-tab='magic'>{{i18n 'GURPS.magicTab'}}</a></li>
       <li><a class='tab-item' data-tab='combat'>{{i18n 'GURPS.combatTab'}}</a></li>
+      <li><a class='tab-item' data-tab='combat-techniques'>{{i18n 'GURPS.magicTab'}}</a></li>
       <li><a class='tab-item' data-tab='advantages'>{{i18n 'GURPS.advantagesTab'}}</a></li>
       <li><a class='tab-item' data-tab='skills'>{{i18n 'GURPS.skillsTab'}}</a></li>
       {{#if (notEmpty data.spells)}}
@@ -90,6 +91,9 @@
       </div>
       <div class='tab' data-tab='magic' data-group='primary-tabs'>
         {{>magic}}
+      </div>
+      <div class='tab' data-tab='combat-techniques' data-group='primary-tabs'>
+        {{>techniques}}
       </div>
       <div class='tab' data-tab='skills' data-group='primary-tabs'>
         {{>skills}}

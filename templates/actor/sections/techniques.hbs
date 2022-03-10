@@ -1,0 +1,51 @@
+<style>
+    .sheet-spheres {
+        flex-wrap: wrap; !important;
+        display: flex; !important;
+        width: 100%; !important;
+        justify-content: space-between; !important;
+    }
+
+    .sheet-spheres > div {
+        width: calc((100% / 3) - 10px);
+        text-align: center;
+    }
+
+    .sheet-spheres label {
+        font-size: 20px;
+    }
+
+    .info_container {
+        margin-bottom: 20px;
+    }
+    .info_title {
+        font-size:16px;
+        font-weight: bold;
+        margin-top:20px;
+        margin-bottom:20px;
+    }
+
+    .info_notes {
+        font-size:14px;
+        white-space: pre-line;
+    }
+
+    .header_title {
+        margin-top: 20px;
+    }
+
+</style>
+<div id='magic'>
+    <h1 class='header_title'>Técnicas de combate</h1>
+    {{#if data.combatTechniques}}
+        <h1 class='header_title'>Recetas</h1>
+        {{#each data.combatTechniques}}
+            <div>
+                <label>
+                    <div  style='font-size:16px' class='rsl {{rollable this.level}} flex-center' data-otf='Sk:"{{this.name}}"'>{{this.name}} ({{this.level}})</div>
+                    <div class="recipe-description">{{this.notes}}</div>
+                </label>
+            </div>
+        {{/each}}
+    {{/if}}
+</div>

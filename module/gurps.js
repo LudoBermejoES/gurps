@@ -12,6 +12,7 @@ import {
   GurpsActorNpcSheet,
   GurpsInventorySheet,
   GurpsActorTabSheet,
+  GurpsActorSkillsSheet,
   GurpsActorMageAscensionSheet,
 } from './actor/actor-sheet.js'
 import { ModifierBucket } from './modifier-bucket/bucket-app.js'
@@ -1798,7 +1799,13 @@ Hooks.once('init', async function () {
   Actors.registerSheet('gurps', GurpsActorMageAscensionSheet, {
     // Add this sheet last
     label: 'Full Mago Ascension (GCS)',
-    makeDefault: true,
+    makeDefault: false,
+  })
+
+  Actors.registerSheet('gurps', GurpsActorSkillsSheet, {
+    // Add this sheet last
+    label: 'Only skills',
+    makeDefault: false,
   })
 
   Items.unregisterSheet('core', ItemSheet)
