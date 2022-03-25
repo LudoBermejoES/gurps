@@ -9,9 +9,10 @@
     </div>
     <nav id='nav-tabs' class='gurps-sheet-tabs' data-group='primary-tabs'>
       <li><a class='tab-item' data-tab='stats'>{{i18n 'GURPS.statsTab'}}</a></li>
+      <li><a class='tab-item' data-tab='aspects'>{{i18n 'GURPS.aspectsTab'}}</a></li>
       <li><a class='tab-item' data-tab='magic'>{{i18n 'GURPS.magicTab'}}</a></li>
       <li><a class='tab-item' data-tab='combat'>{{i18n 'GURPS.combatTab'}}</a></li>
-      <li><a class='tab-item' data-tab='combat-techniques'>{{i18n 'GURPS.magicTab'}}</a></li>
+      <li><a class='tab-item' data-tab='combat-techniques'>{{i18n 'GURPS.techniquesTab'}}</a></li>
       <li><a class='tab-item' data-tab='advantages'>{{i18n 'GURPS.advantagesTab'}}</a></li>
       <li><a class='tab-item' data-tab='skills'>{{i18n 'GURPS.skillsTab'}}</a></li>
       {{#if (notEmpty data.spells)}}
@@ -89,6 +90,9 @@
       <div class='tab' data-tab='advantages' data-group='primary-tabs'>
         {{>advantages}}
       </div>
+    <div class='tab' data-tab='aspects' data-group='primary-tabs'>
+        {{>aspects}}
+    </div>
       <div class='tab' data-tab='magic' data-group='primary-tabs'>
         {{>magic}}
       </div>

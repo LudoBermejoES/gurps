@@ -1,0 +1,50 @@
+<style>
+    .sheet-spheres {
+        flex-wrap: wrap; !important;
+        display: flex; !important;
+        width: 100%; !important;
+        justify-content: space-between; !important;
+    }
+
+    .sheet-spheres > div {
+        width: calc((100% / 3) - 10px);
+        text-align: center;
+    }
+
+    .sheet-spheres label {
+        font-size: 20px;
+    }
+
+    .info_container {
+        margin-bottom: 20px;
+    }
+    .info_title {
+        font-size:16px;
+        font-weight: bold;
+        margin-top:20px;
+        margin-bottom:20px;
+    }
+
+    .info_notes {
+        font-size:14px;
+        white-space: pre-line;
+    }
+
+    .header_title {
+        margin-top: 20px;
+    }
+
+</style>
+<div id='magic'>
+    <h1 class='header_title'>Aspectos</h1>
+    {{#if data.aspects}}
+        {{#each data.aspects}}
+            <div>
+                <label>
+                    <div  style='font-size:20px' class='rsl flex-center'>{{this.name}}</div>
+                    <p class="recipe-description">{{this.note}}</p>
+                </label>
+            </div>
+        {{/each}}
+    {{/if}}
+</div>

@@ -83,7 +83,6 @@ function getAdsSpheres(ads) {
 function getRecipees(skills) {
   const recipees = new Array();
   const recipeesContainer = getContainerByKey(skills, RECIPEES);
-  debugger;
   if(!recipeesContainer) return [];
   return getContents(recipeesContainer);
 }

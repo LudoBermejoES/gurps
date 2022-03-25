@@ -923,6 +923,7 @@
   "GURPS.allOutDefense": "All-Out Defense",
   "GURPS.allTheDamage": "ALL THE DAMAGE!!",
   "GURPS.applyAllToTarget": "Apply All to {name}",
+  "GURPS.aspectsTab": "Aspectos",
   "GURPS.basic": "Basic",
   "GURPS.bluntTrauma": "Blunt Trauma",
   "GURPS.bonuses": "Bonuses",
@@ -1127,5 +1128,6 @@
   "GURPS.default": "Default",
   "GURPS.conditionsCombatMove": "Combat Move",
   "GURPS.activeEffects": "Active Effects",
-  "GURPS.quicknotes": "Quick Notes"
+  "GURPS.quicknotes": "Quick Notes",
+  "GURPS.techniquesTab": "Techniques"
 }
