@@ -1,5 +1,4 @@
 import { arrayToObject, atou, i18n, i18n_f, objectToArray, zeroFill } from '../../lib/utilities.js'
-import { Melee, Reaction, Ranged, Advantage, Skill, Spell, Equipment, Note, Modifier } from './actor.js'
 import { getTechniques } from './combat.js'
 import { getMagicalAdvantages, getMagicalSkills, getRecipees } from './magic.js'
 import { getAspects } from './aspects.js'
