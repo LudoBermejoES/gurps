@@ -12,7 +12,7 @@ import {
   RemoteChatProcessor,
 } from './everything.js'
 import { IfChatProcessor } from './if.js'
-import { isNiceDiceEnabled, i18n, splitArgs, makeRegexPatternFrom, wait, zeroFill, locateToken } from '../../lib/utilities.js'
+import { isNiceDiceEnabled, i18n, splitArgs, makeRegexPatternFrom, wait, zeroFill, locateToken, requestFpHp } from '../../lib/utilities.js'
 import StatusChatProcessor from '../chat/status.js'
 import SlamChatProcessor from '../chat/slam.js'
 import TrackerChatProcessor from '../chat/tracker.js'
@@ -394,17 +394,37 @@ class FpHpChatProcessor extends ChatProcessor {
       ui.notifications.warn(i18n('GURPS.chatYouMustHaveACharacterSelected'))
       return false
     }
-    if (m[6]?.trim() == '@target') {
+    if (m[6]?.trim().toLowerCase() == '@target') {
       let targets = Array.from(game.user.targets).map(t => t.id)
       if (targets.length == 0) {
         ui.notifications.warn(i18n('GURPS.noTargetSelected'))
         return false
       }
-      line = line.replace(/@target/g,'')
+      line = line.replace(/@target/gi,'')
+      let remotes = []
+      let locals = []
+      targets.map(tid => {
+        let ta = game.canvas.tokens.get(tid).actor
+        let remote = false
+        ta.getOwners().forEach(o => { 
+          if (!o.isGM && o.active) {
+            remote = true
+            remotes.push(tid)
+          }
+        })
+        if (!remote) locals.push(tid)
+      })
+        
       game.socket?.emit('system.gurps', {
         type: 'playerFpHp',
         actorname: actor.name,
-        targets: targets,
+        targets: remotes,
+        command: line
+      })
+      
+      requestFpHp({
+        actorname: actor.name,
+        targets: locals,
         command: line
       })
       return true

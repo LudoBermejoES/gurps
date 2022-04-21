@@ -2,6 +2,39 @@
 
 If you can't access the Google doc, here is a [PDF](https://github.com/crnormand/gurps/raw/main/docs/Guide%20for%20GURPS%204e%20on%20Foundry%20VTT.pdf) of the latest version.
 
+Release 0.13.15 4/20/2022
+
+- Default Multiple/Combine damage dialog to "possible number of hits" value (for ranged weapons with Rof and RCL)
+- Make Quintessence system setting world scope
+- Fixed non 6-sided damage parsing for Mook generator
+- Fixed equipment library items being duplicated after world is reloaded (@neck)
+- Made 3D6 transparent and borderless
+- Fix handling of Attacks with double quote in name (e.g. to show ammo size in inches)
+- Fixed /hp +X @target if target owner not online or GM
+- Fixed error msg if damage formula is not rollable
+- Fixed Mooks displaying "meleename ()" if no Usage (mode)
+- Fixed GCA import failure when items contains notes
+
+Release 0.13.14 4/12/2022
+
+- Make all @margin entries case insensitive
+- Add /if check for @margin, @isCritSuccess, @isCritFailure (@margin >/>=/</<=/=/== X)
+- Fixed, when clicking OTF Journal link, only show for current user (not all owners, including GM).
+- Added range modifier support for grid units (ex: meters, millimeters, kilometers, inches, centimeters, feet, yards, miles, parcecs, light years, etc.) Thanks @Kalos!
+- Allow \*Per 1fp (vs. \*Cost 1fp)
+- Updated JB2A to v0.4.x
+- Add support for split DR.
+- Support linked damage: all comma-separated damage will be rolled with one click. E.g. `2d cut,1d+1 burn`.
+- Support an optional title for a Note.
+- Added a "damage accumulator" for powers like spells which do a variable amount of damage. Adding '+' in front of damage makes it accumulate.
+- Added damage right-click option to combine multiple rolls into one; e.g. combining five `1d-1 burn` rolls yields one roll of `5d-5 burn`.
+- Added @kbrownridge's Quintessence code
+
+Release 0.13.13 3/10/2022
+
+- Make /hp/fp @target case insensitive
+- Fixed conflict with GURPS Easy Combat
+
 Release 0.13.12 3/9/2022
 
 - Allow Skill Names to be enclosed in single quotes
