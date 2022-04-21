@@ -18,7 +18,7 @@ import {
 import { ModifierBucket } from './modifier-bucket/bucket-app.js'
 import { ChangeLogWindow } from '../lib/change-log.js'
 import { SemanticVersion } from '../lib/semver.js'
-import { d6ify, recurselist, atou, utoa, makeRegexPatternFrom, i18n, zeroFill, wait, i18n_f } from '../lib/utilities.js'
+import { d6ify, recurselist, atou, utoa, makeRegexPatternFrom, i18n, zeroFill, wait, i18n_f, quotedAttackName, requestFpHp } from '../lib/utilities.js'
 import { doRoll } from '../module/dierolls/dieroll.js'
 import { ResourceTrackerManager } from './actor/resource-tracker-manager.js'
 import { DamageTables, initializeDamageTables } from '../module/damage/damage-tables.js'
@@ -650,9 +650,11 @@ const actionFuncs = {
       )
       return false
     }
+    if (action.calcOnly) return att.damage
+
     let dam = parseForRollOrDamage(att.damage)
-    if (!dam.action) {
-      ui.notifications?.warn('parsed damage has no action')
+    if (!dam) {
+      ui.notifications?.warn('Damage is not rollable')
       return false
     }
     dam.action.costs = action.costs
@@ -778,7 +780,6 @@ const actionFuncs = {
       }
       return false
     }
-    let mode = att.mode ? ` (${att.mode})` : ''
     let p = 'A:'
     if (!!action.isMelee && !action.isRanged) p = 'M:'
     if (!action.isMelee && !!action.isRanged) p = 'R:'
@@ -787,7 +788,7 @@ const actionFuncs = {
       .replace(/\[.*\]/, '')
       .replace(/ +/g, ' ')
       .trim()
-    const chatthing = thing === '' ? att.name + mode : `[${p}"${thing}${mode}"]`
+    const chatthing = `[${p}${quotedAttackName({name: thing, mode: att.mode})}]`
     let target = att.level
     if (!target) {
       ui.notifications.warn(`attack named ${thing} has level of 0 or NaN`)
@@ -1743,7 +1744,7 @@ GURPS.resolveDamageRoll = function (event, actor, otf, overridetxt, isGM, isOtf 
       else GURPS.handleRoll(event, actor, { combined: number })
     },
   }
-
+  let def = GURPS.lastTargetedRoll?.rofrcl || 2
   let dlg = new Dialog({
     title: `${title}`,
     content: `
@@ -1752,7 +1753,7 @@ GURPS.resolveDamageRoll = function (event, actor, otf, overridetxt, isGM, isOtf 
           <p>${prompt}</p>
           <div style='display: inline-grid; grid-template-columns: auto 1fr; place-items: center; gap: 4px'>
             <label>${quantity}</label>
-            <input type='text' id='number-rolls' class='digits-only' style='text-align: center;' value='2'>
+            <input type='text' id='number-rolls' class='digits-only' style='text-align: center;' value='${def}'>
           </div>
           <p/>
         </div>
@@ -1785,6 +1786,7 @@ GURPS.setInitiativeFormula = function (/** @type {boolean} */ broadcast) {
 }
 
 GURPS.recurselist = recurselist
+GURPS.parselink = parselink
 
 /* -------------------------------------------- */
 /*  Foundry VTT Initialization                  */
@@ -2241,21 +2243,7 @@ Hooks.once('ready', async function () {
       }
     }
     if (resp.type == 'playerFpHp') {
-      resp.targets
-        .map(tid => game.canvas.tokens.get(tid).actor)
-        .forEach(a => {
-          if (a.isOwner) {
-            Dialog.confirm({
-              title: `${resp.actorname}`,
-              content: i18n_f('GURPS.chatWantsToExecute', { command: resp.command, name: a.name }),
-              yes: y => {
-                let old = GURPS.LastActor
-                GURPS.SetLastActor(a)
-                GURPS.executeOTF(resp.command).then(p => GURPS.SetLastActor(old))
-              },
-            })
-          }
-        })
+      requestFpHp(resp)
     }
     if (resp.type == 'executeOtF') {
       // @ts-ignore

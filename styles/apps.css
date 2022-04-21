@@ -3,7 +3,7 @@
 /* ========================= */
 
 :root {
-    --hotbar-control-width: 32px;
+  --hotbar-control-width: 32px;
 }
 
 /* Global Override */
@@ -1560,29 +1560,29 @@ button.equipmentbutton:last-child {
 /* Modifier Bucket           */
 /* ========================= */
 #hotbar {
-    align-self: end;
+  align-self: end;
 }
 
 @media (max-width: 1120px) {
-    #hotbar {
-        width: calc(var(--macro-width) * 5 + var(--hotbar-control-width) * 2 + 12);
-        width: 326px;
-    }
+  #hotbar {
+    width: calc(var(--macro-width) * 5 + var(--hotbar-control-width) * 2 + 12);
+    width: 326px;
+  }
 }
 
 #ui-bottom > div {
-    justify-content: unset;
+  justify-content: unset;
 }
 
 #bucket-app {
-    pointer-events: auto;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    grid-template-rows: auto auto;
-    gap: 3px;
-    width: 130px;
-    margin-bottom: 10px;
-    margin-left: 3px;
+  pointer-events: auto;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: auto auto;
+  gap: 3px;
+  width: 130px;
+  margin-bottom: 10px;
+  margin-left: 3px;
 }
 
 .modifierbucket #modifierbucket {
@@ -1601,56 +1601,56 @@ button.equipmentbutton:last-child {
 }
 
 .modifierbucket #damage-accumulator {
-    grid-row: 2;
-    grid-column: 1 / 3;
-    display: flex;
-    flex-flow: row nowrap;
-    background-color: rgba(0, 0, 0, 0.6);
-    align-items: baseline;
-    z-index: 100;
-    border-style: groove;
-    border-color: rgb(64, 64, 64);
-    color: rgb(221, 221, 221);
-    border-radius: 3px;
+  grid-row: 2;
+  grid-column: 1 / 3;
+  display: flex;
+  flex-flow: row nowrap;
+  background-color: rgba(0, 0, 0, 0.6);
+  align-items: baseline;
+  z-index: 100;
+  border-style: groove;
+  border-color: rgb(64, 64, 64);
+  color: rgb(221, 221, 221);
+  border-radius: 3px;
 }
 
 .modifierbucket #damage-accumulator .accumulator-control {
-    width: 2em;
-    text-align: center;
+  width: 2em;
+  text-align: center;
 }
 
 .modifierbucket #damage-accumulator .accumulator-control:hover {
-    background: black;
-    box-shadow: 0 0 6px inset var(--color-shadow-highlight);
+  background: black;
+  box-shadow: 0 0 6px inset var(--color-shadow-highlight);
 }
 
 .modifierbucket #damage-accumulator .accumulator-control[data-action='cancel'] {
-    color: red;
+  color: red;
 }
 
 .modifierbucket #damage-accumulator #accumulator-center {
-    color: gold;
-    width: 100%;
-    text-align: center;
-    width: 100%;
-    text-align: center;
+  color: gold;
+  width: 100%;
+  text-align: center;
+  width: 100%;
+  text-align: center;
 }
 
 .pulsate {
-    animation: pulsate 3s ease-out;
-    animation-iteration-count: infinite;
+  animation: pulsate 3s ease-out;
+  animation-iteration-count: infinite;
 }
 
 @keyframes pulsate {
-    0% {
-        color: gold;
-    }
-    50% {
-        color: red;
-    }
-    100% {
-        color: gold;
-    }
+  0% {
+    color: gold;
+  }
+  50% {
+    color: red;
+  }
+  100% {
+    color: gold;
+  }
 }
 
 .modifierbucket #current-actor {

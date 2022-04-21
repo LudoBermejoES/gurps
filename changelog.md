@@ -2,6 +2,19 @@
 
 If you can't access the Google doc, here is a [PDF](https://github.com/crnormand/gurps/raw/main/docs/Guide%20for%20GURPS%204e%20on%20Foundry%20VTT.pdf) of the latest version.
 
+Release 0.13.15 4/20/2022
+
+- Default Multiple/Combine damage dialog to "possible number of hits" value (for ranged weapons with Rof and RCL)
+- Make Quintessence system setting world scope
+- Fixed non 6-sided damage parsing for Mook generator
+- Fixed equipment library items being duplicated after world is reloaded (@neck)
+- Made 3D6 transparent and borderless
+- Fix handling of Attacks with double quote in name (e.g. to show ammo size in inches)
+- Fixed /hp +X @target if target owner not online or GM
+- Fixed error msg if damage formula is not rollable
+- Fixed Mooks displaying "meleename ()" if no Usage (mode)
+- Fixed GCA import failure when items contains notes
+
 Release 0.13.14 4/12/2022
 
 - Make all @margin entries case insensitive
