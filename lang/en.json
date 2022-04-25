@@ -1144,4 +1144,8 @@
   "GURPS.activeEffects": "Active Effects",
   "GURPS.quicknotes": "Quick Notes",
   "GURPS.techniquesTab": "Techniques"
+  "GURPS.quicknotes": "Quick Notes",
+  "GURPS.language": "Language",
+  "GURPS.spoken": "Spoken",
+  "GURPS.written": "Written"
 }
