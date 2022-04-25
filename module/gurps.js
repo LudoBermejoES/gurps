@@ -1020,10 +1020,12 @@ const actionFuncs = {
       ui.notifications?.warn('You must have a character selected')
       return false
     }
+
     const target = processSkillSpell({ action, actor })
     if (!action) {
       return false
     }
+
     let thing = action.name
       .replace(/\[.*\]/, '')
       .replace(/ +/g, ' ')

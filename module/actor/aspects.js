@@ -19,7 +19,6 @@ function getContainerByKey(ads, keySearch) {
 
 function getAspects(ads) {
   const container = getContents((getContainerByKey(ads, ASPECTS_CONTAINER_NAME) || { contains: {} }));
-  debugger;
   return container;
 }
 

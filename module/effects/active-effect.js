@@ -87,7 +87,7 @@ export default class GurpsActiveEffect extends ActiveEffect {
    * @param {*} _userId
    */
   static _update(_effect, _data, _options, _userId) {
-    console.log('update ' + _effect)
+    console.log('update ', _effect)
   }
 
   /**
@@ -97,7 +97,7 @@ export default class GurpsActiveEffect extends ActiveEffect {
    * @param {*} _userId
    */
   static _delete(_effect, _data, _userId) {
-    console.log('delete ' + _effect)
+    console.log('delete ', _effect)
   }
 
   /**
