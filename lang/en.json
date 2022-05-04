@@ -915,6 +915,7 @@
   "GURPS.delete": "Delete",
   "GURPS.fromEllipses": "from ...",
   "GURPS.moveToOtherEquipment": "Move to Other Equipment",
+  "GURPS.moveToCarriedOnHands": "Move to carried on hands",
   "GURPS.sortAscending": "Sort Ascending",
   "GURPS.sortContentsAscending": "Sort Contents (Ascending)",
   "GURPS.sortContentsDescending": "Sort Contents (Descending)",

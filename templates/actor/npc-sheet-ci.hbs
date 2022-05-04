@@ -120,7 +120,12 @@
               {{{gurpslinkbr this.notes}}}
             </div>
           {{/listeqt}}
+            <div id='qnotes'>
+                {{#if data.additionalresources.qnotes}}{{{gurpslink data.additionalresources.qnotes}}}{{else}}
+                    <span style='color:black'>double click to edit Quick Note</span>{{/if}}
+            </div>
         </div>
+
       </div>
       {{> portrait }}
 

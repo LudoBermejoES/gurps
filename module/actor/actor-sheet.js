@@ -14,6 +14,7 @@ import GurpsActiveEffectListSheet from '../effects/active-effect-list.js'
 import MoveModeEditor from './move-mode-editor.js'
 import { Advantage, Equipment, Melee, Modifier, Note, Ranged, Reaction, Skill, Spell } from './actor-components.js'
 import SplitDREditor from './splitdr-editor.js'
+import {getGroupedSkills} from "./skills.js";
 
 /**
  * Extend the basic ActorSheet with some very simple modifications
@@ -32,7 +33,7 @@ export class GurpsActorSheet extends ActorSheet {
       ],
       dragDrop: [{ dragSelector: '.item-list .item', dropSelector: null }],
     })
-  }
+  }8
 
   /* -------------------------------------------- */
 
@@ -75,6 +76,15 @@ export class GurpsActorSheet extends ActorSheet {
       }
       return skill;
     })
+
+    const groupedSkills = getGroupedSkills(sheetData.data.skills)
+    sheetData.data.groupedSkills = Object.keys(groupedSkills).sort().reduce(
+        (obj, key) => {
+          obj[key] = groupedSkills[key];
+          return obj;
+        },
+        {});
+
     sheetData.data.magickRecipees = getRecipees(sheetData.data.skills);
     sheetData.data.magickAdvantages = magickAdvantages;
     sheetData.data.combatTechniques = getTechniques(sheetData.data.skills);
@@ -1645,6 +1655,27 @@ export class GurpsActorMageAscensionSheet extends GurpsActorSheet {
   get template() {
     if (!game.user.isGM && this.actor.limited) return 'systems/gurps/templates/actor/actor-sheet-gcs-limited.hbs'
     return 'systems/gurps/templates/actor/actor-tab-sheet-mage-ascension.hbs'
+  }
+}
+
+export class GurpsActorEreboSheet extends GurpsActorSheet {
+  /** @override */
+  static get defaultOptions() {
+    return mergeObject(super.defaultOptions, {
+      classes: ['gurps', 'sheet', 'actor'],
+      width: 860,
+      height: 600,
+      tabs: [{ navSelector: '.gurps-sheet-tabs', contentSelector: '.sheet-body', initial: 'description' }],
+      dragDrop: [{ dragSelector: '.item-list .item', dropSelector: null }],
+    })
+  }
+
+  /* -------------------------------------------- */
+
+  /** @override */
+  get template() {
+    if (!game.user.isGM && this.actor.limited) return 'systems/gurps/templates/actor/actor-sheet-gcs-limited.hbs'
+    return 'systems/gurps/templates/actor/actor-tab-sheet-erebo.hbs'
   }
 }
 

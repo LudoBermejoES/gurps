@@ -1,0 +1,90 @@
+{{#each data.groupedSkills}}
+    <div id='skills' class='gga-table with-notes'>
+        <div class='itemmenu header' readonly></div>
+        <div class='desc header' style="font-size: 14px">
+            <div class='headermenu'>
+                <span>{{@key}}</span>
+            </div>
+        </div>
+        <div class='sl header'>{{i18n 'GURPS.sl'}}</div>
+        <div class='rsl header'>{{i18n 'GURPS.rsl'}}</div>
+        <div class='pts header'>{{i18n "GURPS.abbrevPoints"}}</div>
+        <div class='ref header'>{{i18n "GURPS.abbrevRef"}}</div>
+        {{#each (flatlist this)}}
+            {{#if ../isEditing}}
+                <div class='itemmenu skillmenu' this-key='this.{{@key}}'>
+                    <i class='fas fa-times'></i>
+                </div>
+
+                <div class='desc indent{{indent}}' this-key='this.{{@key}}'>
+                    <input name='this.{{@key}}.name' class='gcs-input' type='text' value='{{this.name}}' />
+                    <div class='list_note'>
+                        <input name='this.{{@key}}.notes' class='gcs-input' type='text' value='{{this.notes}}' />
+                    </div>
+                </div>
+
+                <div class='sl' this-key='this.{{@key}}'>
+                    <input name='this.{{@key}}.import' class='gcs-input-sm3' type='text' value='{{this.import}}' />
+                </div>
+                <div class='rsl' this-key='this.{{@key}}'>
+                    <input
+                            name='this.{{@key}}.relativelevel'
+                            class='gcs-input-sm4'
+                            type='text'
+                            value='{{this.relativelevel}}'
+                    />
+                </div>
+                <div class='pts' this-key='this.{{@key}}'>
+                    <input name='this.{{@key}}.points' class='gcs-input-sm3' type='text' value='{{this.points}}' />
+                </div>
+                <div class='ref' this-key='this.{{@key}}'>
+                    <input name='this.{{@key}}.pageref' class='gcs-input-sm5' type='text' value='{{this.pageref}}' />
+                </div>
+            {{else}}
+                {{#unless isCollapsed}}
+                    <div class='itemmenu' readonly></div>
+
+                    <div class='skldraggable' this-key='this.{{@key}}'>
+                        <div class='desc dblclkedit indent{{indent}}'>
+                            <div class='gga-desc-text'>
+                                <div>
+                                    {{#if hasContains}}<i class='fas fa-caret-down expandcollapseicon'></i>{{/if}}
+                                    {{#if hasCollapsed}}<i class='fas fa-caret-right expandcollapseicon'></i>{{/if}}
+                                </div>
+                                <div class='tooltip gga-manual'>
+                                    {{{gurpslink this.name}}}
+                                    {{#if (displayItemHover this)}}
+                                        <div class='tooltiptext gga-manual'><img src='{{this.img}}' /></div>
+                                    {{/if}}
+                                </div>
+                                <div>
+                                    {{#if (isFoundryItem this)}}
+                                        <i class='fas fa-star tooltip gga-item'>
+                                            <span class='tooltiptext'>{{i18n "GURPS.equipmentFoundryItem"}}</span>
+                                        </i>
+                                    {{/if}}
+                                </div>
+                            </div>
+                            <div class='list_note'>
+                                {{{gurpslink this.notes @root}}}
+                            </div>
+                        </div>
+                    </div>
+
+                    <div
+                            class='sl {{rollable this.level}} flex-center'
+                            this-name='{{this.name}}'
+                            this-key='this.{{@key}}'
+                            this-otf='Sk:"{{this.name}}"'
+                    >
+                        {{this.level}}
+                    </div>
+                    <div class='rsl {{rollable this.level}} flex-center' this-otf='Sk:"{{this.name}}"'>{{this.relativelevel}}</div>
+                    <div class='pts flex-center'>{{this.points}}</div>
+                    <div class='ref flex-center'>{{{pdflinkext this}}}</div>
+                {{/unless}}
+            {{/if}}
+        {{/each}}
+    </div>
+{{/each}}
+

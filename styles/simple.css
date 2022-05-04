@@ -1033,6 +1033,16 @@ body {
   text-align: right;
 }
 
+#hp-fp-erebo {
+  border: var(--standardborder);
+  min-width: 100px;
+}
+
+#speed-erebo {
+  border: var(--standardborder);
+  min-width: 100px;
+}
+
 #description {
   grid-area: description;
   display: grid;
@@ -1081,6 +1091,17 @@ body {
     'attributes      condition       location        qnotes'
     'attributes      condition       location        lifting';
   grid-template-columns: 0fr 1fr 1fr 1fr;
+  grid-gap: var(--sectiongap);
+}
+
+#stats-erebo {
+  grid-area: stats-erebo;
+  display: grid;
+  grid-template:
+    'attributes      hp-fp           location        encumbrance'
+    'attributes      condition       location        qnotes'
+    'attributes      condition       location        lifting';
+  grid-template-columns: 0fr 0fr 1fr 1fr;
   grid-gap: var(--sectiongap);
 }
 
@@ -2169,4 +2190,18 @@ input.gcs-input:disabled {
 
 #attributes input.gcs-input {
   min-width: 2.5em;
+}
+
+.attributes-erebo {
+  min-width:100px;
+}
+
+.attribute-title-erebo {
+  text-align: center;
+  font-size: 15px;
+}
+
+.attribute-value-erebo {
+  text-align: center !important;
+  font-size: 20px !important;
 }

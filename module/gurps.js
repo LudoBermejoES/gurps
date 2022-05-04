@@ -14,6 +14,7 @@ import {
   GurpsActorTabSheet,
   GurpsActorSkillsSheet,
   GurpsActorMageAscensionSheet,
+  GurpsActorEreboSheet,
 } from './actor/actor-sheet.js'
 import { ModifierBucket } from './modifier-bucket/bucket-app.js'
 import { ChangeLogWindow } from '../lib/change-log.js'
@@ -366,7 +367,7 @@ GURPS.trim = trim
  * @param {JQuery.Event|null} event
  * @returns {Promise<boolean>}
  */
-async function executeOTF(string, priv = false, event = null) {
+async function executeOTF(string, priv = false, event = null, actor = null) {
   if (!string) return false
   string = string.trim()
   if (string[0] == '[' && string[string.length - 1] == ']') string = string.substring(1, string.length - 1)
@@ -374,7 +375,7 @@ async function executeOTF(string, priv = false, event = null) {
   let answer = false
   if (!!action.action) {
     if (!event) event = { shiftKey: priv, ctrlKey: false, data: {} }
-    let result = await GURPS.performAction(action.action, GURPS.LastActor, event)
+    let result = await GURPS.performAction(action.action, actor || GURPS.LastActor, event)
     answer = !!result
   } else ui.notifications.warn(`"${string}" did not parse into a valid On-the-Fly formula`)
   return answer
@@ -1889,6 +1890,12 @@ Hooks.once('init', async function () {
   Actors.registerSheet('gurps', GurpsActorMageAscensionSheet, {
     // Add this sheet last
     label: 'Full Mago Ascension (GCS)',
+    makeDefault: false,
+  })
+
+  Actors.registerSheet('gurps', GurpsActorEreboSheet, {
+    // Add this sheet last
+    label: 'Érebo (GCS)',
     makeDefault: false,
   })
 

@@ -16,7 +16,8 @@
     "styles/npc-input.css",
     "styles/apps.css",
     "styles/color-character-sheet.css",
-    "styles/tinycolorpicker.css"
+    "styles/tinycolorpicker.css",
+    "styles/D35E.css"
   ],
   "packs": [],
   "languages": [

@@ -1330,6 +1330,7 @@ export class GurpsActor extends Actor {
     s.uuid = i.id
     s.parentuuid = p
     if (['skill', 'technique'].includes(i.type)) {
+      s.category = i.categories && i.categories[0] || '';
       s.type = i.type.toUpperCase()
       s.import = i.calc?.level || ''
       if (s.level == 0) s.level = ''
