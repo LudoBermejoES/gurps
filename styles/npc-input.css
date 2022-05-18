@@ -350,7 +350,7 @@
   grid-area: me-val;
   display: grid;
   grid-auto-flow: row;
-  grid-template-columns: 5fr 2em 1.5fr;
+  grid-template-columns: 4fr 1fr 2em 1.5fr;
   grid-auto-rows: fit-content(30px);
   gap: 1px 4px;
   padding-right: 4px;
@@ -381,7 +381,7 @@
   grid-area: ra-val;
   display: grid;
   grid-auto-flow: row;
-  grid-template-columns: 5fr 2em 2em max-content;
+  grid-template-columns: 4fr 1fr 2em 2em max-content;
   grid-auto-rows: fit-content(30px);
   gap: 1px 4px;
   padding-right: 4px;

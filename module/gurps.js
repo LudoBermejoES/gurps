@@ -77,6 +77,7 @@ import GurpsActiveEffectConfig from './effects/active-effect-config.js'
 import * as GURPSSpeedProvider from './speed-provider.js'
 import { multiplyDice } from './utilities/damage-utils.js'
 import GurpsWiring from './gurps-wiring.js'
+import {drawEquipment} from "./actor/equipItemsCTA.js";
 
 if (GURPS.DEBUG) {
   GURPS.parseDecimalNumber = parseDecimalNumber
@@ -239,6 +240,7 @@ GURPS.PARSELINK_MAPPINGS = {
   Parry: 'equippedparry',
   PARRY: 'equippedparry',
   BLOCK: 'equippedblock',
+  EQ: 'equipitem'
 }
 
 GURPS.SJGProductMappings = SJGProductMappings
@@ -748,6 +750,44 @@ const actionFuncs = {
       prefix: `Rolling [${action.derivedformula}${action.formula}] ${action.desc}`,
       optionalArgs: { blind: action.blindroll, event },
     })
+  },
+  /**
+   * @param {Object} data
+   *
+   * @param {Object} data.action
+   * @param {string} data.action.derivedformula
+   * @param {string} data.action.desc
+   * @param {string} data.action.costs
+   * @param {string} data.action.formula
+   * @param {boolean} data.action.blindroll
+   *
+   * @param {GurpsActor|null} data.actor
+   * @param {JQuery.Event|null} data.event
+   */
+  equipItem({ action, actor, event }) {
+    if (!actor) {
+      ui.notifications.warn(i18n('GURPS.chatYouMustHaveACharacterSelected'))
+      return false
+    }
+
+    if(canvas.tokens.controlled.length !== 1) {
+      ui.notifications.warn('Solo puedes escoger un token');
+      return false
+    }
+
+    const melee = Object.values(actor.data.data.melee);
+    const ranged = Object.values(actor.data.data.ranged);
+
+    const attacks = [...melee, ...ranged];
+
+    const value = action.melee || action.ranged || action.desc.split(':"')[1].split('"')[0];
+    const weapon = attacks.find(a => a.name.indexOf(value) === 0);
+    if(!weapon) {
+      ui.notifications.warn('No encontré el arma para ese ataque');
+      return;
+    }
+    debugger;
+    drawEquipment(weapon.name, canvas.tokens.controlled[0], weapon.itemid);
   },
   /**
    * @param {Object} data

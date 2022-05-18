@@ -198,6 +198,8 @@
                 </div>
               </div>
             </div>
+            <div class='rollable'  data-name="{{this.name}} ({{this.mode}})" data-otf='{{quotedAttackName 'EQ' this}}' data-key="data.melee.{{@key}}">Equipar</div>
+
             <div class="level rollable" data-name="{{this.name}} ({{this.mode}})" data-key="data.melee.{{@key}}"
               data-otf='{{quotedAttackName 'M' this}}'>{{this.level}}</div>
             <div class="damage rollable" data-damage data-otf='{{this.damage}}'>{{this.damage}}</div>
@@ -216,7 +218,9 @@
                 </div>
               </div>
             </div>
-            <div class="level rollable" data-name="{{this.name}} ({{this.mode}})" data-key="data.ranged.{{@key}}"
+              <div class='rollable'  data-name="{{this.name}} ({{this.mode}})" data-otf='{{quotedAttackName 'EQ' this}}' data-key="data.melee.{{@key}}">Equipar</div>
+
+              <div class="level rollable" data-name="{{this.name}} ({{this.mode}})" data-key="data.ranged.{{@key}}"
               data-otf='{{quotedAttackName 'R' this}}'>{{this.level}}</div>
             <div class="acc {{gmod this.acc}}" data-name='Acc for {{this.name}}'>
               {{{displayNumber this.acc}}}
