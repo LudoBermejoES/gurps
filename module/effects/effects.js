@@ -154,7 +154,7 @@ export class StatusEffect {
           },
           {
             key: 'data.conditions.target.modifiers',
-            value: 'GURPS.modifierPostureCrouchRanged',
+            value: 'GURPS.2',
             mode: CONST.ACTIVE_EFFECT_MODES.ADD,
           },
           {

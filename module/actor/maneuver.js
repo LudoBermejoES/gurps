@@ -297,7 +297,7 @@ export default class Maneuvers {
 
   static getAll() {
     return maneuvers
-  }
+  }8
 
   static getAllData() {
     let data = {}
