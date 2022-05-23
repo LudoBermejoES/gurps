@@ -77,7 +77,6 @@ import GurpsActiveEffectConfig from './effects/active-effect-config.js'
 import * as GURPSSpeedProvider from './speed-provider.js'
 import { multiplyDice } from './utilities/damage-utils.js'
 import GurpsWiring from './gurps-wiring.js'
-import {drawEquipment} from "./actor/equipItemsCTA.js";
 
 if (GURPS.DEBUG) {
   GURPS.parseDecimalNumber = parseDecimalNumber
@@ -786,8 +785,9 @@ const actionFuncs = {
       ui.notifications.warn('No encontré el arma para ese ataque');
       return;
     }
-    debugger;
-    drawEquipment(weapon.name, canvas.tokens.controlled[0], weapon.itemid);
+    if(window.EasyCombat) {
+      window.EasyCombat.drawEquipment(weapon.name, canvas.tokens.controlled[0], weapon.itemid);
+    }
   },
   /**
    * @param {Object} data
