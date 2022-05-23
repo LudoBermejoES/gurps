@@ -2,6 +2,14 @@
 
 If you can't access the Google doc, here is a [PDF](https://github.com/crnormand/gurps/raw/main/docs/Guide%20for%20GURPS%204e%20on%20Foundry%20VTT.pdf) of the latest version.
 
+Release 0.14.0 5/18/2022
+
+- Partial fix for Modifier Bucket when Minimal UI module is active.
+- Fix for Damage followon button for Nordlond Bestiary.
+- Add initial support for 'kb' (knockback only) damage type.
+- Support override text for PDF links.
+- Fixed PDF references for Gaming Ballistic and Nordlond Bestiary
+
 Release 0.13.19 5/03/2022
 
 - Fixed *Cost 1FP modifiers (not removing FP)
