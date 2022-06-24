@@ -47,10 +47,9 @@ import {
   Modifier,
   Melee,
   HitLocationEntry,
-  Language
+  Language,
 } from './actor-components.js'
 import { multiplyDice } from '../utilities/damage-utils.js'
-import { DamageTables } from '../damage/damage-tables.js'
 
 // Ensure that ALL actors has the current version loaded into them (for migration purposes)
 Hooks.on('createActor', async function (/** @type {Actor} */ actor) {
@@ -210,29 +209,32 @@ export class GurpsActor extends Actor {
     await this.setResourceTrackers()
     await this.syncLanguages()
   }
-  
+
   // Ensure Language Advantages conform to a standard (for Polygot module)
   async syncLanguages() {
     if (this.data.data.languages) {
       let updated = false
-      let newads = {...this.data.data.ads} 
-      let langn = new RegExp("Language:?", "i")
-      let langt = new RegExp(i18n("GURPS.language") + ':?', 'i')
+      let newads = { ...this.data.data.ads }
+      let langn = new RegExp('Language:?', 'i')
+      let langt = new RegExp(i18n('GURPS.language') + ':?', 'i')
       recurselist(this.data.data.languages, (e, k, d) => {
-        let a = GURPS.findAdDisad(this, '*' + e.name)   // is there an Adv including the same name
+        let a = GURPS.findAdDisad(this, '*' + e.name) // is there an Adv including the same name
         if (a) {
-          if (!a.name.match(langn) && !a.name.match(langt)) {  // GCA4/GCS style
-            a.name = i18n("GURPS.language") + ": " + a.name
+          if (!a.name.match(langn) && !a.name.match(langt)) {
+            // GCA4/GCS style
+            a.name = i18n('GURPS.language') + ': ' + a.name
             updated = true
           }
-        } else { // GCA5 style (Language without Adv)
-          let n = i18n("GURPS.language") + ': ' + e.name
-          if (e.spoken == e.written) // If equal, then just report single level
+        } else {
+          // GCA5 style (Language without Adv)
+          let n = i18n('GURPS.language') + ': ' + e.name
+          if (e.spoken == e.written)
+            // If equal, then just report single level
             n += ' (' + e.spoken + ')'
-          else if (!!e.spoken) // Otherwise, report type and level (like GCA4)
-            n += ' (' + i18n("GURPS.spoken") + ') (' + e.spoken + ')'
-          else
-            n += ' (' + i18n("GURPS.written") + ') (' + e.written + ')'
+          else if (!!e.spoken)
+            // Otherwise, report type and level (like GCA4)
+            n += ' (' + i18n('GURPS.spoken') + ') (' + e.spoken + ')'
+          else n += ' (' + i18n('GURPS.written') + ') (' + e.written + ')'
           let a = new Advantage()
           a.name = n
           a.points = e.points
@@ -1057,9 +1059,10 @@ export class GurpsActor extends Actor {
     if (!atts) return
     let data = this.getGurpsActorData()
     let att = data.attributes
-    if (!att.QN) { // upgrade older actors to include Q
-      att.QN = {}  
-      data.QP ={}
+    if (!att.QN) {
+      // upgrade older actors to include Q
+      att.QN = {}
+      data.QP = {}
     }
 
     att.ST.import = atts.find(e => e.attr_id === 'st')?.calc?.value || 0
@@ -1214,7 +1217,7 @@ export class GurpsActor extends Actor {
     return t
   }
 
-  importTraitsFromGCSv2(p, cd, md) {
+  async importTraitsFromGCSv2(p, cd, md) {
     if (!p) return
     let ts = {}
     ts.race = ''
@@ -1234,10 +1237,39 @@ export class GurpsActor extends Actor {
     ts.hair = p.hair || ''
     ts.skin = p.skin || ''
 
-    return {
+    const r = {
       'data.-=traits': null,
       'data.traits': ts,
+    };
+
+    if (!!p.portrait && game.settings.get(settings.SYSTEM_NAME, settings.SETTING_OVERWRITE_PORTRAITS)) {
+      const path = this.getPortraitPath();
+      let currentDir = "";
+      for (let i = 0; i < path.split("/").length; i++) {
+        try {
+          currentDir += path.split("/")[i] + "/";
+          await FilePicker.createDirectory("data", currentDir);
+        } catch (err) {
+          continue;
+        }
+      }
+        const filename = `${p.name}_${this.id}_portrait.png`.replaceAll(" ", "_");
+        const url = `data:image/png;base64,${p.portrait}`;
+        await fetch(url)
+          .then((res) => res.blob())
+          .then((blob) => {
+            const file = new File([blob], filename);
+            FilePicker.upload("data", path, file, {}, { notify: false });
+          });
+          r.img = (path + "/" + filename).replaceAll(" ", "_").replaceAll("//", "/");
+      }
+      return r;
     }
+
+
+  getPortraitPath() {
+    if (game.settings.get(settings.SYSTEM_NAME, settings.SETTING_PORTRAIT_PATH) == "global") return "images/portraits/";
+    return `worlds/${game.world.id}/images/portraits`;
   }
 
   signedNum(x) {
@@ -1551,7 +1583,7 @@ export class GurpsActor extends Actor {
       l.import = i.calc?.dr.all?.toString() || '0'
       for (let [key, value] of Object.entries(i.calc?.dr))
         if (key != 'all') {
-          let damtype = DamageTables.damageTypeMap[key]
+          let damtype = GURPS.DamageTables.damageTypeMap[key]
           if (!l.split) l.split = {}
           l.split[damtype] = +l.import + value
         }
@@ -1928,7 +1960,7 @@ export class GurpsActor extends Actor {
     try {
       commit = { ...commit, ...{ 'data.additionalresources': ar } }
       commit = { ...commit, ...(await this.importAttributesFromGCSv2(r.attributes, r.equipment, r.calc)) }
-      commit = { ...commit, ...this.importTraitsFromGCSv2(r.profile, r.created_date, r.modified_date) }
+      commit = { ...commit, ...(await this.importTraitsFromGCSv2(r.profile, r.created_date, r.modified_date)) }
       commit = { ...commit, ...this.importSizeFromGCSv1(commit, r.profile, r.advantages, r.skills, r.equipment) }
       commit = { ...commit, ...this.importAdsFromGCSv3(r.advantages) }
       commit = { ...commit, ...this.importSkillsFromGCSv2(r.skills) }
@@ -2377,7 +2409,7 @@ export class GurpsActor extends Actor {
       'data.reactions': rs,
     }
   }
-  
+
   importLangFromGCA(json) {
     if (!json) return
     let langs = {}
