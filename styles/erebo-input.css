@@ -1,0 +1,619 @@
+.erebo-input {
+  /*  width: 100% !important;
+  height: 100% !important;	*/
+  padding: 0;
+  margin: 0;
+}
+
+.erebo-sheet {
+  /* width: 100% !important;
+  height: 100% !important;  */
+  padding: 0;
+  margin: 0;
+}
+
+.erebo-input .window-content {
+  padding: 5px;
+  background: url(../../../ui/parchment.jpg) repeat !important;
+}
+
+.erebo-sheet .window-content {
+  padding: 5px;
+  background: url(../../../ui/parchment-white.jpg) repeat !important;
+}
+
+.erebo-sheet .gga-app {
+  height: 100% !important;
+}
+
+.erebo-input .gga-app {
+  height: 100% !important;
+}
+
+.erebo-input-ta {
+  height: 100% !important;
+  padding: 5px !important;
+  border: none;
+  overflow: auto;
+}
+
+.erebo-sheet-ci {
+  grid-area: ci;
+  height: 100%;
+  width: 100%;
+}
+
+.erebo-input-grid-container {
+  width: 100% !important;
+  height: 100% !important;
+  display: grid;
+  grid-template-columns: 250px 1fr 50%;
+  grid-template-rows: 60px 130px 2fr 2fr 2fr 45px;
+  gap: 5px 5px;
+  grid-template-areas:
+    'top     top    top'
+    'attr    aspects  aspects'
+    'melee   melee  ranged'
+    'traits  traits skills'
+    'equip   equip  spells'
+    'import  import create';
+}
+
+.erebo-sheet-grid-container-ci {
+  width: 100% !important;
+  height: 100% !important;
+  display: grid;
+  grid-template-columns: min-content 245px 50%;
+  /* grid-template-rows: auto auto auto auto auto; */
+  gap: 5px;
+  grid-template-areas:
+    'top   top       top'
+    'portrait   attr      aspects'
+    'condition  condition  condition'
+    'melee      melee     ranged'
+    'traits     traits    skills'
+    'equip      equip     spells';
+}
+
+.erebo-sheet-grid-container {
+  width: 100% !important;
+  height: 100% !important;
+  display: grid;
+  grid-template-columns: min-content 1fr 50%;
+  /* grid-template-rows: auto auto auto auto auto auto; */
+  gap: 5px;
+  grid-template-areas:
+    'top  top        top'
+    'portrait  attr       aspects'
+    'condition condition  condition'
+    'melee     melee      ranged'
+    'traits    traits     skills'
+    'equip     equip      spells';
+}
+
+.erebo-sheet-grid-container-ci #portrait .img-display,
+.erebo-sheet-grid-container #portrait .img-display {
+  width: 8em;
+  height: 100%;
+}
+
+.erebo-input-create {
+  grid-area: create;
+  align-self: center;
+  padding: 5px 50px 5px 50px;
+}
+
+.erebo-input-import {
+  grid-area: import;
+  align-self: center;
+  padding: 5px 50px 5px 50px;
+}
+
+.erebo-input-top {
+  display: grid;
+  grid-template-columns: 40px 2fr 40px 2fr;
+  grid-template-rows: 0fr 1fr;
+  gap: 5px 5px;
+  grid-template-areas:
+    'nm nm-val title title-val'
+    'desc desc-val desc-val desc-val';
+  grid-area: top;
+}
+
+.erebo-input-nm {
+  grid-area: nm;
+}
+
+.erebo-input-nm-val {
+  grid-area: nm-val;
+}
+
+.erebo-input-title {
+  grid-area: title;
+}
+
+.erebo-input-title-val {
+  grid-area: title-val;
+}
+
+.erebo-input-desc-val {
+  grid-area: desc-val;
+}
+
+.erebo-input-desc {
+  grid-area: desc;
+}
+
+.erebo-container-DP {
+  text-align: right;
+}
+
+.erebo-input-AR {
+  min-height: 40px;
+}
+.erebo-input-DP {
+  width: 50px !important;
+  font-weight: bold;
+}
+.erebo-input-notes {
+  display: grid;
+  grid-template-columns: min-content 1fr;
+  grid-template-rows: 1fr;
+  gap: 5px;
+  grid-template-areas: 'ci nt-val';
+  grid-area: notes;
+}
+
+.erebo-input-aspects ul {
+  list-style-type: none;
+}
+
+.erebo-input-aspects li {
+  padding-bottom: 10px;
+}
+
+.erebo-input-nt {
+  grid-area: nt;
+  align-self: end;
+}
+
+.erebo-input-nt-val {
+  grid-area: nt-val;
+  height: 100%;
+  overflow: var(--of);
+  border: 1px solid rgb(125, 125, 125);
+  padding: 3px;
+  display: grid;
+  grid-template-rows: auto;
+  grid-gap: 4px 0;
+}
+
+.erebo-input-traits {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: 1.5em 1fr;
+  /* gap: 5px 5px; */
+  grid-template-areas:
+    'tr'
+    'tr-val';
+  grid-area: traits;
+  border: 1px solid rgb(125, 125, 125);
+}
+
+.erebo-input-tr {
+  grid-area: tr;
+  align-self: end;
+}
+
+.erebo-header {
+  background-color: black;
+  color: white;
+  height: 100%;
+  padding-left: 4px;
+  /* padding-top: calc(0.5em / 3); */
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.erebo-input-tr-val {
+  grid-area: tr-val;
+}
+
+.erebo-trait-row {
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
+}
+
+.erebo-input-skills {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: 1.5em 1fr;
+  /* gap: 5px 5px; */
+  grid-template-areas:
+    'sk'
+    'sk-val';
+  grid-area: skills;
+  border: 1px solid rgb(125, 125, 125);
+}
+
+.erebo-input-sk {
+  grid-area: sk;
+  align-self: end;
+}
+
+.erebo-input-sk-val {
+  grid-area: sk-val;
+}
+
+.erebo-input-spells {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: 1.5em 1fr;
+  gap: 5px 5px;
+  grid-template-areas:
+    'sp'
+    'sp-val';
+  grid-area: spells;
+  border: 1px solid rgb(125, 125, 125);
+}
+
+.erebo-input-equip {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: 1.5em 1fr;
+  /* gap: 5px 5px; */
+  grid-template-areas:
+    'eqt'
+    'eqt-val';
+  grid-area: equip;
+  border: 1px solid rgb(125, 125, 125);
+}
+
+.erebo-input-sp {
+  grid-area: sp;
+  align-self: end;
+}
+
+.erebo-input-sp-val {
+  grid-area: sp-val;
+}
+
+.erebo-input-eqt {
+  grid-area: eqt;
+  align-self: end;
+}
+
+.erebo-input-eqt-val {
+  grid-area: eqt-val;
+}
+
+.erebo-sheet-sk-val {
+  grid-area: sk-val;
+  display: grid;
+  grid-auto-flow: row;
+  grid-template-columns: 1fr 2em 0fr;
+  grid-auto-rows: fit-content(30px);
+  gap: 1px 4px;
+}
+
+.erebo-sheet-sp-val {
+  grid-area: sp-val;
+  display: grid;
+  grid-auto-flow: row;
+  grid-template-columns: 1fr 2em 0fr;
+  grid-auto-rows: fit-content(30px);
+  gap: 1px 4px;
+}
+
+.erebo-sheet-eqt-val {
+  grid-area: eqt-val;
+  display: grid;
+  grid-auto-flow: row;
+  grid-template-columns: 1em 1em 1fr 3em 3em;
+  grid-auto-rows: fit-content(30px);
+  /* gap: 1px 2px; */
+}
+
+.erebo-sheet-eqt-val .equipped {
+  padding-left: 2px;
+}
+
+.erebo-sheet-eqt-val .qty,
+.erebo-sheet-eqt-val .sum_cost,
+.erebo-sheet-eqt-val .sum_weight {
+  text-align: right;
+}
+
+.erebo-sheet-eqt-val .sum_weight {
+  padding-right: 2px;
+}
+
+.erebo-sheet-ra-val .desc:nth-child(8n + 1),
+.erebo-sheet-me-val .desc:nth-child(6n + 1),
+.erebo-sheet-sk-val .desc:nth-child(odd),
+.erebo-sheet-sp-val .desc:nth-child(odd),
+.erebo-sheet-eqt-val .desc:nth-child(10n + 3),
+.erebo-input-traits .desc:nth-child(odd),
+.erebo-input-nt-val .desc:nth-child(even),
+.erebo-input-aspects .desc:nth-child(even),
+.erebo-sheet-eqt-val .sum_cost:nth-child(10n + 4),
+.erebo-sheet-eqt-val .sum_weight:nth-child(10n + 5),
+.erebo-sheet-eqt-val .qty:nth-child(10n + 2),
+.erebo-sheet-eqt-val .equipped:nth-child(10n + 1) {
+  background-color: rgba(0, 0, 0, 0.15);
+}
+
+.erebo-input-melee {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: 1.5em 1fr;
+  /* gap: 1px 4px; */
+  grid-template-areas:
+    'me'
+    'me-val';
+  grid-area: melee;
+  border: 1px solid rgb(125, 125, 125);
+}
+
+.erebo-input-me {
+  grid-area: me;
+  align-self: end;
+}
+
+.erebo-input-me-val {
+  grid-area: me-val;
+}
+
+.erebo-sheet-me-val {
+  grid-area: me-val;
+  display: grid;
+  grid-auto-flow: row;
+  grid-template-columns: 4fr 1fr 2em 1.5fr;
+  grid-auto-rows: fit-content(30px);
+  gap: 1px 4px;
+  padding-right: 4px;
+}
+
+.erebo-input-ranged {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: 1.5em 1fr;
+  /* gap: 1px 4px; */
+  grid-template-areas:
+    'ra'
+    'ra-val';
+  grid-area: ranged;
+  border: 1px solid rgb(125, 125, 125);
+}
+
+.erebo-input-ra {
+  grid-area: ra;
+  align-self: end;
+}
+
+.erebo-input-ra-val {
+  grid-area: ra-val;
+}
+
+.erebo-sheet-ra-val {
+  grid-area: ra-val;
+  display: grid;
+  grid-auto-flow: row;
+  grid-template-columns: 4fr 1fr 2em 2em max-content;
+  grid-auto-rows: fit-content(30px);
+  gap: 1px 4px;
+  padding-right: 4px;
+}
+
+.erebo-input-attr {
+  padding: 2px 4px;
+  border: 1px solid black;
+  border-radius: 3px;
+  /* background-color: rgb(235, 235, 255); */
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  grid-template-rows: repeat(5, 1.5em);
+  /* gap: 2px 3px; */
+  grid-template-areas:
+    'st st-val hp hp-val spd spd-val'
+    'dx dx-val will will-val mov mov-val'
+    'iq iq-val per per-val sm sm-val'
+    'ht ht-val fp fp-val dr dr-val'
+    'dmg dmg-val parry parry-val dodge dodge-val';
+  grid-area: attr;
+  font-size: 110%;
+  /* height: 100%; */
+  align-content: space-between;
+  /* justify-content: space-between; */
+}
+
+.erebo-input-attr.gurps > div {
+  /* background: rgba(0,0,0,0.1); */
+}
+
+.erebo-input-label {
+  align-self: center;
+  text-align: center;
+  padding: 0px 2px 0px 0px;
+}
+
+.erebo-input-labelr {
+  align-self: center;
+  text-align: right;
+  padding: 0px 2px 0px 0px;
+}
+
+.erebo-sheet-centered {
+  align-self: center;
+  text-align: center;
+  padding: 0px 1px 0px 0px;
+}
+
+.erebo-sheet-label {
+  align-self: center;
+  text-align: left;
+  padding: 0px 1px 0px 0px;
+}
+
+.erebo-input-st {
+  grid-area: st;
+}
+
+.erebo-input-st-val {
+  grid-area: st-val;
+}
+
+.erebo-input-hp-val {
+  grid-area: hp-val;
+}
+
+.erebo-input-hp-val,
+.erebo-input-fp-val {
+  grid-gap: 0 !important;
+  padding: 0 !important;
+  text-align: center !important;
+}
+
+.erebo-input-hp {
+  grid-area: hp;
+}
+
+.erebo-input-spd {
+  grid-area: spd;
+}
+
+.erebo-input-spd-val {
+  grid-area: spd-val;
+}
+
+.erebo-input-dx {
+  grid-area: dx;
+}
+
+.erebo-input-dx-val {
+  grid-area: dx-val;
+}
+
+.erebo-input-will {
+  grid-area: will;
+}
+
+.erebo-input-will-val {
+  grid-area: will-val;
+}
+
+.erebo-input-mov {
+  grid-area: mov;
+}
+
+.erebo-input-mov-val {
+  grid-area: mov-val;
+}
+
+.erebo-input-iq {
+  grid-area: iq;
+}
+
+.erebo-input-iq-val {
+  grid-area: iq-val;
+}
+
+.erebo-input-per {
+  grid-area: per;
+}
+
+.erebo-input-per-val {
+  grid-area: per-val;
+}
+
+.erebo-input-ht {
+  grid-area: ht;
+}
+
+.erebo-input-ht-val {
+  grid-area: ht-val;
+}
+
+.erebo-input-fp {
+  grid-area: fp;
+}
+
+.erebo-input-fp-val {
+  grid-area: fp-val;
+}
+
+.erebo-input-sm {
+  grid-area: sm;
+}
+
+.erebo-input-sm-val {
+  grid-area: sm-val;
+}
+
+.erebo-input-dodge {
+  grid-area: dodge;
+}
+
+.erebo-input-dodge-val {
+  grid-area: dodge-val;
+}
+
+.erebo-input-parry {
+  grid-area: parry;
+}
+
+.erebo-input-parry-val {
+  grid-area: parry-val;
+}
+
+.erebo-input-dr {
+  grid-area: dr;
+}
+
+.erebo-input-dr-val {
+  grid-area: dr-val;
+}
+
+.erebo-input-dmg {
+  grid-area: dmg;
+}
+
+.erebo-input-dmg-val {
+  grid-area: dmg-val;
+  white-space: nowrap;
+}
+
+.erebo-input-img {
+  grid-area: img;
+  align-self: center;
+}
+
+.erebo-input-sm2 {
+  border-width: 0px !important;
+  border: none !important;
+  height: 100% !important;
+  max-width: 2em;
+  padding: 1px !important;
+}
+
+.erebo-input-sm3 {
+  border-width: 0px !important;
+  border: none !important;
+  height: 100% !important;
+  max-width: 3em;
+  padding: 1px !important;
+}
+
+/* Had to focefully overwrite the input css from elsewhere */
+.erebo-input-2 {
+  font: 400 19px sans-serif;
+  height: 100% !important;
+  min-width: 2em !important;
+  padding: 1px !important;
+  font-weight: 700;
+  /* font-size: 120% !important;; */
+  font-family: 'Roboto', sans-serif !important;
+  width: 100% !important;
+}

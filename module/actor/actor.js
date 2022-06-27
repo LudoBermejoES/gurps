@@ -1065,6 +1065,12 @@ export class GurpsActor extends Actor {
       data.QP = {}
     }
 
+    if (!att.AR) {
+      // upgrade older actors to include AR and DP
+      att.AR = {}
+      data.DP = {}
+    }
+
     att.ST.import = atts.find(e => e.attr_id === 'st')?.calc?.value || 0
     att.ST.points = atts.find(e => e.attr_id === 'st')?.calc?.points || 0
     att.DX.import = atts.find(e => e.attr_id === 'dx')?.calc?.value || 0
@@ -1079,6 +1085,8 @@ export class GurpsActor extends Actor {
     att.PER.points = atts.find(e => e.attr_id === 'per')?.calc?.points || 0
     att.QN.import = atts.find(e => e.attr_id === 'qn')?.calc?.value || 0
     att.QN.points = atts.find(e => e.attr_id === 'qn')?.calc?.points || 0
+    att.AR.import = atts.find(e => e.attr_id === 'ar')?.calc?.value || 0
+    att.AR.points = atts.find(e => e.attr_id === 'ar')?.calc?.points || 0
 
     data.HP.max = atts.find(e => e.attr_id === 'hp')?.calc?.value || 0
     data.HP.points = atts.find(e => e.attr_id === 'hp')?.calc?.points || 0
@@ -1086,13 +1094,20 @@ export class GurpsActor extends Actor {
     data.FP.points = atts.find(e => e.attr_id === 'fp')?.calc?.points || 0
     data.QP.max = atts.find(e => e.attr_id === 'qp')?.calc?.value || 0
     data.QP.points = atts.find(e => e.attr_id === 'qp')?.calc?.points || 0
+
+    data.DP.max = atts.find(e => e.attr_id === 'dp')?.calc?.value || 0
+    data.DP.points = atts.find(e => e.attr_id === 'dp')?.calc?.points || 0
+
+
     let hp = atts.find(e => e.attr_id === 'hp')?.calc?.current || 0
     let fp = atts.find(e => e.attr_id === 'fp')?.calc?.current || 0
     let qp = atts.find(e => e.attr_id === 'qp')?.calc?.current || 0
+    let dp = atts.find(e => e.attr_id === 'dp')?.calc?.current || 0
+
 
     let saveCurrent = false
 
-    if (!!data.lastImport && (data.HP.value != hp || data.FP.value != fp)) {
+    if (!!data.lastImport && (data.HP.value != hp || data.FP.value != fp || data.DP.value != dp)) {
       let option = game.settings.get(settings.SYSTEM_NAME, settings.SETTING_IMPORT_HP_FP)
       if (option == 0) {
         saveCurrent = true
@@ -1124,6 +1139,7 @@ export class GurpsActor extends Actor {
     if (!saveCurrent) {
       data.HP.value = hp
       data.FP.value = fp
+      data.DP.value = dp
     }
     data.QP.value = qp
 
@@ -1185,6 +1201,7 @@ export class GurpsActor extends Actor {
       'data.attributes': att,
       'data.HP': data.HP,
       'data.FP': data.FP,
+      'data.AR': data.AR,
       'data.basiclift': data.basiclift,
       'data.basicmove': data.basicmove,
       'data.basicspeed': data.basicspeed,

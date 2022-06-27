@@ -14,6 +14,7 @@ import {
   GurpsActorTabSheet,
   GurpsActorSkillsSheet,
   GurpsActorMageAscensionSheet,
+  GurpsActorVampireMasqueradeSheet,
   GurpsActorEreboSheet,
 } from './actor/actor-sheet.js'
 import { ModifierBucket } from './modifier-bucket/bucket-app.js'
@@ -179,6 +180,7 @@ if (!globalThis.GURPS) {
     Will: 'attributes.WILL.value',
     PER: 'attributes.PER.value',
     Per: 'attributes.PER.value',
+    AR: 'attributes.AR.value',
   }
 
   // Map stuff back to translation keys... don't know if useful yet
@@ -190,6 +192,7 @@ if (!globalThis.GURPS) {
     QN: 'GURPS.attributesQN',
     Will: 'GURPS.attributesWILL',
     Per: 'GURPS.attributesPER',
+    AR: 'GURPS.attributesAR',
   }
 
   GURPS.attributeNames = {
@@ -200,6 +203,7 @@ if (!globalThis.GURPS) {
     QN: 'GURPS.attributesQNNAME',
     Will: 'GURPS.attributesWILLNAME',
     Per: 'GURPS.attributesPERNAME',
+    AR: 'GURPS.attributesARNAME',
   }
 
   GURPS.skillTypes = {
@@ -242,6 +246,7 @@ GURPS.PARSELINK_MAPPINGS = {
   QN: 'attributes.QN.value',
   WILL: 'attributes.WILL.value',
   PER: 'attributes.PER.value',
+  AR: 'attributes.AR.value',
   VISION: 'vision',
   FRIGHTCHECK: 'frightcheck',
   'FRIGHT CHECK': 'frightcheck',
@@ -1948,10 +1953,16 @@ GURPS.PARSELINK_MAPPINGS = {
     })
 
     Actors.registerSheet('gurps', GurpsActorMageAscensionSheet, {
-    // Add this sheet last
-    label: 'Full Mago Ascension (GCS)',
-    makeDefault: false,
-  })
+      // Add this sheet last
+      label: 'Full Mago Ascension (GCS)',
+      makeDefault: false,
+    })
+
+    Actors.registerSheet('gurps', GurpsActorVampireMasqueradeSheet, {
+      // Add this sheet last
+      label: 'Full Vampire Masquerade (GCS)',
+      makeDefault: false,
+    })
 
   Actors.registerSheet('gurps', GurpsActorEreboSheet, {
     // Add this sheet last

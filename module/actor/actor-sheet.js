@@ -1,6 +1,7 @@
 import { arrayToObject, atou, i18n, i18n_f, objectToArray, zeroFill } from '../../lib/utilities.js'
 import { getTechniques } from './combat.js'
 import { getMagicalAdvantages, getMagicalSkills, getRecipees } from './magic.js'
+import { getVampiricPowers } from './vampiricPowers.js'
 import { getAspects } from './aspects.js'
 import { HitLocation, hitlocationDictionary } from '../hitlocation/hitlocation.js'
 import { parselink } from '../../lib/parselink.js'
@@ -88,6 +89,9 @@ export class GurpsActorSheet extends ActorSheet {
     sheetData.data.magickRecipees = getRecipees(sheetData.data.skills);
     sheetData.data.magickAdvantages = magickAdvantages;
     sheetData.data.combatTechniques = getTechniques(sheetData.data.skills);
+
+    sheetData.data.vampirePowers = getVampiricPowers(sheetData.data.ads);
+
     sheetData.ranges = GURPS.rangeObject.ranges
     sheetData.useCI = GURPS.ConditionalInjury.isInUse()
     sheetData.conditionalEffectsTable = GURPS.ConditionalInjury.conditionalEffectsTable()
@@ -1657,6 +1661,28 @@ export class GurpsActorMageAscensionSheet extends GurpsActorSheet {
     return 'systems/gurps/templates/actor/actor-tab-sheet-mage-ascension.hbs'
   }
 }
+
+export class GurpsActorVampireMasqueradeSheet extends GurpsActorSheet {
+  /** @override */
+  static get defaultOptions() {
+    return mergeObject(super.defaultOptions, {
+      classes: ['gurps', 'sheet', 'actor'],
+      width: 860,
+      height: 600,
+      tabs: [{ navSelector: '.gurps-sheet-tabs', contentSelector: '.sheet-body', initial: 'description' }],
+      dragDrop: [{ dragSelector: '.item-list .item', dropSelector: null }],
+    })
+  }
+
+  /* -------------------------------------------- */
+
+  /** @override */
+  get template() {
+    if (!game.user.isGM && this.actor.limited) return 'systems/gurps/templates/actor/actor-sheet-gcs-limited.hbs'
+    return 'systems/gurps/templates/actor/actor-tab-sheet-vampire-masquerade.hbs'
+  }
+}
+
 
 export class GurpsActorEreboSheet extends GurpsActorSheet {
   /** @override */

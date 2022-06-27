@@ -34,15 +34,22 @@
         margin-top: 20px;
     }
 
+
 </style>
-<div id='magic'>
+<script>
+    $('#aspects .info_title').click((evt) => {
+        debugger;
+        $(evt.target).parent().find('.info_notes').toggle();
+    });
+</script>
+<div id='aspects'>
     <h1 class='header_title'>Aspectos</h1>
     {{#if data.aspects}}
         {{#each data.aspects}}
             <div>
                 <label>
-                    <div  style='font-size:20px' class='rsl flex-center'>{{this.name}}</div>
-                    <p class="recipe-description">{{this.note}}</p>
+                    <div  style='font-size:20px' class='info_title'>{{this.name}}</div>
+                    <p class="info_notes">{{this.note}}</p>
                 </label>
             </div>
         {{/each}}

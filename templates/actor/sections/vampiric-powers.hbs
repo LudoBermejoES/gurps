@@ -1,0 +1,98 @@
+<style>
+    .sheet-disciplines {
+        flex-wrap: wrap; !important;
+        display: flex; !important;
+        width: 100%; !important;
+        justify-content: space-between; !important;
+    }
+
+    .sheet-disciplines > div {
+        width: calc((100% / 3) - 10px);
+    }
+
+    .sheet-disciplines label {
+        font-size: 20px;
+    }
+
+    .info_container {
+        margin-bottom: 20px;
+    }
+    .info_title {
+        font-size:16px;
+        font-weight: bold;
+        margin-top:20px;
+        margin-bottom:20px;
+    }
+
+    .info_notes {
+        font-size:12px;
+        white-space: pre-line;
+        margin-left: 10px;
+        margin-top: 10px;
+        display: none;
+    }
+
+    .vp_title {
+        margin-bottom: 20px;
+    }
+
+</style>
+
+<script>
+    $('.vp_name').click((evt) => {
+        debugger;
+        $(evt.target).parent().find('.info_notes').toggle()
+    });
+
+    $('.info_title').click((evt) => {
+        debugger;
+        $(evt.target).parent().find('.info_notes').toggle()
+    });
+</script>
+<div id='vampiricPowers'>
+    <h1 class='vp_title'>Información genérica</h1>
+    {{#if data.vampirePowers.generation}}
+        <div class="vp_title">
+            <label>
+                <span class="info_title">Generación: {{data.vampirePowers.generation.contains.00000.name}}</span>
+                <div class="info_notes">{{data.vampirePowers.generation.contains.00000.notes}}</div>
+            </label>
+        </div>
+    {{/if}}
+
+    {{#if data.vampirePowers.humanity}}
+        <div class="vp_title">
+            <label>
+                <span class="info_title">Humanidad: {{data.vampirePowers.humanity.contains.00000.name}}</span>
+                <div class="info_notes">{{data.vampirePowers.humanity.contains.00000.notes}}</div>
+            </label>
+        </div>
+    {{/if}}
+
+    {{#if data.vampirePowers.disciplines }}
+        <h1 class='header_title'>Disciplinas</h1>
+        <div data-i18n-list="disciplines-list" class="sheet-disciplines" >
+            {{# each data.vampirePowers.disciplines }}
+                <div class="vp_title">
+                    <label>
+                        <div  style='font-size:16px' class='vp_name'>{{this.name}}</div>
+                        <div class="info_notes">{{this.notes}}</div>
+                    </label>'
+                </div>
+            {{/each}}
+        </div>
+    {{/if}}
+
+
+    {{#if data.vampirePowers.genericAdvantagesAndDisadvantages}}
+        <h1 class='vp_title'>Ventajas y desventajas de todos los vampiros</h1>
+        {{#each data.vampirePowers.genericAdvantagesAndDisadvantages}}
+            <div class="vp_title">
+                <label>
+                    <div  style='font-size:16px' class='vp_name'>{{this.name}}</div>
+                    <div  class="info_notes">{{this.notes}}</div>
+                </label>
+            </div>
+        {{/each}}
+    {{/if}}
+</div>

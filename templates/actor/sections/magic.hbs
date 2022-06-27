@@ -6,6 +6,10 @@
         justify-content: space-between; !important;
     }
 
+    .recipe-description {
+        white-space: pre-line;
+    }
+
     .sheet-spheres > div {
         width: calc((100% / 3) - 10px);
         text-align: center;
@@ -28,6 +32,7 @@
     .info_notes {
         font-size:14px;
         white-space: pre-line;
+        display: none
     }
 
     .header_title {
@@ -35,6 +40,12 @@
     }
 
 </style>
+
+<script>
+    $('#magic .info_title').click((evt) => {
+        $(evt.target).parent().find('.info_notes').toggle()
+    });
+</script>
 <div id='magic'>
     <h1 class='header_title'>Magia verdadera</h1>
     {{#if data.magickAdvantages.avatar}}
@@ -136,8 +147,10 @@
         <h1 class='header_title'>Paradigma</h1>
         <div class="info_container">
             {{#each data.magickAdvantages.paradigm}}
-                <div  class='info_title flex-center'>{{this.name}}</div>
-                <span class='info_notes flex-center'>{{this.notes}}</span>
+                <div>
+                    <div  class='info_title'>{{this.name}}</div>
+                    <span class='info_notes'>{{this.notes}}</span>
+                </div>
             {{/each}}
         </div>
     {{/if}}
@@ -145,8 +158,10 @@
         <h1 class='header_title'>Práctica</h1>
         <div class="info_container">
             {{#each data.magickAdvantages.practique}}
-                <div  class='info_title flex-center'>{{this.name}}</div>
-                <span class='info_notes flex-center'>{{this.notes}}</span>
+                <div>
+                    <div  class='info_title'>{{this.name}}</div>
+                    <span class='info_notes'>{{this.notes}}</span>
+                </div>
             {{/each}}
         </div>
     {{/if}}
@@ -154,8 +169,10 @@
         <h1 class='header_title'>Instrumentos</h1>
         <div class="info_container">
             {{#each data.magickAdvantages.tools}}
-                <div  class='info_title flex-center'>{{this.name}}</div>
-                <span class='info_notes flex-center'>{{this.notes}}</span>
+                <div>
+                    <div  class='info_title'>{{this.name}}</div>
+                    <span class='info_notes'>{{this.notes}}</span>
+                </div>
             {{/each}}
         </div>
     {{/if}}
