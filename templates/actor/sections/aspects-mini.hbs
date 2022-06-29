@@ -1,0 +1,14 @@
+<div id='aspects-mini' class="aspects-mini">
+  <h1 class='header'>Aspectos</h1>
+    <div class="pad">
+      {{#if data.aspects}}
+          {{#each data.aspects}}
+              <div>
+                  <label>
+                      <div class="extra-info" style="margin-bottom: 4px"  data-info="{{this.notes}}">{{this.name}}</div>
+                  </label>
+              </div>
+          {{/each}}
+      {{/if}}
+    </div>
+</div>

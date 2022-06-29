@@ -92,7 +92,7 @@ function getMagicalSkills(skills) {
   const spheresContainer = getContainerByKey(skills, SPHERES_CONTAINER);
   if(!spheresContainer) return [];
   SPHERES.forEach((sphere) => {
-    const sphereFound = getContainerByKey(getContents(spheresContainer), sphere)
+    const sphereFound = getContainerByKey(getContents(spheresContainer), sphere);
     if(sphereFound) spheres.push(sphereFound);
   })
   return spheres;

@@ -1071,6 +1071,16 @@ export class GurpsActor extends Actor {
       data.DP = {}
     }
 
+    if(!data.DP) {
+      data.DP = {};
+    }
+
+    if(!data.VOL) {
+      data.VOL = {};
+      data.QE = {};
+      data.PX = {};
+    }
+
     att.ST.import = atts.find(e => e.attr_id === 'st')?.calc?.value || 0
     att.ST.points = atts.find(e => e.attr_id === 'st')?.calc?.points || 0
     att.DX.import = atts.find(e => e.attr_id === 'dx')?.calc?.value || 0
@@ -1098,16 +1108,25 @@ export class GurpsActor extends Actor {
     data.DP.max = atts.find(e => e.attr_id === 'dp')?.calc?.value || 0
     data.DP.points = atts.find(e => e.attr_id === 'dp')?.calc?.points || 0
 
+    data.VOL.max = atts.find(e => e.attr_id === 'vol')?.calc?.value || 0
+    data.VOL.points = atts.find(e => e.attr_id === 'vol')?.calc?.points || 0
+    data.PX.max = atts.find(e => e.attr_id === 'px')?.calc?.value || 0
+    data.PX.points = atts.find(e => e.attr_id === 'px')?.calc?.points || 0
+    data.QE.max = atts.find(e => e.attr_id === 'qe')?.calc?.value || 0
+    data.QE.points = atts.find(e => e.attr_id === 'qe')?.calc?.points || 0
 
     let hp = atts.find(e => e.attr_id === 'hp')?.calc?.current || 0
     let fp = atts.find(e => e.attr_id === 'fp')?.calc?.current || 0
     let qp = atts.find(e => e.attr_id === 'qp')?.calc?.current || 0
     let dp = atts.find(e => e.attr_id === 'dp')?.calc?.current || 0
+    let vol = atts.find(e => e.attr_id === 'vol')?.calc?.current || 0
+    let px = atts.find(e => e.attr_id === 'px')?.calc?.current || 0
+    let qe = atts.find(e => e.attr_id === 'qe')?.calc?.current || 0
 
 
     let saveCurrent = false
 
-    if (!!data.lastImport && (data.HP.value != hp || data.FP.value != fp || data.DP.value != dp)) {
+    if (!!data.lastImport && (data.HP.value != hp || data.FP.value != fp || data.DP.value != dp || data.VOL.value != vol)) {
       let option = game.settings.get(settings.SYSTEM_NAME, settings.SETTING_IMPORT_HP_FP)
       if (option == 0) {
         saveCurrent = true
@@ -1140,7 +1159,11 @@ export class GurpsActor extends Actor {
       data.HP.value = hp
       data.FP.value = fp
       data.DP.value = dp
+      data.VOL.value = vol
+      data.PX.value = px
+      data.QE.value = qe
     }
+    debugger;
     data.QP.value = qp
 
     let bl_value = parseFloat(calc?.basic_lift.match(/[\d\.]+/g))

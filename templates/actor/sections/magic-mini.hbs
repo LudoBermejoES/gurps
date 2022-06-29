@@ -1,0 +1,161 @@
+<style>
+    .sheet-mini-spheres {
+        flex-wrap: wrap; !important;
+        display: flex; !important;
+        width: 100%; !important;
+        justify-content: space-between; !important;
+    }
+
+    .recipe-description {
+        white-space: pre-line;
+    }
+
+    .sheet-mini-spheres > div {
+        width: calc((100% / 2) - 2px);
+        padding-bottom: 5px;
+        text-align: center;
+    }
+
+    .sheet-mini-spheres label {
+    }
+
+    .info_container {
+        margin-bottom: 20px;
+    }
+    .info_title {
+        font-size:16px;
+        font-weight: bold;
+        margin-top:20px;
+        margin-bottom:20px;
+    }
+
+    .info_notes {
+        font-size:14px;
+        white-space: pre-line;
+        display: none
+    }
+
+    .header_title {
+        margin-top: 20px;
+    }
+
+</style>
+
+<div id='magic-mini' class="magic-mini">
+    {{#if data.magickSkills }}
+        <h1 class='header'>Esferas</h1>
+        <div data-i18n-list="spheres-list" class="sheet-mini-spheres" >
+            {{# each data.magickSkills }}
+            <div>
+                <label>
+                    <span class="pdflink" data-pdf="{{this.pageref}}">{{this.name}}</span>
+                    <span class="rollable" data-otf='Sk:"{{this.name}}"'>({{this.level}})</span>
+                </label>
+                <div>
+                    <label>
+                        {{#ifCond this.sphere.level '>=' 1}}
+                            &#9673;
+                        {{else}}
+                            &#9675;
+                        {{/ifCond}}
+                        <span></span>
+                    </label>
+                    <label>
+                        {{#ifCond this.sphere.level '>=' 2}}
+                            &#9673;
+                        {{else}}
+                            &#9675;
+                        {{/ifCond}}
+                        <span></span>
+                    </label>
+                    <label>
+                        {{#ifCond this.sphere.level '>=' 3}}
+                            &#9673;
+                        {{else}}
+                            &#9675;
+                        {{/ifCond}}
+                        <span></span>
+                    </label>
+                    <label>
+                        {{#ifCond this.sphere.level '>=' 4}}
+                            &#9673;
+                        {{else}}
+                            &#9675;
+                        {{/ifCond}}
+                        <span></span>
+                    </label>
+                    <label>
+                        {{#ifCond this.sphere.level '>=' 5}}
+                            &#9673;
+                        {{else}}
+                            &#9675;
+                        {{/ifCond}}
+                        <span></span>
+                    </label>
+                </div>
+            </div>
+            {{/each}}
+        </div>
+    {{/if}}
+    <h1 class='header'>Magia verdadera</h1>
+    <div class="pad">
+        {{#if data.magickAdvantages.avatar}}
+            <div>
+                <label>
+                    <span class="extra-info" data-info="{{data.magickAdvantages.avatar.notes}}" data-pageref="{{data.magickAdvantages.avatar.pageref}}">{{data.magickAdvantages.avatar.name}}</span>
+                </label>
+            </div>
+        {{/if}}
+        {{#if data.magickAdvantages.arete}}
+            <div>
+                <label>
+                    <span class="extra-info" data-info="{{data.magickAdvantages.arete.notes}}" data-pageref="{{data.magickAdvantages.arete.pageref}}">{{data.magickAdvantages.arete.name}}</span>
+                </label>
+            </div>
+        {{/if}}
+        {{#if data.magickAdvantages.awareness}}
+            <div>
+                <label>
+                    <span class="extra-info" data-info="{{data.magickAdvantages.awareness.notes}}" data-pageref="{{data.magickAdvantages.awareness.pageref}}">{{data.magickAdvantages.awareness.name}}</span>
+                </label>
+            </div>
+        {{/if}}
+        {{#if data.magickAdvantages.arcane}}
+            <div>
+                <label>
+                    <span class="extra-info" data-info="{{data.magickAdvantages.arcane.notes}}" data-pageref="{{data.magickAdvantages.arcane.pageref}}">{{data.magickAdvantages.arcane.name}}</span>
+                </label>
+            </div>
+        {{/if}}
+    </div>
+    {{#if data.magickAdvantages.paradigm}}
+     <h1 class='header'>Paradigma</h1>
+     <div class="pad">
+            {{#each data.magickAdvantages.paradigm}}
+                <div>
+                    <div  class='extra-info' data-info="{{this.notes}}">{{this.name}}</div>
+                </div>
+            {{/each}}
+     </div>
+    {{/if}}
+    {{#if data.magickAdvantages.practique}}
+    <h1 class='header'>Práctica</h1>
+    <div class="pad">
+            {{#each data.magickAdvantages.practique}}
+                <div>
+                    <div  class='extra-info' data-info="{{this.notes}}">{{this.name}}</div>
+                </div>
+            {{/each}}
+    </div>
+    {{/if}}
+    {{#if data.magickAdvantages.tools}}
+     <h1 class='header'>Instrumentos</h1>
+    <div class="pad">
+            {{#each data.magickAdvantages.tools}}
+                <div>
+                    <div  class='extra-info' data-info="{{this.notes}}">{{this.name}}</div>
+                </div>
+            {{/each}}
+    </div>
+    {{/if}}
+</div>

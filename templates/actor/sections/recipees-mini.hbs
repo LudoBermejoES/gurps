@@ -1,0 +1,14 @@
+<div id='recipees-mini' class="recipees-mini">
+    <h1 class='header'>Recetas</h1>
+    <div class="pad">
+        {{#if data.magickRecipees}}
+            {{#each data.magickRecipees}}
+                <div>
+                    <label>
+                        <div style="margin-bottom: 4px"><span class='extra-info' data-info="{{this.notes}}">{{this.name}}</span> <span class='rsl {{rollable this.level}}' data-otf='Sk:"{{this.name}}"'>({{this.level}})</div>
+                    </label>
+                </div>
+            {{/each}}
+        {{/if}}
+    </div>
+</div>

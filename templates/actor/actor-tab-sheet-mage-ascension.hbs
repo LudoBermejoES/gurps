@@ -8,9 +8,7 @@
       {{>points}}
     </div>
     <nav id='nav-tabs' class='gurps-sheet-tabs' data-group='primary-tabs'>
-      <li><a class='tab-item' data-tab='stats'>{{i18n 'GURPS.statsTab'}}</a></li>
-      <li><a class='tab-item' data-tab='aspects'>{{i18n 'GURPS.aspectsTab'}}</a></li>
-      <li><a class='tab-item' data-tab='magic'>{{i18n 'GURPS.magicTab'}}</a></li>
+      <li><a class='tab-item' data-tab='stats-mage-ascension'>{{i18n 'GURPS.statsTab'}}</a></li>
       <li><a class='tab-item' data-tab='combat'>{{i18n 'GURPS.combatTab'}}</a></li>
       <li><a class='tab-item' data-tab='combat-techniques'>{{i18n 'GURPS.techniquesTab'}}</a></li>
       <li><a class='tab-item' data-tab='advantages'>{{i18n 'GURPS.advantagesTab'}}</a></li>
@@ -21,17 +19,16 @@
       <li><a class='tab-item' data-tab='equipment'>{{i18n 'GURPS.equipmentTab'}}</a></li>
     </nav>
     <section class='sheet-body tabbed-sheet'>
-      <div class='tab' data-tab='stats' data-group='primary-tabs'>
-        <div id='stats'>
+      <div class='tab' data-tab='stats-mage-ascension' data-group='primary-tabs'>
+        <div id='stats-mage-ascension'>
           <div id='attributes'>
             {{>basic-attributes}}
             {{>secondary-attributes}}
           </div>
-          {{>encumbrance}}
-          {{>quicknote}}
-          {{>lifting}}
-          {{>locations parent=../data}}
-          <div id='hp-fp'>
+          {{>magic-mini}}
+            {{>pool-ascension}}
+
+            <div id='hp-fp'>
             {{#if useCI}}
               {{>conditional-injury}}
             {{else}}
@@ -53,7 +50,8 @@
               testcondition=data.conditions.exhausted
             }}
           </div>
-          {{>conditions}}
+          {{>aspects-mini}}
+            {{>recipees-mini}}
         </div>
 
         {{#if (or (notEmpty data.reactions) (notEmpty data.conditionalmods))}}
@@ -90,12 +88,7 @@
       <div class='tab' data-tab='advantages' data-group='primary-tabs'>
         {{>advantages}}
       </div>
-    <div class='tab' data-tab='aspects' data-group='primary-tabs'>
-        {{>aspects}}
-    </div>
-      <div class='tab' data-tab='magic' data-group='primary-tabs'>
-        {{>magic}}
-      </div>
+
       <div class='tab' data-tab='combat-techniques' data-group='primary-tabs'>
         {{>techniques}}
       </div>

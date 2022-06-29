@@ -16,6 +16,7 @@ import MoveModeEditor from './move-mode-editor.js'
 import { Advantage, Equipment, Melee, Modifier, Note, Ranged, Reaction, Skill, Spell } from './actor-components.js'
 import SplitDREditor from './splitdr-editor.js'
 import {getGroupedSkills} from "./skills.js";
+import { handleOnPdf } from '../pdf-refs.js'
 
 /**
  * Extend the basic ActorSheet with some very simple modifications
@@ -177,6 +178,41 @@ export class GurpsActorSheet extends ActorSheet {
     this.makelistdrag(html, '.notedraggable', 'note')
     this.makelistdrag(html, '.meleedraggable', 'melee')
     this.makelistdrag(html, '.rangeddraggable', 'ranged')
+
+
+    html.find('.extra-info').click((evt) => {
+      const t = evt.target;
+      const title = $(t).text();
+      const info = $(t).attr('data-info');
+      const pageRef = $(t).attr('data-pageref');
+      let page = info;
+      if(pageRef) {
+        page = `<div style="white-space: pre-line; line-height: 1.3">${info}\n<span class="pdflink" data-pdf="${pageRef}">Ver más</span>\n\n</div>`;
+      } else {
+        page = `<div style="white-space: pre-line; line-height: 1.3">${info}\n\n</div>`;
+      }
+
+
+      let d = new Dialog({
+        title: title,
+        content: page,
+        buttons: {
+          close: {
+            icon: '<i class="fas fa-times"></i>',
+            label: "Close",
+            callback: () => console.log("Chose Two")
+          }
+        },
+        default: "close",
+        render: html => {
+          html.find('.pdflink').on('click', handleOnPdf)
+        },
+        close: html => console.log("This always is logged no matter which option is chosen")
+      }, {
+        width: 600,
+      });
+      d.render(true);
+    });
 
     html.find('[data-operation="share-portrait"]').click(ev => {
       ev.preventDefault()

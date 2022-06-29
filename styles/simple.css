@@ -1094,6 +1094,17 @@ body {
   grid-gap: var(--sectiongap);
 }
 
+#stats-mage-ascension {
+  grid-area: stats;
+  display: grid;
+  grid-template:
+    'attributes      aspects-mini   magic-mini    recipees-mini'
+    'attributes      hp-fp          magic-mini    recipees-mini'
+    'attributes      pool-ascension magic-mini  recipees-mini';
+  grid-template-columns: 0fr 1fr 1fr 1fr;
+  grid-gap: var(--sectiongap);
+}
+
 #stats-erebo {
   grid-area: stats-erebo;
   display: grid;
