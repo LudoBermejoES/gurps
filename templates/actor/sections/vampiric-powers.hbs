@@ -40,17 +40,15 @@
 
 <script>
     $('.vp_name').click((evt) => {
-        debugger;
         $(evt.target).parent().find('.info_notes').toggle()
     });
 
     $('.info_title').click((evt) => {
-        debugger;
         $(evt.target).parent().find('.info_notes').toggle()
     });
 </script>
 <div id='vampiricPowers'>
-    <h1 class='vp_title'>Información genérica</h1>
+    <h1 class='vp_title'>Información del vampiro</h1>
     {{#if data.vampirePowers.generation}}
         <div class="vp_title">
             <label>

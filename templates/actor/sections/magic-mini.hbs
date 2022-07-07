@@ -97,42 +97,34 @@
             {{/each}}
         </div>
     {{/if}}
-    <h1 class='header'>Magia verdadera</h1>
-    <div class="pad">
-        {{#if data.magickAdvantages.avatar}}
-            <div>
-                <label>
-                    <span class="extra-info" data-info="{{data.magickAdvantages.avatar.notes}}" data-pageref="{{data.magickAdvantages.avatar.pageref}}">{{data.magickAdvantages.avatar.name}}</span>
-                </label>
-            </div>
-        {{/if}}
-        {{#if data.magickAdvantages.arete}}
-            <div>
-                <label>
-                    <span class="extra-info" data-info="{{data.magickAdvantages.arete.notes}}" data-pageref="{{data.magickAdvantages.arete.pageref}}">{{data.magickAdvantages.arete.name}}</span>
-                </label>
-            </div>
-        {{/if}}
-        {{#if data.magickAdvantages.awareness}}
-            <div>
-                <label>
-                    <span class="extra-info" data-info="{{data.magickAdvantages.awareness.notes}}" data-pageref="{{data.magickAdvantages.awareness.pageref}}">{{data.magickAdvantages.awareness.name}}</span>
-                </label>
-            </div>
-        {{/if}}
-        {{#if data.magickAdvantages.arcane}}
-            <div>
-                <label>
-                    <span class="extra-info" data-info="{{data.magickAdvantages.arcane.notes}}" data-pageref="{{data.magickAdvantages.arcane.pageref}}">{{data.magickAdvantages.arcane.name}}</span>
-                </label>
-            </div>
-        {{/if}}
-    </div>
+
+    {{#if data.magickAdvantages.mundaneBackgrounds}}
+        <h1 class='header'>Trasfondos mundanos</h1>
+        <div class="sheet-mini-spheres">
+            {{#each data.magickAdvantages.mundaneBackgrounds}}
+                <div>
+                    <span class='extra-info' data-info="{{this.notes}}" data-pageref="{{this.pageref}}">{{this.name}}</span>
+                </div>
+            {{/each}}
+        </div>
+    {{/if}}
+
+    {{#if data.magickAdvantages.supernaturalBackgrounds}}
+        <h1 class='header'>Trasfondos sobrenaturales</h1>
+        <div class="sheet-mini-spheres">
+            {{#each data.magickAdvantages.supernaturalBackgrounds}}
+                <div>
+                    <span class='extra-info' data-info="{{this.notes}}" data-pageref="{{this.pageref}}">{{this.name}}</span>
+                </div>
+            {{/each}}
+        </div>
+    {{/if}}
+
     {{#if data.magickAdvantages.paradigm}}
      <h1 class='header'>Paradigma</h1>
      <div class="pad">
             {{#each data.magickAdvantages.paradigm}}
-                <div>
+                <div  class="list">
                     <div  class='extra-info' data-info="{{this.notes}}">{{this.name}}</div>
                 </div>
             {{/each}}
@@ -142,20 +134,22 @@
     <h1 class='header'>Práctica</h1>
     <div class="pad">
             {{#each data.magickAdvantages.practique}}
-                <div>
+                <div  class="list">
                     <div  class='extra-info' data-info="{{this.notes}}">{{this.name}}</div>
                 </div>
             {{/each}}
     </div>
     {{/if}}
+
     {{#if data.magickAdvantages.tools}}
-     <h1 class='header'>Instrumentos</h1>
-    <div class="pad">
+        <h1 class='header'>Instrumentos</h1>
+        <div class="pad">
             {{#each data.magickAdvantages.tools}}
-                <div>
-                    <div  class='extra-info' data-info="{{this.notes}}">{{this.name}}</div>
+                <div class="list">
+                    <div class='extra-info' data-info="{{this.notes}}">{{this.name}}</div>
                 </div>
             {{/each}}
-    </div>
+        </div>
     {{/if}}
+
 </div>

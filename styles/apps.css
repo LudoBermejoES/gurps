@@ -851,8 +851,20 @@ ul#result-effects li {
     border: 1px solid black;
 }
 
+#vampire-powers-mini {
+    grid-area: vampire-power-mini;
+    font-size: 11px;
+    border: 1px solid black;
+}
+
 #aspects-mini {
     grid-area: aspects-mini;
+    font-size: 11px;
+    border: 1px solid black;
+}
+
+#languages-mini {
+    grid-area: languages-mini;
     font-size: 11px;
     border: 1px solid black;
 }
@@ -863,6 +875,11 @@ ul#result-effects li {
     border: 1px solid black;
 }
 
+#disciplines-mini {
+    grid-area: disciplines-mini;
+    font-size: 11px;
+    border: 1px solid black;
+}
 
 #pool-ascension {
     grid-area: pool-ascension;
@@ -876,7 +893,21 @@ ul#result-effects li {
     grid-gap: 0.05in;
     padding: 8px;
 }
+
+#pool-vampire {
+    grid-area: pool-vampire;
+    border: 1px solid black;
+    font-size: 11px;
 }
+
+
+#pool-vampire .pool {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-gap: 0.05in;
+    padding: 8px;
+}
+
 #resources {
     grid-template-rows: 0fr 0fr;
 }
@@ -2486,4 +2517,8 @@ button.equipmentbutton:last-child {
     padding-left: 5px;
     padding-right: 5px;
     margin-bottom: 5px;
+}
+
+.list {
+    margin-bottom: 3px;
 }

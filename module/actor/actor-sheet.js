@@ -1,8 +1,9 @@
 import { arrayToObject, atou, i18n, i18n_f, objectToArray, zeroFill } from '../../lib/utilities.js'
 import { getTechniques } from './combat.js'
 import { getMagicalAdvantages, getMagicalSkills, getRecipees } from './magic.js'
-import { getVampiricPowers } from './vampiricPowers.js'
+import {getDisciplinesSkills, getVampiricPowers} from './vampiricPowers.js'
 import { getAspects } from './aspects.js'
+import { getLanguages } from './languages.js'
 import { HitLocation, hitlocationDictionary } from '../hitlocation/hitlocation.js'
 import { parselink } from '../../lib/parselink.js'
 import * as CI from '../injury/domain/ConditionalInjury.js'
@@ -69,6 +70,7 @@ export class GurpsActorSheet extends ActorSheet {
     sheetData.olddata = sheetData.data
     sheetData.data = sheetData.data.data
     sheetData.data.aspects = getAspects(sheetData.data.ads);
+    sheetData.data.languages = getLanguages(sheetData.data.ads);
     const magickAdvantages = getMagicalAdvantages(sheetData.data.ads);
     sheetData.data.magickSkills = getMagicalSkills(sheetData.data.skills).map((skill) => {
       const match = magickAdvantages.spheres.filter(sphere => sphere.name.indexOf(skill.name) == 0)
@@ -92,6 +94,7 @@ export class GurpsActorSheet extends ActorSheet {
     sheetData.data.combatTechniques = getTechniques(sheetData.data.skills);
 
     sheetData.data.vampirePowers = getVampiricPowers(sheetData.data.ads);
+    sheetData.data.vampireSkills = getDisciplinesSkills(sheetData.data.skills);
 
     sheetData.ranges = GURPS.rangeObject.ranges
     sheetData.useCI = GURPS.ConditionalInjury.isInUse()
@@ -104,6 +107,7 @@ export class GurpsActorSheet extends ActorSheet {
     sheetData.effects = this.actor.getEmbeddedCollection('ActiveEffect').contents
     sheetData.useQN = game.settings.get(settings.SYSTEM_NAME, settings.SETTING_USE_QUINTESSENCE)
 
+    console.log(sheetData.data.attributes);
     return sheetData
   }
 
@@ -626,6 +630,35 @@ export class GurpsActorSheet extends ActorSheet {
     html.find('#edit-move-modes').on('click', this._showMoveModeEditorPopup.bind(this))
 
     html.find('#addFirstResourceTracker').on('click', ev => this._addTracker())
+
+    html.find('.usePool').click(ev => {
+      const poolStr = $(ev.target).attr('data-type');
+      const pool = this.actor.data.data[poolStr];
+      if(pool) {
+        if(pool.value > 0) {
+          let chatData = {
+            user: game.user._id,
+            speaker: ChatMessage.getSpeaker(),
+            content: '',
+          };
+
+          $(`input[name="data.${poolStr}.value"]`).val(pool.value-1);
+          $(`input[name="data.${poolStr}.value"]`).trigger('change');
+          if(poolStr == 'VOL') {
+            GURPS.executeOTF('["+4 por Voluntad" +4 Voluntad]');
+            chatData.content = `${this.actor.data.name} usa Fuerza de voluntad para ganar un +4 a la próxima tirada`;
+          }
+          if(poolStr == 'QE') {
+            GURPS.executeOTF('["+2 a magia por quintaesencia" +2 magia por quintaesencia]');
+            chatData.content = `${this.actor.data.name} usa Quintaesencia para ganar un +2 a la próxima tirada de magia`;
+          }
+          debugger;
+          ChatMessage.create(chatData, {});
+        }
+      }
+    })
+
+
   }
 
   _createHeaderMenus(html) {

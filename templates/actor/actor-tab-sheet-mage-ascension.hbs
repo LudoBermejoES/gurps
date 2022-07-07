@@ -10,7 +10,6 @@
     <nav id='nav-tabs' class='gurps-sheet-tabs' data-group='primary-tabs'>
       <li><a class='tab-item' data-tab='stats-mage-ascension'>{{i18n 'GURPS.statsTab'}}</a></li>
       <li><a class='tab-item' data-tab='combat'>{{i18n 'GURPS.combatTab'}}</a></li>
-      <li><a class='tab-item' data-tab='combat-techniques'>{{i18n 'GURPS.techniquesTab'}}</a></li>
       <li><a class='tab-item' data-tab='advantages'>{{i18n 'GURPS.advantagesTab'}}</a></li>
       <li><a class='tab-item' data-tab='skills'>{{i18n 'GURPS.skillsTab'}}</a></li>
       {{#if (notEmpty data.spells)}}
@@ -25,7 +24,7 @@
             {{>basic-attributes}}
             {{>secondary-attributes}}
           </div>
-          {{>magic-mini}}
+            {{>magic-mini}}
             {{>pool-ascension}}
 
             <div id='hp-fp'>
@@ -50,6 +49,7 @@
               testcondition=data.conditions.exhausted
             }}
           </div>
+          {{>languages-mini}}
           {{>aspects-mini}}
             {{>recipees-mini}}
         </div>
@@ -89,9 +89,6 @@
         {{>advantages}}
       </div>
 
-      <div class='tab' data-tab='combat-techniques' data-group='primary-tabs'>
-        {{>techniques}}
-      </div>
       <div class='tab' data-tab='skills' data-group='primary-tabs'>
         {{>skills}}
       </div>

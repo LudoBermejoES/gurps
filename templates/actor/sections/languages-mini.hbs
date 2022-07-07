@@ -1,0 +1,13 @@
+<div id='languages-mini' class="languages-mini">
+  <h1 class='header'>Idiomas</h1>
+    <div class="pad">
+      {{#if data.languages}}
+          {{#each data.languages}}
+              <div class="list">
+                      <div>{{this.name}}</div>
+                      <div style="padding-left: 5px">({{this.notes}})</div>
+              </div>
+          {{/each}}
+      {{/if}}
+    </div>
+</div>

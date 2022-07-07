@@ -1,0 +1,183 @@
+<style>
+    .sheet-mini-spheres {
+        flex-wrap: wrap; !important;
+        display: flex; !important;
+        width: 100%; !important;
+        justify-content: space-between; !important;
+    }
+
+    .recipe-description {
+        white-space: pre-line;
+    }
+
+    .sheet-mini-spheres > div {
+        width: calc((100% / 2) - 2px);
+        padding-bottom: 5px;
+        text-align: center;
+    }
+
+    .sheet-mini-spheres label {
+    }
+
+    .info_container {
+        margin-bottom: 20px;
+    }
+    .info_title {
+        font-size:16px;
+        font-weight: bold;
+        margin-top:20px;
+        margin-bottom:20px;
+    }
+
+    .info_notes {
+        font-size:14px;
+        white-space: pre-line;
+        display: none
+    }
+
+    .header_title {
+        margin-top: 20px;
+    }
+
+</style>
+
+<div id='vampire-mini' class="vampire-mini">
+    {{#if data.magickSkills }}
+        <h1 class='header'>Esferas</h1>
+        <div data-i18n-list="spheres-list" class="sheet-mini-spheres" >
+            {{# each data.magickSkills }}
+            <div>
+                <label>
+                    <span class="pdflink" data-pdf="{{this.pageref}}">{{this.name}}</span>
+                    <span class="rollable" data-otf='Sk:"{{this.name}}"'>({{this.level}})</span>
+                </label>
+                <div>
+                    <label>
+                        {{#ifCond this.sphere.level '>=' 1}}
+                            &#9673;
+                        {{else}}
+                            &#9675;
+                        {{/ifCond}}
+                        <span></span>
+                    </label>
+                    <label>
+                        {{#ifCond this.sphere.level '>=' 2}}
+                            &#9673;
+                        {{else}}
+                            &#9675;
+                        {{/ifCond}}
+                        <span></span>
+                    </label>
+                    <label>
+                        {{#ifCond this.sphere.level '>=' 3}}
+                            &#9673;
+                        {{else}}
+                            &#9675;
+                        {{/ifCond}}
+                        <span></span>
+                    </label>
+                    <label>
+                        {{#ifCond this.sphere.level '>=' 4}}
+                            &#9673;
+                        {{else}}
+                            &#9675;
+                        {{/ifCond}}
+                        <span></span>
+                    </label>
+                    <label>
+                        {{#ifCond this.sphere.level '>=' 5}}
+                            &#9673;
+                        {{else}}
+                            &#9675;
+                        {{/ifCond}}
+                        <span></span>
+                    </label>
+                </div>
+            </div>
+            {{/each}}
+        </div>
+    {{/if}}
+
+    {{#if data.magickAdvantages.mundaneBackgrounds}}
+        <h1 class='header'>Trasfondos mundanos</h1>
+        <div class="sheet-mini-spheres">
+            {{#each data.magickAdvantages.mundaneBackgrounds}}
+                <div>
+                    <span class='extra-info' data-info="{{this.notes}}" data-pageref="{{this.pageref}}">{{this.name}}</span>
+                </div>
+            {{/each}}
+        </div>
+    {{/if}}
+
+    <h1 class='header'>Información del vampiro</h1>
+    {{#if data.vampirePowers.generation}}
+        <div class="pad">
+            <span class='extra-info' data-info="{{data.vampirePowers.generation.contains.00000.notes}}" data-pageref="{{data.vampirePowers.generation.contains.00000.pageref}}">Generación: </span> {{data.vampirePowers.generation.contains.00000.name}}
+        </div>
+    {{/if}}
+
+    {{#if data.attributes.BPY}}
+        <div class="pad">
+            <span  class='extra-info'  data-info="La potencia de la sangre describe el grado de poder que la Vitae vampírica confiere a un personaje. Los vampiros de pura sangre comienzan su vida con un nivel de Potencia de Sangre que depende de su Generación, y puede (normalmente) aumentarla con la edad, la experiencia y la diablura. Su nivel mínimo y máximo de Potencia de Sangre también está limitado por la Generación. A medida que la Potencia de la Sangre aumenta, también lo hace la dificultad relativa de la vida de un vampiro. En el nivel dos de Potencia de Sangre, un
+vampiro sólo puede saciar medio punto de hambre bebiendo de animales o bolsas de sangre. En el nivel tres, no podrán saciar el hambre; en los niveles superiores, se hace cada vez más difícil saciar el hambre de un humano, y finalmente  Finalmente, será imposible reducir su hambre por debajo de un punto determinado sin drenar y matar a sus víctimas.
+Por cada cien años que un vampiro permanece activo, gana un nivel de Potencia de Sangre. Por cada cincuenta años que pase en en Torpor, el vampiro pierde un nivel. Por ello, los ancianos suelen caer en un sueño voluntario para aliviar sus restricciones de alimentación. También hay límites a la potencia de la sangre basados en la generación, un vampiro de sangre delgada nunca puede un vampiro de sangre fina nunca puede tener sangre potente, pero un anciano de 9ª generación siempre tiene al menos 2 niveles. Los requisitos mínimos de potencia de sangre vienen automáticamente con la ventaja de Generación, si alguien toma la 9ª generación, automáticamente tiene Sangre Potencia a nivel 2
+
+Generation      Min. BP     Max.BP
+4th             5           10
+5th             4           9
+6th             4           8
+7th             3           7
+8th             3           6
+9th             2           5
+10th-11th       1           4
+12th-13th       0           3
+14th-16th       0           0
+
+Los vampiros de sangre fina no tienen ninguna potencia de sangre, y deben diablerizar a un vampiro de 13ª generación o inferior con sangre potente para obtenerla. No obtienen ningún otro beneficio de la Sangre de este modo, salvo la ligera capacidad para aumentarla.
+
+Al diablerizar vampiros con sangre potente tu nueva potencia es la media de tus dos potencias de sangre (redondeada hacia arriba). Así, un vampiro con Potencia de Sangre 1 está cometiendo diablerie sobre un vampiro con Potencia de Sangre 4 su nueva potencia de sangre será de 3 (1+4/2=2,5≈3).
+
+Las ventajas de tener sangre potente vienen cuando un vampiro necesita gastar sangre para curarse, aumentar la TS o cualquier habilidad mediante una oleada de sangre,
+aumentando su fatiga y también potencia el nivel y la fuerza de sus disciplinas de aumento disciplinas.
+
+Un Vampiro con Potencia de Sangre 2 puede utilizar la Sobrecarga de Sangre para aumentar su TS en 1 extra por punto de sangre gastado (3 TS en total) o un 1 extra a cualquier tirada de habilidad (+3 a cualquier habilidad). Se curan 2 HP adicionales por cada punto de sangre gastado y así obtienen 4HP de vuelta. El bono de disciplina de Aumento cuenta para la Celeridad, la Potencia y la Fortaleza, aumentando su nivel lo que significa que un vampiro con Potencia de sangre 2 y Celeridad 3 puede utilizar la Celeridad como en el nivel 4 (gastando Fatiga aún como en el caso de la Celeridad 3) y multiplicando los efectos por x1,5, el Movimiento de 6 a 9, 3 ataques en lugar de 2 y durando 1 hora más, durante 3 horas. Además, el vampiro obtendría el modificador x1,5 para la Fatiga también, haciéndolo más vigoroso. Siempre hay que redondear los números después de usar los multiplicadores.
+">Potencia de sangre: {{data.attributes.BPY.value}}</span>
+        </div>
+    {{/if}}
+
+    {{#if data.attributes.BPTRN}}
+        <div class="pad">
+            <span>Puntos de sangre por turno: {{data.attributes.BPTRN.value}}</span>
+        </div>
+    {{/if}}
+
+
+    {{#if data.vampirePowers.humanity}}
+        <div class="pad">
+            <span class='extra-info' data-info="{{data.vampirePowers.humanity.contains.00000.notes}}" data-pageref="{{data.vampirePowers.humanity.contains.00000.pageref}}">Humanidad: {{data.attributes.HUM.value}}</span>
+        </div>
+    {{/if}}
+
+    {{#if data.vampirePowers.disciplines }}
+        <h1 class='header'>Disciplinas</h1>
+        <div>
+            {{# each data.vampirePowers.disciplines }}
+                <div class="pad">
+                    <span class='extra-info' data-info="{{this.notes}}" data-pageref="{{this.pageref}}">{{this.name}}</span>
+                </div>
+            {{/each}}
+        </div>
+    {{/if}}
+
+    {{#if data.vampirePowers.genericAdvantagesAndDisadvantages}}
+        <h1 class='header'>Poderes vampíricos generales</h1>
+        <div class="sheet-mini-spheres">
+            {{#each data.vampirePowers.genericAdvantagesAndDisadvantages}}
+                <div>
+                    <span class='extra-info' data-info="{{this.notes}}" data-pageref="{{this.pageref}}">{{this.name}}</span>
+                </div>
+            {{/each}}
+        </div>
+    {{/if}}
+
+</div>

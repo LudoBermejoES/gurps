@@ -1100,10 +1100,24 @@ body {
   grid-template:
     'attributes      aspects-mini   magic-mini    recipees-mini'
     'attributes      hp-fp          magic-mini    recipees-mini'
-    'attributes      pool-ascension magic-mini  recipees-mini';
+    'attributes      pool-ascension magic-mini  recipees-mini'
+    'attributes      languages-mini magic-mini  recipees-mini';
   grid-template-columns: 0fr 1fr 1fr 1fr;
   grid-gap: var(--sectiongap);
 }
+
+#stats-vampire-masquerade {
+  grid-area: stats;
+  display: grid;
+  grid-template:
+    'attributes      aspects-mini     vampire-powers-mini    disciplines-mini'
+    'attributes      hp-fp            vampire-powers-mini    disciplines-mini'
+    'attributes      pool-vampire     vampire-powers-mini      disciplines-mini'
+    'attributes      languages-mini   vampire-powers-mini    disciplines-mini';
+  grid-template-columns: 0fr 1fr 1fr 1fr;
+  grid-gap: var(--sectiongap);
+}
+
 
 #stats-erebo {
   grid-area: stats-erebo;

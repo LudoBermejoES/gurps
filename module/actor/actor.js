@@ -1065,6 +1065,12 @@ export class GurpsActor extends Actor {
       data.QP = {}
     }
 
+    if(!att.HUM) {
+      att.HUM = {};
+      att.BPY = {};
+      att.BPTRN = {};
+    }
+
     if (!att.AR) {
       // upgrade older actors to include AR and DP
       att.AR = {}
@@ -1079,6 +1085,10 @@ export class GurpsActor extends Actor {
       data.VOL = {};
       data.QE = {};
       data.PX = {};
+    }
+
+    if(!data.BPTS) {
+      data.BPTS = {};
     }
 
     att.ST.import = atts.find(e => e.attr_id === 'st')?.calc?.value || 0
@@ -1098,6 +1108,13 @@ export class GurpsActor extends Actor {
     att.AR.import = atts.find(e => e.attr_id === 'ar')?.calc?.value || 0
     att.AR.points = atts.find(e => e.attr_id === 'ar')?.calc?.points || 0
 
+    att.BPY.import = atts.find(e => e.attr_id === 'bpy')?.calc?.value || 0
+    att.BPY.points = atts.find(e => e.attr_id === 'bpy')?.calc?.points || 0
+    att.BPTRN.import = atts.find(e => e.attr_id === 'bptrn')?.calc?.value || 0
+    att.BPTRN.points = atts.find(e => e.attr_id === 'bptrn')?.calc?.points || 0
+    att.HUM.import = atts.find(e => e.attr_id === 'hum')?.calc?.value || 0
+    att.HUM.points = atts.find(e => e.attr_id === 'hum')?.calc?.points || 0
+
     data.HP.max = atts.find(e => e.attr_id === 'hp')?.calc?.value || 0
     data.HP.points = atts.find(e => e.attr_id === 'hp')?.calc?.points || 0
     data.FP.max = atts.find(e => e.attr_id === 'fp')?.calc?.value || 0
@@ -1107,6 +1124,9 @@ export class GurpsActor extends Actor {
 
     data.DP.max = atts.find(e => e.attr_id === 'dp')?.calc?.value || 0
     data.DP.points = atts.find(e => e.attr_id === 'dp')?.calc?.points || 0
+
+    data.BPTS.max = atts.find(e => e.attr_id === 'bpts')?.calc?.value || 0
+    data.BPTS.points = atts.find(e => e.attr_id === 'bpts')?.calc?.points || 0
 
     data.VOL.max = atts.find(e => e.attr_id === 'vol')?.calc?.value || 0
     data.VOL.points = atts.find(e => e.attr_id === 'vol')?.calc?.points || 0
@@ -1122,11 +1142,12 @@ export class GurpsActor extends Actor {
     let vol = atts.find(e => e.attr_id === 'vol')?.calc?.current || 0
     let px = atts.find(e => e.attr_id === 'px')?.calc?.current || 0
     let qe = atts.find(e => e.attr_id === 'qe')?.calc?.current || 0
+    let bpts = atts.find(e => e.attr_id === 'bpts')?.calc?.current || 0
 
 
     let saveCurrent = false
 
-    if (!!data.lastImport && (data.HP.value != hp || data.FP.value != fp || data.DP.value != dp || data.VOL.value != vol)) {
+    if (!!data.lastImport && (data.HP.value != hp || data.FP.value != fp || data.DP.value != dp || data.VOL.value != vol || data.BPTS.value != bpts)) {
       let option = game.settings.get(settings.SYSTEM_NAME, settings.SETTING_IMPORT_HP_FP)
       if (option == 0) {
         saveCurrent = true
@@ -1162,8 +1183,8 @@ export class GurpsActor extends Actor {
       data.VOL.value = vol
       data.PX.value = px
       data.QE.value = qe
+      data.BPTS.value = bpts
     }
-    debugger;
     data.QP.value = qp
 
     let bl_value = parseFloat(calc?.basic_lift.match(/[\d\.]+/g))
@@ -1230,7 +1251,6 @@ export class GurpsActor extends Actor {
       'data.basicspeed': data.basicspeed,
       'data.thrust': data.thrust,
       'data.swing': data.swing,
-      'data.currentmove': data.currentmove,
       'data.frightcheck': data.frightcheck,
       'data.hearing': data.hearing,
       'data.tastesmell': data.tastesmell,

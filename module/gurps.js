@@ -181,6 +181,8 @@ if (!globalThis.GURPS) {
     PER: 'attributes.PER.value',
     Per: 'attributes.PER.value',
     AR: 'attributes.AR.value',
+    BPY: 'attributes.BPY.value',
+    BPTRN: 'attributes.BPTRN.value',
   }
 
   // Map stuff back to translation keys... don't know if useful yet
@@ -193,6 +195,8 @@ if (!globalThis.GURPS) {
     Will: 'GURPS.attributesWILL',
     Per: 'GURPS.attributesPER',
     AR: 'GURPS.attributesAR',
+    BPY: 'GURPS.attributesBPY',
+    BPTRN: 'GURPS.attributesBPTRN',
   }
 
   GURPS.attributeNames = {
@@ -204,6 +208,9 @@ if (!globalThis.GURPS) {
     Will: 'GURPS.attributesWILLNAME',
     Per: 'GURPS.attributesPERNAME',
     AR: 'GURPS.attributesARNAME',
+    BPY: 'GURPS.attributesBPYNAME',
+    BPTRN: 'GURPS.attributesBPTRNNAME',
+
   }
 
   GURPS.skillTypes = {
@@ -501,6 +508,7 @@ GURPS.PARSELINK_MAPPINGS = {
      */
     modifier({ action }) {
       GURPS.ModifierBucket.addModifier(action.mod, action.desc)
+      if (!!action.costs) GURPS.ModifierBucket.addModifier(0, action.costs)
       if (action.next && action.next.type === 'modifier') {
         return this.modifier({ action: action.next }) // recursion, but you need to wrap the next action in an object using the 'action' attribute
       }

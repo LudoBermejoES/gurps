@@ -3,8 +3,11 @@ const MAGIC_CONTAINER_NAME = "Magia verdadera";
 const ARETE = "Arete";
 const AVATAR = "Avatar";
 const AWARENESS = "Consciencia";
+const MUNDANE_BACKGROUND_CONTAINER = 'Trasfondos mundanos';
+const SUPERNATURAL_BACKGROUND_CONTAINER = 'Trasfondos sobrenaturales';
 const SPHERES_CONTAINER = 'Esferas';
 const SPHERES = ['Cardinal', 'Correspondencia', 'Materia', 'Vida', 'Tiempo', 'Entropía', 'Espíritu', 'Fuerzas', 'Mente'];
+
 const ARCANE = "Arcano";
 const PARADIGM = "Paradigma";
 const PRACTIQUE = "Práctica";
@@ -97,6 +100,21 @@ function getMagicalSkills(skills) {
   })
   return spheres;
 }
+function getMundaneBackgrounds(ads) {
+  const container = getContainerByKey(ads, MUNDANE_BACKGROUND_CONTAINER);
+  if(!container) return [];
+  const object = getContents(container);
+  if(!object) return [];
+  return  Object.keys(object).map((key) => object[key]);
+}
+
+function getSupernaturalBackgrounds(ads) {
+  const container = getContainerByKey(ads, SUPERNATURAL_BACKGROUND_CONTAINER);
+  if(!container) return [];
+  const object = getContents(container);
+  if(!object) return [];
+  return  Object.keys(object).map((key) => object[key]);
+}
 
 function getMagicalAdvantages(ads) {
   const container = getContents((getContainerByKey(ads, MAGIC_CONTAINER_NAME) || { contains: {} }));
@@ -105,6 +123,8 @@ function getMagicalAdvantages(ads) {
     awareness: getAwareness(container),
     arcane: getArcane(container),
     arete: getArete(container),
+    mundaneBackgrounds: getMundaneBackgrounds(container),
+    supernaturalBackgrounds: getSupernaturalBackgrounds(container),
     paradigm: getParadigm(container),
     practique: getPractique(container),
     spheres: getAdsSpheres(container),
