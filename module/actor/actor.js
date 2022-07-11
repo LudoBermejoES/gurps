@@ -342,6 +342,7 @@ export class GurpsActor extends Actor {
     /** @type {string[]} */
     let gids = [] //only allow each global bonus to add once
     const data = this.getGurpsActorData()
+
     for (const item of this.items.contents) {
       let itemData = GurpsItem.asGurpsItem(item).getGurpsItemData()
       if (itemData.equipped && itemData.carried && !!itemData.bonuses && !gids.includes(itemData.globalid)) {
@@ -403,7 +404,10 @@ export class GurpsActor extends Actor {
                 if (e.relativelevel?.toUpperCase().startsWith(link.action.attrkey)) e.level += pi(link.action.mod)
               }
               if (link.action.type == 'skill-spell' && !link.action.isSpellOnly) {
-                if (e.name.match(makeRegexPatternFrom(link.action.name, false))) e.level += pi(link.action.mod)
+                if (e.name.match(makeRegexPatternFrom(link.action.name, false))) {
+                  e.level += pi(link.action.mod)
+                  console.log("Cambio " + link.action.name + " con " + e.level)
+                }
               }
             }) // end skills
             recurselist(data.spells, (e, k, d) => {
@@ -415,7 +419,7 @@ export class GurpsActor extends Actor {
               if (link.action.type == 'skill-spell' && !link.action.isSkillOnly) {
                 if (e.name.match(makeRegexPatternFrom(link.action.name, false))) e.level += pi(link.action.mod)
               }
-            }) // end spells
+            }) // end spellsw
             if (link.action.type == 'attribute') {
               let paths = link.action.path.split('.')
               let last = paths.pop()
@@ -424,9 +428,19 @@ export class GurpsActor extends Actor {
               // regular attributes have a path
               else {
                 // only accept DODGE
-                if (link.action.attrkey != 'DODGE') break
+                if (!['DODGE', 'MOVE'].includes(link.action.attrkey)) break
               }
-              data[last] = pi(data[last]) + pi(link.action.mod) // enforce that attribute is int
+
+              let value;
+              if(typeof(data[last]) === "string") {
+                value = String(pi(data[last]) + pi(link.action.mod));
+              } else {
+                value = pi(data[last]) + pi(link.action.mod) // enforce that attribute is int
+              }
+              data[last] = value;
+
+
+
             } // end attributes & Dodge
           } // end OTF
 
@@ -515,6 +529,7 @@ export class GurpsActor extends Actor {
 
   _calculateEncumbranceIssues() {
     const data = this.getGurpsActorData()
+
     const encs = data.encumbrance
     const isReeling = !!data.conditions.reeling
     const isTired = !!data.conditions.exhausted
@@ -522,7 +537,7 @@ export class GurpsActor extends Actor {
     // We must assume that the first level of encumbrance has the finally calculated move and dodge settings
     if (!!encs) {
       const level0 = encs[zeroFill(0)] // if there are encumbrances, there will always be a level0
-      let effectiveMove = parseInt(level0.move)
+      let effectiveMove = parseInt(!this._isEnhancedMove() ? level0.move : this._getEnhancedMove());
       let effectiveDodge = isNaN(parseInt(level0.dodge)) ? '–' : parseInt(level0.dodge) + data.currentdodge
       let effectiveSprint = this._getSprintMove()
 
@@ -569,10 +584,14 @@ export class GurpsActor extends Actor {
     return !!this._getCurrentMoveMode()?.enhanced
   }
 
+  _getEnhancedMove() {
+    return this._getCurrentMoveMode()?.enhanced
+  }
+
   _getSprintMove() {
     let current = this._getCurrentMoveMode()
     if (!current) return 0
-    if (current?.enhanced) return current.enhanced
+    if (current?.enhanced) return current.enhanced * 1.2
     return Math.floor(current.basic * 1.2)
   }
 

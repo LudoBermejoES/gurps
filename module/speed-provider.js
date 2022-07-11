@@ -15,7 +15,6 @@ export const init = function () {
        */
       getRanges(token) {
         const actordata = token.actor.data.data
-
         const ranges = [
           { range: actordata.currentmove, color: 'walk' },
           { range: actordata.currentsprint, color: 'sprint' },

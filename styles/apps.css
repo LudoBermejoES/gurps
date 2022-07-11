@@ -776,7 +776,7 @@ ul#result-effects li {
 #spells .tooltiptext.gga-manual > img,
 .equipmentlist .tooltiptext.gga-manual > img {
     border: none;
-    max-height: 100px;
+    max-height: 500px !important;
 }
 
 .fieldblock3 .tooltip-wrapper {
@@ -851,8 +851,8 @@ ul#result-effects li {
     border: 1px solid black;
 }
 
-#vampire-powers-mini {
-    grid-area: vampire-power-mini;
+#vampire-mini {
+    grid-area: vampire-mini;
     font-size: 11px;
     border: 1px solid black;
 }
@@ -903,7 +903,7 @@ ul#result-effects li {
 
 #pool-vampire .pool {
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-columns: 1fr 1fr;
     grid-gap: 0.05in;
     padding: 8px;
 }

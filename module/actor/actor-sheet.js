@@ -94,7 +94,7 @@ export class GurpsActorSheet extends ActorSheet {
     sheetData.data.combatTechniques = getTechniques(sheetData.data.skills);
 
     sheetData.data.vampirePowers = getVampiricPowers(sheetData.data.ads);
-    sheetData.data.vampireSkills = getDisciplinesSkills(sheetData.data.skills);
+    sheetData.data.vampireDisciplines = getDisciplinesSkills(sheetData.data.skills);
 
     sheetData.ranges = GURPS.rangeObject.ranges
     sheetData.useCI = GURPS.ConditionalInjury.isInUse()
@@ -107,7 +107,6 @@ export class GurpsActorSheet extends ActorSheet {
     sheetData.effects = this.actor.getEmbeddedCollection('ActiveEffect').contents
     sheetData.useQN = game.settings.get(settings.SYSTEM_NAME, settings.SETTING_USE_QUINTESSENCE)
 
-    console.log(sheetData.data.attributes);
     return sheetData
   }
 
@@ -182,7 +181,6 @@ export class GurpsActorSheet extends ActorSheet {
     this.makelistdrag(html, '.notedraggable', 'note')
     this.makelistdrag(html, '.meleedraggable', 'melee')
     this.makelistdrag(html, '.rangeddraggable', 'ranged')
-
 
     html.find('.extra-info').click((evt) => {
       const t = evt.target;
@@ -652,7 +650,6 @@ export class GurpsActorSheet extends ActorSheet {
             GURPS.executeOTF('["+2 a magia por quintaesencia" +2 magia por quintaesencia]');
             chatData.content = `${this.actor.data.name} usa Quintaesencia para ganar un +2 a la próxima tirada de magia`;
           }
-          debugger;
           ChatMessage.create(chatData, {});
         }
       }

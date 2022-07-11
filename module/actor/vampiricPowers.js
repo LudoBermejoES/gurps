@@ -27,7 +27,6 @@ function getDisciplines(ads) {
   const disciplinesContainer = getContainerByKey(ads, DISCIPLINES_CONTAINER);
   if(!disciplinesContainer) return [];
 
-  debugger;
   Object.keys(disciplinesContainer.contains).forEach((key) => {
     const discipline = disciplinesContainer.contains[key];
     if(discipline) disciplines.push(discipline);
@@ -39,12 +38,12 @@ function getDisciplinesSkills(skills) {
   const disciplines = new Array();
   const disciplinesContainer = getContainerByKey(skills, DISCIPLINES_CONTAINER);
   if(!disciplinesContainer) return [];
-  disciplines.forEach((discipline) => {
-    const disciplineFound = getContainerByKey(getContents(disciplinesContainer), discipline);
+  Object.keys(disciplinesContainer.contains).forEach((id) => {
+    const disciplineFound = disciplinesContainer.contains[id]
     if(disciplineFound) {
-      const disciplineContainer = { name: discipline.name, skills: [] };
-      disciplineContainer.contains.forEach((skillDiscipline) => discipline.skills.push(skillDiscipline) )
-      disciplines.push(disciplineFound);
+      const discipline = { name: disciplineFound.name, skills: [] };
+      Object.keys(disciplineFound.contains).forEach((skillDiscipline) => discipline.skills.push(disciplineFound.contains[skillDiscipline]) )
+      disciplines.push(discipline);
     }
   })
   return disciplines;

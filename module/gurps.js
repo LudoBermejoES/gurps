@@ -264,6 +264,7 @@ GURPS.PARSELINK_MAPPINGS = {
   SMELL: 'tastesmell',
   TOUCH: 'touch',
   DODGE: 'currentdodge',
+  MOVE: 'move.00000.enhanced',
   Parry: 'equippedparry',
   PARRY: 'equippedparry',
   BLOCK: 'equippedblock',

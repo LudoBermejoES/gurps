@@ -58,10 +58,10 @@ export default class GurpsActiveEffect extends ActiveEffect {
    * @param {*} _userId
    */
   static async _create(effect, _data, _userId) {
-    if (effect.getFlag('gurps', 'requiresConfig') === true) {
+    //if (effect.getFlag('gurps', 'requiresConfig') === true) {
       let dialog = new ActiveEffectConfig(effect)
       await dialog.render(true)
-    }
+    //}
   }
 
   /**

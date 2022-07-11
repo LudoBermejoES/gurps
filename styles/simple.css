@@ -1110,10 +1110,10 @@ body {
   grid-area: stats;
   display: grid;
   grid-template:
-    'attributes      aspects-mini     vampire-powers-mini    disciplines-mini'
-    'attributes      hp-fp            vampire-powers-mini    disciplines-mini'
-    'attributes      pool-vampire     vampire-powers-mini      disciplines-mini'
-    'attributes      languages-mini   vampire-powers-mini    disciplines-mini';
+    'attributes      aspects-mini     vampire-mini    disciplines-mini'
+    'attributes      hp-fp            vampire-mini    disciplines-mini'
+    'attributes      pool-vampire     vampire-mini    disciplines-mini'
+    'attributes      languages-mini   vampire-mini    disciplines-mini';
   grid-template-columns: 0fr 1fr 1fr 1fr;
   grid-gap: var(--sectiongap);
 }

@@ -1,27 +1,14 @@
 <div id='disciplines-mini' class="disciplines-mini">
-        {{#if data.magickRecipees}}
-            <h1 class='header'>Recetas</h1>
+        {{#if data.vampireDisciplines}}
+            <h1 class='header'>Disciplinas</h1>
             <div class="pad">
-            {{#each data.magickRecipees}}
-                <div>
-                    <label>
-                        <div style="margin-bottom: 4px"><span class='extra-info' data-info="{{this.notes}}">{{this.name}}</span> <span class='rsl {{rollable this.level}}' data-otf='Sk:"{{this.name}}"'>({{this.level}})</div>
-                    </label>
-                </div>
+            {{#each data.vampireDisciplines}}
+                <h3 style="margin-bottom: 4px"><span class='extra-info' data-info="{{this.notes}}">{{this.name}}</span></h3>
+                    {{#each this.skills}}
+                            <div class="pad" style="margin-left: 10px"><span class='extra-info' data-info="{{this.notes}}">{{this.name}}</span> <span class='rsl {{rollable this.level}}' data-otf='Sk:"{{this.name}}"'>({{this.level}})</div>
+                    {{/each}}
             {{/each}}
             </div>
         {{/if}}
 
-        {{#if data.combatTechniques}}
-            <h1 class='header'>Técnicas de combate</h1>
-            <div class="pad">
-            {{#each data.combatTechniques}}
-                <div>
-                    <label>
-                        <div style="margin-bottom: 4px"><span class='extra-info' data-info="{{this.notes}}">{{this.name}}</span> <span class='rsl {{rollable this.level}}' data-otf='Sk:"{{this.name}}"'>({{this.level}})</div>
-                    </label>
-                </div>
-            {{/each}}
-            </div>
-        {{/if}}
 </div>
