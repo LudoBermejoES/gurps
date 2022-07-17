@@ -1,225 +1,84 @@
-<link href="https://fonts.googleapis.com/css2?family=Merienda&display=swap" rel="stylesheet">
-<form class="{{cssClass}}" erebo-sheet autocomplete="off">
-    <div class='gga-app {{classes}} erebo-sheet'>
-        <div class="erebo-sheet-grid-container-ci">
-            <div class="erebo-input-top">
-                <div class="erebo-input-nm erebo-input-label">{{i18n "GURPS.identityName"}}:</div>
-                <div class="erebo-input-nm-val erebo-sheet-label">{{{gurpslink actor.name}}}</div>
-                <div class="erebo-input-title erebo-input-label">{{i18n "GURPS.identityTitle"}}:</div>
-                <div class="erebo-input-title-val erebo-sheet-label">{{{gurpslink data.traits.title}}}</div>
-                <div class="erebo-input-desc erebo-input-label">Desc:</div>
-                <div class="erebo-input-desc-val erebo-sheet-label">{{{gurpslink data.traits.appearance}}}</div>
-            </div>
-            <div class="erebo-input-attr gurps">
-                <div class="erebo-input-st erebo-input-labelr">{{i18n "GURPS.attributesST"}}</div>
-                <div class="erebo-input-st-val rollable erebo-sheet-centered" data-path="attributes.ST.value" data-otf='ST'>
-                    {{data.attributes.ST.value}}
-                </div>
-                <div class="erebo-input-dx erebo-input-labelr">{{i18n "GURPS.attributesDX"}}</div>
-                <div class="erebo-input-dx-val rollable erebo-sheet-centered" data-path="attributes.DX.value" data-otf='DX'>
-                    {{data.attributes.DX.value}}
-                </div>
-                <div class="erebo-input-iq erebo-input-labelr">{{i18n "GURPS.attributesIQ"}}</div>
-                <div class="erebo-input-iq-val rollable erebo-sheet-centered" data-path="attributes.IQ.value" data-otf='IQ'>
-                    {{data.attributes.IQ.value}}
-                </div>
-                <div class="erebo-input-ht erebo-input-labelr">{{i18n "GURPS.attributesHT"}}</div>
-                <div class="erebo-input-ht-val rollable erebo-sheet-centered" data-path="attributes.HT.value" data-otf='HT'>
-                    {{data.attributes.HT.value}}
-                </div>
-                <div class="erebo-input-dmg erebo-input-labelr">Dmg</div>
-                <div class="erebo-input-dmg-val rollable erebo-sheet-centered" data-path="swing" data-damage
-                     data-otf='{{data.swing}} dmg'>{{data.swing}}</div>
-                <div class=" erebo-input-hp erebo-input-labelr">{{i18n "GURPS.HP"}}</div>
-                <div class="erebo-input-hp-val condition-block"><input class="erebo-input-2 {{hpCondition data.HP "style"}}"
-                                                                     name="data.HP.value" type="text" value="{{data.HP.value}}" data-dtype="Number" /></div>
-                <div class="erebo-input-will erebo-input-labelr">{{i18n "GURPS.attributesWILL"}}</div>
-                <div class="erebo-input-will-val rollable erebo-sheet-centered" data-path="attributes.WILL.value" data-otf='WILL'>
-                    {{data.attributes.WILL.value}}
-                </div>
-                <div class="erebo-input-per erebo-input-labelr">{{i18n "GURPS.attributesPER"}}</div>
-                <div class="erebo-input-per-val rollable erebo-sheet-centered" data-path="attributes.PER.value" data-otf='PER'>
-                    {{data.attributes.PER.value}}
-                </div>
-                <div class="erebo-input-fp erebo-input-labelr">{{i18n "GURPS.FP"}}</div>
-                <div class="erebo-input-fp-val condition-block"><input class="erebo-input-2 {{fpCondition data.FP "style"}}"
-                                                                     name="data.FP.value" type="text" value="{{data.FP.value}}" data-dtype="Number" /></div>
-                <div class="erebo-input-dodge erebo-input-labelr">{{i18n "GURPS.dodge"}}</div>
-                <div class="erebo-input-dodge-val rollable erebo-sheet-centered" data-path="dodge" data-otf='Dodge'>
-                    {{data.currentdodge}}
-                </div>
-                <div class="erebo-input-parry erebo-input-labelr">{{i18n "GURPS.parry"}}</div>
-                <div class="erebo-input-parry-val rollable erebo-sheet-centered" data-path="parry" data-otf='Parry'>
-                    {{this.parryblock}}
-                </div>
-                <div class="erebo-input-spd erebo-input-labelr">{{i18n "GURPS.speed"}}</div>
-                <div class="erebo-input-spd-val erebo-sheet-centered">{{data.basicspeed.value}}</div>
-                <div class="erebo-input-mov erebo-input-labelr">{{i18n "GURPS.move"}}</div>
-                <div class="erebo-input-mov-val erebo-sheet-centered">{{data.currentmove}}</div>
-                <div class="erebo-input-sm erebo-input-labelr">SM</div>
-                <div class="erebo-input-sm-val erebo-sheet-centered gmod" data-name="for Size Modifier" data-otf='{{data.traits.sizemod}} for Size Modifier'>{{{displayNumber data.traits.sizemod}}}</div>
-                <div class="erebo-input-dr erebo-input-labelr">AR</div>
-                <div class="erebo-input-ar-val rollable erebo-sheet-centered" data-path="attributes.AR.value" data-otf='AR'>
-                    {{data.attributes.AR.value}}
-                </div>
-            </div>
-
-            <div class="erebo-input-aspects">
-                <div class="erebo-input-aspects" style='--of:auto'>
-                    <div class="erebo-header">Aspectos</div>
-                    {{#if data.aspects}}
-                        <ul>
-                        {{#each data.aspects}}
-                            <li>
-                                {{this.name}}
-                            </li>
-                        {{/each}}
-                        </ul>
-                    {{/if}}
-                    <div class="erebo-container-DP">
-                        <label>Puntos de destino</label>
-                        <input class="erebo-input-DP" name="data.DP.value" type="text" value="{{data.DP.value}}" data-dtype="Number" />
-                    </div>
-
-                </div>
-            </div>
-
-
-            {{> portrait }}
-
-            <div class="erebo-input-traits">
-                <div class="erebo-input-tr dblclksort erebo-header" data-key="data.ads">Ventajas y desventajas</div>
-                <div class="erebo-input-tr-val">
-                    {{#listeqt data.ads}}
-                        <div class='erebo-trait-row adsdraggable desc' data-key="data.ads.{{@key}}">
-                            <div>
-                                <div class="dblclkedit">{{{gurpslink this.name}}}
-                                    <div class="list_note">{{{gurpslinkbr this.notes}}}</div>
-                                </div>
-                            </div>
-                        </div>
-                    {{/listeqt}}
-                </div>
-            </div>
-            <div class="erebo-input-skills">
-                <div class="erebo-input-sk dblclksort erebo-header" data-key="data.skills">Habilidades</div>
-                <div class="erebo-sheet-sk-val">
-                    {{#listeqt data.skills}}
-                        <div class='erebo-trait-row skldraggable desc' data-key="data.skills.{{@key}}">
-                            <div>
-                                <div class="dblclkedit">{{{gurpslink this.name}}}
-                                    <div class="list_note">{{{gurpslinkbr this.notes @root}}}</div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="sl rollable erebo-sheet-centered" data-name="{{this.name}}"
-                             data-key="data.skills.{{@key}}" data-otf='S:"{{this.name}}"'>{{this.level}}</div>
-                        <div></div>
-                    {{/listeqt}}
-                </div>
-            </div>
-            <div class="erebo-input-melee">
-                <div class="erebo-input-me desc erebo-header">{{i18n "GURPS.melee"}}</div>
-                <div class="erebo-sheet-me-val">
-                    {{#listattack data "melee"}}
-                        <div class='erebo-trait-row meleedraggable desc' data-key='data.melee.{{@key}}'>
-                            <div>
-                                <div class='dblclickedit'>{{{gurpslink this.name}}} {{#if (truthy mode)}}({{mode}}){{/if}}
-                                    <div class="list_note">{{{gurpslink this.notes}}}</div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class='rollable'  data-name="{{this.name}} ({{this.mode}})" data-otf='{{quotedAttackName 'EQ' this}}' data-key="data.melee.{{@key}}">Equipar</div>
-
-                        <div class="level rollable" data-name="{{this.name}} ({{this.mode}})" data-key="data.melee.{{@key}}"
-                             data-otf='{{quotedAttackName 'M' this}}'>{{this.level}}</div>
-                        <div class="damage rollable" data-damage data-otf='{{this.damage}}'>{{this.damage}}</div>
-                    {{/listattack}}
-                </div>
-            </div>
-            <div class="erebo-input-ranged">
-                <div class="erebo-input-ra desc erebo-header">A distancia</div>
-                <div class="erebo-sheet-ra-val">
-                    {{#listattack data "ranged"}}
-                        <div class='erebo-trait-row rangeddraggable desc' data-key="data.ranged.{{@key}}">
-                            <div>
-                                <div class="dblclkedit">{{{gurpslink this.name}}} {{#if (truthy mode)}}({{mode}}){{/if}}
-                                    {{#if this.rof}} &bullet; (RoF:{{this.rof}}){{/if}}{{#if this.rcl}} Rcl:{{this.rcl}}{{/if}}
-                                    <div class="list_note">{{{gurpslink this.notes}}}</div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class='rollable'  data-name="{{this.name}} ({{this.mode}})" data-otf='{{quotedAttackName 'EQ' this}}' data-key="data.melee.{{@key}}">Equipar</div>
-
-                        <div class="level rollable" data-name="{{this.name}} ({{this.mode}})" data-key="data.ranged.{{@key}}"
-                             data-otf='{{quotedAttackName 'R' this}}'>{{this.level}}</div>
-                        <div class="acc {{gmod this.acc}}" data-name='Acc for {{this.name}}'>
-                            {{{displayNumber this.acc}}}
-                        </div>
-                        <div class="damage rollable" data-damage data-otf='{{this.damage}}'>{{this.damage}}</div>
-                    {{/listattack}}
-                </div>
-            </div>
-
-            <div class="erebo-input-spells">
-                <div class="erebo-input-sp dblclksort erebo-header" data-key="data.spells">Conjuros</div>
-                <div class="erebo-sheet-sp-val">
-                    {{#listeqt data.spells}}
-                        <div class="desc indent0 spldraggable dblclkedit" data-key="data.spells.{{@key}}">
-                            {{{gurpslink this.name}}}
-                            <div class="list_note spldraggable" data-key="data.spells.{{@key}}">{{{gurpslink this.notes @root}}}
-                            </div>
-                        </div>
-                        <div class="sl rollable erebo-sheet-centered" data-name="{{this.name}}" data-otf='S:"{{this.name}}"'
-                             data-key="data.spells.{{@key}}">
-                            {{this.level}}
-                        </div>
-                        <div></div>
-                    {{/listeqt}}
-                </div>
-            </div>
-
-            <div class="erebo-input-equip">
-                <div class="erebo-input-eqt dblclksort erebo-header">
-                    <div>Equipo</div>
-                    <div style="font-size: 80%; padding-right: 4px;"><i class="fas fa-weight-hanging"></i></div>
-                </div>
-                <div class="erebo-sheet-eqt-val">
-                    {{#listeqt data.equipment.carried }}
-                        <div class="equipped">{{#if this.equipped}}
-                            <i class="fas fa-check-circle"></i>
-                        {{else}}
-                            <i class="far fa-circle gga-inactive"></i>
-                        {{/if}}
-                        </div>
-                        <div class="qty">{{this.count}}</div>
-                        <div class='erebo-trait-row eqtdraggable desc' data-key="data.equipment.carried.{{@key}}">
-                            <div>
-                                <div class="dblclkedit">{{{gurpslink this.name}}}
-                                    <div class="list_note">{{{gurpslink this.notes}}}</div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="sum_cost">${{this.costsum}}</div>
-                        <div class="sum_weight">{{this.weightsum}}</div>
-                    {{/listeqt}}
-                    {{#listeqt data.equipment.other }}
-                        <div class="equipped">
-                            <i class="far fa-circle gga-inactive"></i>
-                        </div>
-                        <div class="qty">{{this.count}}</div>
-                        <div class='erebo-trait-row eqtdraggable desc' data-key="data.equipment.carried.{{@key}}">
-                            <div>
-                                <div class="dblclkedit">{{{gurpslink this.name}}}
-                                    <div class="list_note">{{{gurpslink this.notes}}}</div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="sum_cost">${{this.costsum}}</div>
-                        <div class="sum_weight">{{this.weightsum}}</div>
-                    {{/listeqt}}
-                </div>
-            </div>
+<form class='{{cssClass}}' autocomplete='off' style='scroll-padding-top: 5px;'>
+    <div id='sheet-tab' class='gurpsactorsheet'>
+        <div id='personal-erebo'>
+            {{>portrait}}
+            <div id="name" style="border-bottom: 1px groove #C00;">{{actor.name}}
+                {{#if data.traits.title}}
+                ({{data.traits.title}})
+            {{/if}}</div>
+            {{>aspects-description-erebo}}
+            {{>block-secondary-attributes}}
         </div>
+         {{>block-attributes}}
+        <nav id='nav-tabs' class='gurps-sheet-tabs' data-group='primary-tabs'>
+            <li><a class='tab-item' data-tab='stats-erebo-tabbed'>{{i18n 'GURPS.statsTab'}}</a></li>
+            <li><a class='tab-item' data-tab='combat'>{{i18n 'GURPS.combatTab'}}</a></li>
+            <li><a class='tab-item' data-tab='advantages'>{{i18n 'GURPS.advantagesTab'}}</a></li>
+            <li><a class='tab-item' data-tab='skills'>{{i18n 'GURPS.skillsTab'}}</a></li>
+            {{#if (notEmpty data.spells)}}
+                <li><a class='tab-item' data-tab='spells'>{{i18n 'GURPS.spellsTab'}}</a></li>
+            {{/if}}
+            <li><a class='tab-item' data-tab='equipment'>{{i18n 'GURPS.equipmentTab'}}</a></li>
+        </nav>
+
+        <section class='sheet-body tabbed-sheet'>
+            <div class='tab' data-tab='stats-erebo-tabbed' data-group='primary-tabs'>
+                <div id='stats-erebo-tabbed'>
+                    {{>skills}}
+                    {{>languages-mini}}
+                    {{>encumbrance}}
+                    {{>lifting}}
+                    {{>locations parent=../data}}
+                </div>
+
+                {{#if (or (notEmpty data.reactions) (notEmpty data.conditionalmods))}}
+                    <div id='other' style='display: flex; flex-flow: row nowrap;'>
+                        {{#if (notEmpty data.reactions)}}{{>reactions}}{{/if}}
+                        {{#if (notEmpty data.conditionalmods)}}{{>conditionalmods}}{{/if}}
+                    </div>
+                {{/if}}
+
+                {{#if (notEmpty data.additionalresources.tracker)}}
+                    {{>trackers}}
+                {{/if}}
+
+                {{>notes}}
+            </div>
+
+            <div class='tab' data-tab='combat' data-group='primary-tabs'>
+                <div id='combat-tab'>
+                    {{#if (notEmpty data.melee)}}
+                        {{>melee}}
+                    {{/if}}
+                    {{>speed-range-table}}
+                    {{#if (notEmpty data.ranged)}}
+                        {{>ranged}}
+                    {{/if}}
+                    <div id='combat-sidebar'>
+                        {{>encumbrance}}
+                        {{>quicknote}}
+                        {{>lifting}}
+                    </div>
+                </div>
+            </div>
+
+            <div class='tab' data-tab='advantages' data-group='primary-tabs'>
+                {{>advantages}}
+            </div>
+
+            <div class='tab' data-tab='skills' data-group='primary-tabs'>
+                {{>skills}}
+            </div>
+            {{#if (notEmpty data.spells)}}
+                <div class='tab' data-tab='spells' data-group='primary-tabs'>
+                    {{>spells}}
+                </div>
+            {{/if}}
+            <div class='tab' data-tab='equipment' data-group='primary-tabs'>
+                {{>equipment container='carried' data=this.data}}
+                {{>equipment container='other' data=this.data}}
+            </div>
+        </section>
     </div>
+    {{>footer}}
 </form>

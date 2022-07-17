@@ -4,6 +4,7 @@ import { getMagicalAdvantages, getMagicalSkills, getRecipees } from './magic.js'
 import {getDisciplinesSkills, getVampiricPowers} from './vampiricPowers.js'
 import { getAspects } from './aspects.js'
 import { getLanguages } from './languages.js'
+import { getDescriptions } from './descriptions.js'
 import { HitLocation, hitlocationDictionary } from '../hitlocation/hitlocation.js'
 import { parselink } from '../../lib/parselink.js'
 import * as CI from '../injury/domain/ConditionalInjury.js'
@@ -69,8 +70,10 @@ export class GurpsActorSheet extends ActorSheet {
     const sheetData = super.getData()
     sheetData.olddata = sheetData.data
     sheetData.data = sheetData.data.data
+
     sheetData.data.aspects = getAspects(sheetData.data.ads);
     sheetData.data.languages = getLanguages(sheetData.data.ads);
+    sheetData.data.descriptions = getDescriptions(sheetData.data.ads);
     const magickAdvantages = getMagicalAdvantages(sheetData.data.ads);
     sheetData.data.magickSkills = getMagicalSkills(sheetData.data.skills).map((skill) => {
       const match = magickAdvantages.spheres.filter(sphere => sphere.name.indexOf(skill.name) == 0)
@@ -91,6 +94,11 @@ export class GurpsActorSheet extends ActorSheet {
 
     sheetData.data.magickRecipees = getRecipees(sheetData.data.skills);
     sheetData.data.magickAdvantages = magickAdvantages;
+    if(sheetData.data.attributes.AR) {
+      sheetData.data.DPMax = Math.trunc(sheetData.data.attributes.AR.value / 3);
+    }
+
+
     sheetData.data.combatTechniques = getTechniques(sheetData.data.skills);
 
     sheetData.data.vampirePowers = getVampiricPowers(sheetData.data.ads);
@@ -649,6 +657,10 @@ export class GurpsActorSheet extends ActorSheet {
           if(poolStr == 'QE') {
             GURPS.executeOTF('["+2 a magia por quintaesencia" +2 magia por quintaesencia]');
             chatData.content = `${this.actor.data.name} usa Quintaesencia para ganar un +2 a la próxima tirada de magia`;
+          }
+          if(poolStr == 'DP') {
+            GURPS.executeOTF('["+4 a tirada por punto de destino" +4 tirada por punto de destino]');
+            chatData.content = `${this.actor.data.name} usa un punto de destino para ganar un +4 a la próxima tirada`;
           }
           ChatMessage.create(chatData, {});
         }
@@ -1251,6 +1263,7 @@ export class GurpsActorSheet extends ActorSheet {
   }
 
   async sortAscending(key) {
+    debugger;
     let i = key.lastIndexOf('.')
     let parentpath = key.substring(0, i)
     let objkey = key.substr(i + 1)
@@ -1260,7 +1273,12 @@ export class GurpsActorSheet extends ActorSheet {
     let sortedobj = {}
     let index = 0
     Object.values(object)
-      .sort((a, b) => a.name.localeCompare(b.name))
+        .sort((a, b) => {
+          if(a.alternateName) {
+            return a.alternateName.localeCompare(b.alternateName)
+          }
+          return a.name.localeCompare(b.name)
+        })
       .forEach(o => GURPS.put(sortedobj, o, index++))
     await this.actor.update({ [key]: sortedobj })
   }
@@ -1275,7 +1293,12 @@ export class GurpsActorSheet extends ActorSheet {
     let sortedobj = {}
     let index = 0
     Object.values(object)
-      .sort((a, b) => b.name.localeCompare(a.name))
+      .sort((a, b) => {
+        if(b.alternateName) {
+          return b.alternateName.localeCompare(a.alternateName)
+        }
+        return b.name.localeCompare(a.name)
+      })
       .forEach(o => GURPS.put(sortedobj, o, index++))
     await this.actor.update({ [key]: sortedobj })
   }
@@ -1751,6 +1774,27 @@ export class GurpsActorVampireMasqueradeSheet extends GurpsActorSheet {
 
 
 export class GurpsActorEreboSheet extends GurpsActorSheet {
+  /** @override */
+  static get defaultOptions() {
+    return mergeObject(super.defaultOptions, {
+      classes: ['gurps', 'sheet', 'actor'],
+      width: 860,
+      height: 600,
+      tabs: [{ navSelector: '.gurps-sheet-tabs', contentSelector: '.sheet-body', initial: 'description' }],
+      dragDrop: [{ dragSelector: '.item-list .item', dropSelector: null }],
+    })
+  }
+
+  /* -------------------------------------------- */
+
+  /** @override */
+  get template() {
+    if (!game.user.isGM && this.actor.limited) return 'systems/gurps/templates/actor/actor-sheet-gcs-limited.hbs'
+    return 'systems/gurps/templates/actor/actor-tab-mini-erebo.hbs'
+  }
+}
+
+export class GurpsActorEreboTabbedSheet extends GurpsActorSheet {
   /** @override */
   static get defaultOptions() {
     return mergeObject(super.defaultOptions, {

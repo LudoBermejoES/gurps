@@ -4,8 +4,8 @@
       {{#if data.languages}}
           {{#each data.languages}}
               <div class="list">
-                      <div>{{this.name}}</div>
-                      <div style="padding-left: 5px">({{this.notes}})</div>
+                      <div style="">{{this.name}}</div>
+                      <div style="padding-left: 5px; font-size: var(--font-size-small)">{{this.notes}}</div>
               </div>
           {{/each}}
       {{/if}}

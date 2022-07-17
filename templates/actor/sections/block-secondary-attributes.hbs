@@ -1,0 +1,33 @@
+<div id="erebo-points" class='field-block5-erebo-points'>
+    <div class="isABox">
+        <div class='label-centered'>Puntos de vida</div>
+        <input class="field-centered"
+               name="data.HP.value" type="text" value="{{data.HP.value}}" data-dtype="Number"/>
+    </div>
+
+    <div class="isABox">
+        <div class='label-centered'>Puntos de fatiga</div>
+        <input class="field-centered"
+               name="data.FP.value" type="text" value="{{data.FP.value}}" data-dtype="Number"/>
+    </div>
+
+    <div class="isABox">
+        <div class='label-centered'>Puntos de destino</div>
+        <div class="field-block2-erebo-points" style="height: 35px">
+            <input class="field-centered"
+                   name="data.DP.value" type="text" value="{{data.DP.value}}" data-dtype="Number"/>
+            <input type="button" class="usePool" data-type="DP" value="Gastar"/>
+        </div>
+    </div>
+
+
+    <div class="isABox">
+        <div class='label-centered'>Movimiento</div>
+        <div class='field-centered '>{{data.currentmove}}</div>
+    </div>
+
+    <div class="isABox">
+        <div class='label-centered'>Velocidad</div>
+        <div class='field-centered '>{{data.basicspeed.value}}</div>
+    </div>
+</div>

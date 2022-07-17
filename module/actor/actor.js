@@ -50,6 +50,8 @@ import {
   Language,
 } from './actor-components.js'
 import { multiplyDice } from '../utilities/damage-utils.js'
+import { getSkillNameTranslated } from "../../lang/skills.js";
+import {getAdsDisNameTranslated} from "../../lang/adsDis.js";
 
 // Ensure that ALL actors has the current version loaded into them (for migration purposes)
 Hooks.on('createActor', async function (/** @type {Actor} */ actor) {
@@ -406,7 +408,6 @@ export class GurpsActor extends Actor {
               if (link.action.type == 'skill-spell' && !link.action.isSpellOnly) {
                 if (e.name.match(makeRegexPatternFrom(link.action.name, false))) {
                   e.level += pi(link.action.mod)
-                  console.log("Cambio " + link.action.name + " con " + e.level)
                 }
               }
             }) // end skills
@@ -1391,7 +1392,11 @@ export class GurpsActor extends Actor {
 
   importAd(i, p) {
     let a = new Advantage()
+    const alternateName = getAdsDisNameTranslated(i.name);
     a.name = i.name + (i.levels ? ' ' + i.levels.toString() : '') || 'Advantage'
+    if(alternateName) {
+      a.alternateName = alternateName + (i.levels ? ' ' + i.levels.toString() : '') || ''
+    }
     a.points = i.calc?.points
     a.note = i.notes
     a.userdesc = i.userdesc
@@ -1437,6 +1442,7 @@ export class GurpsActor extends Actor {
     s.name =
       i.name + (!!i.tech_level ? `/TL${i.tech_level}` : '') + (!!i.specialization ? ` (${i.specialization})` : '') ||
       'Skill'
+    s.alternateName = getSkillNameTranslated(s.name);
     s.pageRef(i.reference || '')
     s.uuid = i.id
     s.parentuuid = p
@@ -2104,7 +2110,6 @@ export class GurpsActor extends Actor {
           Math.round(performance.now() - starttime) +
           'ms.)  You can inspect the character data below:'
       )
-      console.log(this)
       return true
     } catch (err) {
       console.log(err.stack)

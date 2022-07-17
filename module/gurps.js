@@ -15,6 +15,7 @@ import {
   GurpsActorSkillsSheet,
   GurpsActorMageAscensionSheet,
   GurpsActorVampireMasqueradeSheet,
+  GurpsActorEreboTabbedSheet,
   GurpsActorEreboSheet,
 } from './actor/actor-sheet.js'
 import { ModifierBucket } from './modifier-bucket/bucket-app.js'
@@ -1970,6 +1971,13 @@ GURPS.PARSELINK_MAPPINGS = {
     Actors.registerSheet('gurps', GurpsActorVampireMasqueradeSheet, {
       // Add this sheet last
       label: 'Full Vampire Masquerade (GCS)',
+      makeDefault: false,
+    })
+
+
+    Actors.registerSheet('gurps', GurpsActorEreboTabbedSheet, {
+      // Add this sheet last
+      label: 'Erebo Completa',
       makeDefault: false,
     })
 

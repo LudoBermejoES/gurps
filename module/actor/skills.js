@@ -1,6 +1,7 @@
 'use strict'
 
 function getGroupedSkills(skills) {
+  if(!skills) return [];
   const groups = {};
   Object.keys(skills).forEach(sk => {
     const category = skills[sk].category;

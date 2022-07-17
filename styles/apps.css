@@ -10,7 +10,7 @@
 
 /* Global Override */
 body {
-    font-family: 'Font Awesome 5 Free', Roboto, sans-serif;
+    font-family: 'Font Awesome 5 Free', 'Signika', 'Roboto', sans-serif;
 }
 
 .gurpsactorsheet #context-menu {
@@ -865,7 +865,6 @@ ul#result-effects li {
 
 #languages-mini {
     grid-area: languages-mini;
-    font-size: 11px;
     border: 1px solid black;
 }
 

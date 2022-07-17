@@ -35,6 +35,7 @@ function getDisciplines(ads) {
 }
 
 function getDisciplinesSkills(skills) {
+  if(!skills) return [];
   const disciplines = new Array();
   const disciplinesContainer = getContainerByKey(skills, DISCIPLINES_CONTAINER);
   if(!disciplinesContainer) return [];

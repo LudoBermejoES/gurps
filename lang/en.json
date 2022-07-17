@@ -1157,5 +1157,8 @@
   "GURPS.quicknotes": "Quick Notes",
   "GURPS.language": "Language",
   "GURPS.spoken": "Spoken",
-  "GURPS.written": "Written"
+  "GURPS.written": "Written",
+  "GURPS.accented": "Accented",
+  "GURPS.native": "Native",
+  "GURPS.broken": "Broken"
 }

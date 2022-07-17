@@ -4,7 +4,10 @@
   --smallemgap: 0.2em;
   --fontawesomefamily: 'Font Awesome 5 Free', Roboto, sans-serif;
   --lightgrey: rgba(0, 0, 0, 0.3);
-  --headerfontsize: 80%;
+  --headerfontsize: 100%;
+  --bigfontsize: 120%;
+  --ultrabigfontsize: 200%;
+  --maxbigfontsize: 250%;
   --standardborder: 1px solid black;
 }
 
@@ -634,6 +637,7 @@
 }
 
 .header {
+  font-family:'Signika';
   background-color: black;
   border-bottom: var(--standardborder);
   color: white;
@@ -953,6 +957,43 @@ body {
   padding-bottom: 0.15em;
 }
 
+.field-block4-erebo-points {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  align-items: end;
+  padding-bottom: 0.15em;
+}
+
+.field-block2-erebo-points {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: end;
+  padding-bottom: 0.15em;
+}
+
+.field-block-description-aspects {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  padding-bottom: 0.15em;
+  align-items: start;
+  grid-gap: var(--sectiongap);
+}
+
+.field-block5-erebo-points {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+  align-items: end;
+  padding-bottom: 0.15em;
+}
+
+
+.fieldblock8 {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+  align-items: end;
+  padding-bottom: 0.15em;
+}
+
 .fieldblock3 hr {
   grid-column: 1 / span 3;
   width: 100%;
@@ -973,6 +1014,23 @@ body {
     'portrait description description points';
   grid-template-columns: 0fr 1fr 1fr 0fr;
   grid-gap: var(--sectiongap);
+}
+
+#personal-erebo {
+  flex-grow: 0;
+  grid-area: personal-erebo;
+  display: grid;
+  grid-template:
+    'portrait name '
+    'portrait aspects-description'
+    'portrait erebo-points';
+  grid-template-columns: 0fr 1fr;
+  grid-gap: var(--sectiongap);
+}
+
+#personal-erebo #name {
+  font-size: var(--ultrabigfontsize);
+  color: #800000;
 }
 
 #portrait {
@@ -1024,6 +1082,25 @@ body {
   border: none;
 }
 
+#attributes-top {
+  display: grid;
+  grid-template-rows: 1fr;
+  border: none;
+  margin-top: 5px;
+}
+
+#attributes-top .rollable {
+  background-color: #FFFFFF !important;
+  color: #800000;
+}
+
+
+#attributes-refactored {
+  display: grid;
+  grid-template-rows: 1fr;
+  border: none;
+}
+
 #points .field,
 #attributes .field,
 #combat-attrs .field,
@@ -1031,6 +1108,21 @@ body {
 #hitpoints .field,
 #hp-fp .field {
   text-align: right;
+}
+
+#attributes .field-centered,
+#attributes-top .field-centered,
+#erebo-points .field-centered {
+  font-family:'Modesto Condensed';
+  font-size: var(--maxbigfontsize);
+  text-align: center;
+}
+
+#erebo-points input {
+  height: 35px;
+  color: #800000;
+  background-color: transparent;
+  border: 0px solid
 }
 
 #hp-fp-erebo {
@@ -1105,6 +1197,19 @@ body {
   grid-template-columns: 0fr 1fr 1fr 1fr;
   grid-gap: var(--sectiongap);
 }
+
+
+#stats-erebo-tabbed {
+  grid-area: stats;
+  display: grid;
+  grid-template:
+    'location  languages-mini      skills'
+    'location  encumbrance     skills'
+    'location   lifting           skills';
+  grid-template-columns: 1fr 1fr 2fr;
+  grid-gap: var(--sectiongap);
+}
+
 
 #stats-vampire-masquerade {
   grid-area: stats;
@@ -1351,12 +1456,28 @@ body {
   font-size: var(--headerfontsize);
 }
 
+.isABox {
+  border: var(--standardborder);
+}
+
 .label {
   text-align: left;
   padding-left: 0.2em;
   padding-right: 0.2em;
   font-size: var(--headerfontsize);
   white-space: nowrap;
+}
+
+.label-centered {
+  font-family:'Modesto Condensed';
+  text-align: center;
+  padding-left: 0.2em;
+  padding-right: 0.2em;
+  padding-top: 0.2em;
+  padding-bottom: 0.2em;
+  font-size: var(--ultrabigfontsize);
+  white-space: nowrap;
+  border-bottom: 1px groove #C00;
 }
 
 #condition .label {

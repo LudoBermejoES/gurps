@@ -44,6 +44,11 @@
 <div id='magic-mini' class="magic-mini">
     {{#if data.magickSkills }}
         <h1 class='header'>Esferas</h1>
+        {{#if data.magickAdvantages.essence }}
+            <div style="margin-left: 10px; margin-bottom: 10px"><span class="pdflink" data-pdf="{{data.magickAdvantages.essence.pageref}}">Esencia </span>
+                <span class='extra-info' data-info="{{data.magickAdvantages.essence.notes}}">{{data.magickAdvantages.essence.name}}</span>
+            </div>
+        {{/if}}
         <div data-i18n-list="spheres-list" class="sheet-mini-spheres" >
             {{# each data.magickSkills }}
             <div>

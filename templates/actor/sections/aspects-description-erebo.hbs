@@ -1,0 +1,22 @@
+<div id='aspects-description' class="field-block-description-aspects">
+    <div>
+        <h1 class='header'>Descripción</h1>
+        {{#if data.descriptions}}
+            {{#each data.descriptions}}
+                <div class="list">
+                    <div style="padding-left: 5px">{{this.notes}}</div>
+                </div>
+            {{/each}}
+        {{/if}}
+    </div>
+    <div>
+        <h1 class='header'>Aspectos</h1>
+        <div class="pad">
+          {{#if data.aspects}}
+              {{#each data.aspects}}
+                   <div style="margin-bottom: 4px; font-size:12px" >{{this.name}}</div>
+              {{/each}}
+          {{/if}}
+        </div>
+    </div>
+</div>

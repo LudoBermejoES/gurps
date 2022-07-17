@@ -3,6 +3,7 @@ const MAGIC_CONTAINER_NAME = "Magia verdadera";
 const ARETE = "Arete";
 const AVATAR = "Avatar";
 const AWARENESS = "Consciencia";
+const ESSENCE = "Esencia";
 const MUNDANE_BACKGROUND_CONTAINER = 'Trasfondos mundanos';
 const SUPERNATURAL_BACKGROUND_CONTAINER = 'Trasfondos sobrenaturales';
 const SPHERES_CONTAINER = 'Esferas';
@@ -32,6 +33,14 @@ function getContainerByKey(ads, keySearch) {
 
 function getArete(ads) {
   return getContainerByKey(ads, ARETE);
+}
+
+function getEssence(ads) {
+  const essence = getContainerByKey(ads, ESSENCE);
+  if(!essence) return undefined;
+  const object = getContents(essence);
+  if(!object) return undefined;
+  return  Object.keys(object).map((key) => object[key])[0];
 }
 
 function getAvatar(ads) {
@@ -84,7 +93,7 @@ function getAdsSpheres(ads) {
 }
 
 function getRecipees(skills) {
-  const recipees = new Array();
+  if(!skills) return [];
   const recipeesContainer = getContainerByKey(skills, RECIPEES);
   if(!recipeesContainer) return [];
   return getContents(recipeesContainer);
@@ -92,6 +101,7 @@ function getRecipees(skills) {
 
 function getMagicalSkills(skills) {
   const spheres = new Array();
+  if(!skills) return spheres;
   const spheresContainer = getContainerByKey(skills, SPHERES_CONTAINER);
   if(!spheresContainer) return [];
   SPHERES.forEach((sphere) => {
@@ -123,6 +133,7 @@ function getMagicalAdvantages(ads) {
     awareness: getAwareness(container),
     arcane: getArcane(container),
     arete: getArete(container),
+    essence: getEssence(container),
     mundaneBackgrounds: getMundaneBackgrounds(container),
     supernaturalBackgrounds: getSupernaturalBackgrounds(container),
     paradigm: getParadigm(container),

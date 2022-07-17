@@ -11,4 +11,13 @@
           {{/each}}
       {{/if}}
     </div>
+
+    {{#if data.DP.value }}
+        <div>
+            <label>Puntos de destino</label>
+            <input
+                    name="data.DP.value" type="text" value="{{data.DP.value}}" data-dtype="Number" />
+            <input type="button" style='margin-top: 4px' class="usePool" data-type="DP" value="Gastar" />
+        </div>
+    {{/if}}
 </div>
