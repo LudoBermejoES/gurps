@@ -190,7 +190,7 @@ const Skills = {
   "Heraldry__1": "Heráldica",
   "Herb Lore/TL": "Herb Lore/TL",
   "Herb Lore/TL__1": "Herb Lore/TL",
-  "Hidden Lore": "Lore oculto",
+  "Hidden Lore": "Conocimiento oculto",
   "Hidden Lore (Demon Lore)": "Hidden Lore (Demon Lore)",
   "Hidden Lore (Faerie Lore)": "Hidden Lore (Faerie Lore)",
   "Hidden Lore (Spirit Lore)": "Hidden Lore (Spirit Lore)",

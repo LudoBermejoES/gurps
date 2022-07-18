@@ -776,7 +776,6 @@ export class GurpsActorSheet extends ActorSheet {
   }
 
   _sortContentAscending(target) {
-    debugger;
     this._sortContent(target[0].dataset.key, 'contains', false)
     this._sortContent(target[0].dataset.key, 'collapsed', false)
   }
@@ -1290,7 +1289,6 @@ export class GurpsActorSheet extends ActorSheet {
   }
 
   async sortAscending(key) {
-    debugger;
     let i = key.lastIndexOf('.')
     let parentpath = key.substring(0, i)
     let objkey = key.substr(i + 1)

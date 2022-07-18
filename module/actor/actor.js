@@ -52,6 +52,7 @@ import {
 import { multiplyDice } from '../utilities/damage-utils.js'
 import { getSkillNameTranslated } from "../../lang/skills.js";
 import {getAdsDisNameTranslated} from "../../lang/adsDis.js";
+import {getEquipmentNameTranslated} from "../../lang/equipment.js";
 
 // Ensure that ALL actors has the current version loaded into them (for migration purposes)
 Hooks.on('createActor', async function (/** @type {Actor} */ actor) {
@@ -1564,7 +1565,13 @@ export class GurpsActor extends Actor {
 
   importEq(i, p, carried) {
     let e = new Equipment()
+    debugger;
+    const alternateName = getEquipmentNameTranslated(i.name);
     e.name = i.description || 'Equipment'
+    if(alternateName) {
+      e.alternateName = alternateName;
+    }
+
     e.count = i.type == 'equipment_container' ? '1' : i.quantity || '0'
     e.cost =
       (parseFloat(i.calc?.extended_value) / (i.type == 'equipment_container' ? 1 : i.quantity || 1)).toString() || ''

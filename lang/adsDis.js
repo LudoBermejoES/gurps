@@ -494,9 +494,6 @@ const AdsDis =
         }
 
 export function getAdsDisNameTranslated(name) {
-    if(name.indexOf('Blackout') > -1) {
-        debugger;
-    }
     let alternateName = '';
     const TL = /(.*) \((.*)\)/;
     const found = TL.exec(name);

@@ -1059,7 +1059,7 @@ body {
     'portrait name '
     'portrait aspects-description'
     'portrait erebo-points';
-  grid-template-columns: 0fr 1fr;
+  grid-template-columns: 0.5fr 1.5fr;
   grid-gap: var(--sectiongap);
 }
 
