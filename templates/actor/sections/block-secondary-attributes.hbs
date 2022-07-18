@@ -1,25 +1,48 @@
 <div id="erebo-points" class='field-block5-erebo-points'>
     <div class="isABox">
-        <div class='label-centered'>Puntos de vida</div>
+        <div class='label-centered'>P. vida</div>
         <input class="field-centered"
                name="data.HP.value" type="text" value="{{data.HP.value}}" data-dtype="Number"/>
     </div>
 
     <div class="isABox">
-        <div class='label-centered'>Puntos de fatiga</div>
+        <div class='label-centered'>P. fatiga</div>
         <input class="field-centered"
                name="data.FP.value" type="text" value="{{data.FP.value}}" data-dtype="Number"/>
     </div>
 
-    <div class="isABox">
-        <div class='label-centered'>Puntos de destino</div>
-        <div class="field-block2-erebo-points" style="height: 35px">
-            <input class="field-centered"
-                   name="data.DP.value" type="text" value="{{data.DP.value}}" data-dtype="Number"/>
-            <input type="button" class="usePool" data-type="DP" value="Gastar"/>
+    {{#if data.attributes.AR.value}}
+        <div class="isABox">
+            <div class='label-centered'>P. destino</div>
+            <div class="field-block2-erebo-points" style="height: 35px">
+                <input class="field-centered"
+                       name="data.DP.value" type="text" value="{{data.DP.value}}" data-dtype="Number"/>
+                <input type="button" class="usePool" data-type="DP" value="Gastar"/>
+            </div>
         </div>
-    </div>
+    {{/if}}
 
+    {{#if data.VOL.value}}
+        <div class="isABox">
+            <div class='label-centered'>P. voluntad</div>
+            <div class="field-block2-erebo-points" style="height: 35px">
+                <input class="field-centered"
+                       name="data.DP.value" type="text" value="{{data.VOL.value}}" data-dtype="Number"/>
+                <input type="button" class="usePool" data-type="VOL" value="Gastar"/>
+            </div>
+        </div>
+    {{/if}}
+
+    {{#if data.PX.value}}
+        <div class="isABox">
+            <div class='label-centered'>P. quintaesencia</div>
+            <div class="field-block2-erebo-points" style="height: 35px">
+                <input class="field-centered"
+                       name="data.DP.value" type="text" value="{{data.PX.value}}" data-dtype="Number"/>
+                <input type="button" class="usePool" data-type="PX" value="Gastar"/>
+            </div>
+        </div>
+    {{/if}}
 
     <div class="isABox">
         <div class='label-centered'>Movimiento</div>

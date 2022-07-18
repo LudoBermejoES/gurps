@@ -532,7 +532,6 @@
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
-  width: 112.25px;
 }
 
 .gurps #portrait .profile-img {
@@ -979,9 +978,45 @@ body {
   grid-gap: var(--sectiongap);
 }
 
+.field-block-aspects-pool {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  padding-bottom: 0.15em;
+  align-items: start;
+  grid-gap: var(--sectiongap);
+}
+
 .field-block5-erebo-points {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+  align-items: end;
+  padding-bottom: 0.15em;
+}
+
+.field-block3-mage-ascension-points {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  align-items: end;
+  padding-bottom: 0.15em;
+}
+
+.field-block4-mage-ascension-points {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  align-items: end;
+  padding-bottom: 0.15em;
+}
+
+.field-block5-mage-ascension-points {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
+  align-items: end;
+  padding-bottom: 0.15em;
+}
+
+.fieldblock7 {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
   align-items: end;
   padding-bottom: 0.15em;
 }
@@ -1027,6 +1062,19 @@ body {
   grid-template-columns: 0fr 1fr;
   grid-gap: var(--sectiongap);
 }
+
+#personal-mage-ascension {
+  flex-grow: 0;
+  grid-area: personal-mage-ascension;
+  display: grid;
+  grid-template:
+    'portrait name '
+    'portrait aspects-pool-ascension'
+    'portrait erebo-points';
+  grid-template-columns: 0.25fr 0.75fr;
+  grid-gap: var(--sectiongap);
+}
+
 
 #personal-erebo #name {
   font-size: var(--ultrabigfontsize);
@@ -1125,6 +1173,9 @@ body {
   border: 0px solid
 }
 
+#erebo-points input[type=button] {
+  cursor: pointer;
+}
 #hp-fp-erebo {
   border: var(--standardborder);
   min-width: 100px;
@@ -1190,11 +1241,11 @@ body {
   grid-area: stats;
   display: grid;
   grid-template:
-    'attributes      aspects-mini   magic-mini    recipees-mini'
-    'attributes      hp-fp          magic-mini    recipees-mini'
-    'attributes      pool-ascension magic-mini  recipees-mini'
-    'attributes      languages-mini magic-mini  recipees-mini';
-  grid-template-columns: 0fr 1fr 1fr 1fr;
+    'magic-mini    languages-mini'
+    'magic-mini    recipees-mini'
+    'magic-mini  recipees-mini'
+    'magic-mini  recipees-mini';
+  grid-template-columns: 1fr 1fr;
   grid-gap: var(--sectiongap);
 }
 
@@ -1308,7 +1359,7 @@ body {
 #melee .headermenu i,
 #combat-trackers .trackerhead i,
 #conditionalmods .condmodhead i,
-#reactions .reacthead i,
+Nactions .reacthead i,
 #location .hlhead i {
   color: white;
   margin-left: 0.5em;

@@ -847,19 +847,16 @@ ul#result-effects li {
 
 #magic-mini {
     grid-area: magic-mini;
-    font-size: 11px;
     border: 1px solid black;
 }
 
 #vampire-mini {
     grid-area: vampire-mini;
-    font-size: 11px;
     border: 1px solid black;
 }
 
 #aspects-mini {
     grid-area: aspects-mini;
-    font-size: 11px;
     border: 1px solid black;
 }
 
@@ -870,20 +867,17 @@ ul#result-effects li {
 
 #recipees-mini {
     grid-area: recipees-mini;
-    font-size: 11px;
     border: 1px solid black;
 }
 
 #disciplines-mini {
     grid-area: disciplines-mini;
-    font-size: 11px;
     border: 1px solid black;
 }
 
 #pool-ascension {
     grid-area: pool-ascension;
     border: 1px solid black;
-    font-size: 11px;
 }
 
 #pool-ascension .pool {

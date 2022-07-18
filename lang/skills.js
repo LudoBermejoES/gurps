@@ -337,7 +337,7 @@ const Skills = {
   "Riding": "Montar",
   "Riding (Equine)": "Cabalgar",
   "Ritual Magic": "Magia ritual",
-  "Running": "Ejecutar",
+  "Running": "Correr",
   "Saber": "Saber",
   "Savoir-Faire": "Savoir-Faire",
   "Savoir-Faire__1": "Savoir-Faire",

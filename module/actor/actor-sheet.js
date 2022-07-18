@@ -172,6 +172,7 @@ export class GurpsActorSheet extends ActorSheet {
 
     this._createHeaderMenus(html)
     this._createEquipmentItemMenus(html)
+    this._createSkillItemMenus(html)
 
     // if not doing automatic encumbrance calculations, allow a click on the Encumbrance table to set the current value.
     if (!game.settings.get(settings.SYSTEM_NAME, settings.SETTING_AUTOMATIC_ENCUMBRANCE)) {
@@ -648,8 +649,9 @@ export class GurpsActorSheet extends ActorSheet {
             content: '',
           };
 
-          $(`input[name="data.${poolStr}.value"]`).val(pool.value-1);
-          $(`input[name="data.${poolStr}.value"]`).trigger('change');
+          let json = `{ "data.${poolStr}.value": ${pool.value-1} }`
+          this.actor.update(JSON.parse(json))
+
           if(poolStr == 'VOL') {
             GURPS.executeOTF('["+4 por Voluntad" +4 Voluntad]');
             chatData.content = `${this.actor.data.name} usa Fuerza de voluntad para ganar un +4 a la próxima tirada`;
@@ -731,6 +733,27 @@ export class GurpsActorSheet extends ActorSheet {
     new ContextMenu(html, '.equipmenuother', [moveup, ...opts], { eventName: 'contextmenu' })
   }
 
+  _createSkillItemMenus(html) {
+    let includeCollapsed = this instanceof GurpsActorEditorSheet
+
+    let opts = [
+      this._createMenu(
+          i18n('GURPS.sortContentsAscending'),
+          '<i class="fas fa-sort-amount-down-alt"></i>',
+          this._sortContentAscending.bind(this),
+          this._isSortable.bind(this, includeCollapsed)
+      ),
+      this._createMenu(
+          i18n('GURPS.sortContentsDescending'),
+          '<i class="fas fa-sort-amount-down"></i>',
+          this._sortContentDescending.bind(this),
+          this._isSortable.bind(this, includeCollapsed)
+      ),
+    ]
+
+    new ContextMenu(html, '.skldraggable', [...opts], { eventName: 'contextmenu' })
+  }
+
   _editEquipment(target) {
     let path = target[0].dataset.key
     let o = duplicate(GURPS.decode(this.actor.data, path))
@@ -753,6 +776,7 @@ export class GurpsActorSheet extends ActorSheet {
   }
 
   _sortContentAscending(target) {
+    debugger;
     this._sortContent(target[0].dataset.key, 'contains', false)
     this._sortContent(target[0].dataset.key, 'collapsed', false)
   }
@@ -761,13 +785,16 @@ export class GurpsActorSheet extends ActorSheet {
     let key = parentpath + '.' + objkey
     let list = getProperty(this.actor.data, key)
     let t = parentpath + '.-=' + objkey
-
     await this.actor.update({ [t]: null }) // Delete the whole object
 
     let sortedobj = {}
     let index = 0
     Object.values(list)
-      .sort((a, b) => (reverse ? b.name.localeCompare(a.name) : a.name.localeCompare(b.name)))
+      .sort((a, b) => {
+        const aName = a.alternateName || a.name;
+        const bName = b.alternateName || b.name;
+        return reverse ? bName.localeCompare(aName) : aName.localeCompare(bName);
+      })
       .forEach(o => GURPS.put(sortedobj, o, index++))
     await this.actor.update({ [key]: sortedobj })
   }
@@ -1280,6 +1307,7 @@ export class GurpsActorSheet extends ActorSheet {
           return a.name.localeCompare(b.name)
         })
       .forEach(o => GURPS.put(sortedobj, o, index++))
+
     await this.actor.update({ [key]: sortedobj })
   }
 

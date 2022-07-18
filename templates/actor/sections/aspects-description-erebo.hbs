@@ -14,7 +14,15 @@
         <div class="pad">
           {{#if data.aspects}}
               {{#each data.aspects}}
+                  {{#if this.notes }}
+                  <div>
+                      <label>
+                          <div class="extra-info" style="margin-bottom: 4px"  data-info="{{this.notes}}">{{this.name}}</div>
+                      </label>
+                  </div>
+                  {{else}}
                    <div style="margin-bottom: 4px; font-size:12px" >{{this.name}}</div>
+                  {{/if}}
               {{/each}}
           {{/if}}
         </div>

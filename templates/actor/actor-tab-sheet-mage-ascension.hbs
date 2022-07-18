@@ -1,13 +1,17 @@
 <form class='{{cssClass}}' autocomplete='off' style='scroll-padding-top: 5px;'>
   <div id='sheet-tab' class='gurpsactorsheet'>
-    <div id='personal'>
-      {{>portrait}}
-      {{>identity}}
-      {{>miscellaneous}}
-      {{>description}}
-      {{>points}}
+    <div id='personal-mage-ascension'>
+        {{>portrait}}
+        <h1 id="name" style="border-bottom: 1px groove #C00;">{{actor.name}}
+            {{#if data.traits.title}}
+                ({{data.traits.title}})
+            {{/if}}</h1>
+        {{>aspects-pool-ascension}}
+        {{>block-secondary-attributes-mage-ascension}}
     </div>
-    <nav id='nav-tabs' class='gurps-sheet-tabs' data-group='primary-tabs'>
+      {{>block-attributes-mage-ascension}}
+
+      <nav id='nav-tabs' class='gurps-sheet-tabs' data-group='primary-tabs'>
       <li><a class='tab-item' data-tab='stats-mage-ascension'>{{i18n 'GURPS.statsTab'}}</a></li>
       <li><a class='tab-item' data-tab='combat'>{{i18n 'GURPS.combatTab'}}</a></li>
       <li><a class='tab-item' data-tab='advantages'>{{i18n 'GURPS.advantagesTab'}}</a></li>
@@ -20,37 +24,10 @@
     <section class='sheet-body tabbed-sheet'>
       <div class='tab' data-tab='stats-mage-ascension' data-group='primary-tabs'>
         <div id='stats-mage-ascension'>
-          <div id='attributes'>
-            {{>basic-attributes}}
-            {{>secondary-attributes}}
-          </div>
             {{>magic-mini}}
-            {{>pool-ascension}}
-
             <div id='hp-fp'>
-            {{#if useCI}}
-              {{>conditional-injury}}
-            {{else}}
-              {{>hpfp-tracker
-                name='HP'
-                resource=data.HP
-                label='GURPS.attributesHPNAME'
-                editable=false
-                condition='reeling'
-                testcondition=data.conditions.reeling
-              }}
-            {{/if}}
-            {{>hpfp-tracker
-              name='FP'
-              resource=data.FP
-              label='GURPS.attributesFPNAME'
-              editable=false
-              condition='exhausted'
-              testcondition=data.conditions.exhausted
-            }}
-          </div>
-          {{>languages-mini}}
-          {{>aspects-mini}}
+        </div>
+           {{>languages-mini}}
             {{>recipees-mini}}
         </div>
 
@@ -60,11 +37,6 @@
             {{#if (notEmpty data.conditionalmods)}}{{>conditionalmods}}{{/if}}
           </div>
         {{/if}}
-
-        {{#if (notEmpty data.additionalresources.tracker)}}
-          {{>trackers}}
-        {{/if}}
-
         {{>notes}}
       </div>
 
@@ -81,6 +53,7 @@
             {{>encumbrance}}
             {{>quicknote}}
             {{>lifting}}
+            {{>locations parent=../data}}
           </div>
         </div>
       </div>
