@@ -986,6 +986,13 @@ body {
   grid-gap: var(--sectiongap);
 }
 
+.field-block4-erebo-points {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  align-items: end;
+  padding-bottom: 0.15em;
+}
+
 .field-block5-erebo-points {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
@@ -1142,6 +1149,20 @@ body {
   color: #800000;
 }
 
+#attributes-top .rollable:hover {
+  cursor: pointer;
+  text-decoration: none;
+  background-color: rgb(225, 225, 26) !important;
+  color: black;
+  border-right: 0px solid #333300 !important;
+  border-bottom: 0px solid #333300 !important;
+  border-radius: 0px;
+/* margin-bottom: -1px; */
+/* margin-right: -1px; */
+  overflow: visible;
+  z-index: 99;
+}
+
 
 #attributes-refactored {
   display: grid;
@@ -1160,13 +1181,15 @@ body {
 
 #attributes .field-centered,
 #attributes-top .field-centered,
-#erebo-points .field-centered {
+#erebo-points .field-centered,
+#aspects-description .field-centered {
   font-family:'Modesto Condensed';
   font-size: var(--maxbigfontsize);
   text-align: center;
 }
 
-#erebo-points input {
+#erebo-points input,
+#aspects-description input {
   height: 35px;
   color: #800000;
   background-color: transparent;

@@ -1565,7 +1565,6 @@ export class GurpsActor extends Actor {
 
   importEq(i, p, carried) {
     let e = new Equipment()
-    debugger;
     const alternateName = getEquipmentNameTranslated(i.name);
     e.name = i.description || 'Equipment'
     if(alternateName) {

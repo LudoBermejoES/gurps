@@ -638,6 +638,15 @@ export class GurpsActorSheet extends ActorSheet {
 
     html.find('#addFirstResourceTracker').on('click', ev => this._addTracker())
 
+    html.find('.blowParadox').click(async(ev) => {
+      const paradox = this.actor.data.data.PX.value;
+      const roll = await new Roll(`${paradox}d10cs>6`).toMessage({flavor: "Puntos de paradoja que estallan (ver <span class='pdflink' data-pdf='Mage549''>Tabla de Paradoja</span>)", displayName: this.actor.displayname });
+      debugger;
+      let json = `{ "data.PX.value": ${this.actor.data.data.PX.value - roll.roll._total} }`
+      this.actor.update(JSON.parse(json))
+    });
+
+
     html.find('.usePool').click(ev => {
       const poolStr = $(ev.target).attr('data-type');
       const pool = this.actor.data.data[poolStr];

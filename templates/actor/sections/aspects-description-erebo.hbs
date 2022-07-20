@@ -26,5 +26,15 @@
               {{/each}}
           {{/if}}
         </div>
+        {{#if data.attributes.AR.value}}
+            <div class="isABox">
+                <div class='label-centered'>Puntos destino</div>
+                <div class="field-block2-erebo-points" style="height: 35px">
+                    <input class="field-centered"
+                           name="data.DP.value" type="text" value="{{data.DP.value}}" data-dtype="Number"/>
+                    <input type="button" class="usePool" data-type="DP" value="Gastar"/>
+                </div>
+            </div>
+        {{/if}}
     </div>
 </div>
