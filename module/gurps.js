@@ -529,6 +529,11 @@ GURPS.PARSELINK_MAPPINGS = {
         KeyboardManager.MODIFIER_KEYS.CONTROL
       )}\n${action.orig}`
 
+      if (!!action.overridetxt) {
+        if (!event.data)
+          event.data = {}
+        event.data.overridetxt = action.overridetxt
+      }
       // @ts-ignore - someone somewhere must have added chatmsgData to the MouseEvent.
       return await GURPS.ChatProcessors.startProcessingLines(chat, event?.chatmsgData, event)
     },
@@ -541,7 +546,13 @@ GURPS.PARSELINK_MAPPINGS = {
     dragdrop({ action }) {
       switch (action.link) {
         case 'JournalEntry':
-          game.journal?.get(action.id)?.sheet?.render(true)
+          let j = game.journal?.get(action.id)
+          if (j) {
+            if (j.data.flags.pdfoundry) {
+              handlePdf(j.data.flags.pdfoundry.PDFData.code)
+            } else
+              j.sheet?.render(true)
+          }
           return true
         case 'Actor':
           game.actors?.get(action.id)?.sheet?.render(true)
@@ -880,12 +891,14 @@ GURPS.PARSELINK_MAPPINGS = {
         event,
         obj: att, // save the attack in the optional parameters, in case it has rcl/rof
         followon: followon,
+        text: ''
       }
       let targetmods = []
       if (opt.obj.checkotf && !(await GURPS.executeOTF(opt.obj.checkotf, false, event))) return false
       if (opt.obj.duringotf) await GURPS.executeOTF(opt.obj.duringotf, false, event)
       if (!!action.costs) GURPS.ModifierBucket.addModifier(0, action.costs)
       if (!!action.mod) GURPS.ModifierBucket.addModifier(action.mod, action.desc, targetmods)
+      if (action.overridetxt) opt.text += "<span style='font-size:85%'>" + action.overridetxt + '</span>'
 
       return doRoll({
         actor,
@@ -940,7 +953,7 @@ GURPS.PARSELINK_MAPPINGS = {
       if (!!action.costs) GURPS.ModifierBucket.addModifier(0, action.costs)
       if (!!action.mod) GURPS.ModifierBucket.addModifier(action.mod, action.desc, targetmods)
       const chatthing = thing === '' ? att.name + mode : `[B:"${thing}${mode}"]`
-
+ 
       return doRoll({
         actor,
         targetmods,
@@ -1058,13 +1071,15 @@ GURPS.PARSELINK_MAPPINGS = {
         event: event,
         action: action,
         obj: action.obj,
+        text: ''
       }
       if (opt.obj?.checkotf && !(await GURPS.executeOTF(opt.obj.checkotf, false, event))) return false
       if (opt.obj?.duringotf) await GURPS.executeOTF(opt.obj.duringotf, false, event)
-
+      opt.text = ''
       if (!!action.costs) GURPS.ModifierBucket.addModifier(0, action.costs)
       if (!!action.mod) GURPS.ModifierBucket.addModifier(action.mod, action.desc, targetmods)
       else if (!!action.desc) opt.text = "<span style='font-size:85%'>" + action.desc + '</span>'
+      if (action.overridetxt) opt.text += "<span style='font-size:85%'>" + action.overridetxt + '</span>'
 
     return doRoll({
       actor,
@@ -1119,6 +1134,7 @@ GURPS.PARSELINK_MAPPINGS = {
         event,
         action,
         obj: action.obj,
+        text: ''
       }
       if (opt.obj?.checkotf && !(await GURPS.executeOTF(opt.obj.checkotf, false, event))) return false
       if (opt.obj?.duringotf) await GURPS.executeOTF(opt.obj.duringotf, false, event)
@@ -1126,6 +1142,7 @@ GURPS.PARSELINK_MAPPINGS = {
       if (!!action.costs) GURPS.ModifierBucket.addModifier(0, action.costs)
       if (!!action.mod) GURPS.ModifierBucket.addModifier(action.mod, action.desc, targetmods)
       else if (!!action.desc) opt.text = "<span style='font-size:85%'>" + action.desc + '</span>'
+      if (action.overridetxt) opt.text += "<span style='font-size:85%'>" + action.overridetxt + '</span>'
 
       return doRoll({ actor, targetmods, thing, chatthing, origtarget: target, optionalArgs: opt })
     },
@@ -1171,12 +1188,17 @@ GURPS.PARSELINK_MAPPINGS = {
       }
       return false
     },
+    href({ action, actor, event, originalOtf, calcOnly }) {
+      window.open(action.orig, action.label)
+    }
   }
   GURPS.actionFuncs = actionFuncs
 
   async function findBestActionInChain({ action, actor, event, targets, originalOtf }) {
     const actions = []
+    let overridetxt = action.overridetxt
     while (action) {
+      action.overridetxt = overridetxt
       actions.push(action)
       action = action.next
     }
@@ -1340,9 +1362,10 @@ GURPS.PARSELINK_MAPPINGS = {
 
       let parts = f.includes(',') ? f.split(',') : [f]
       for (let part of parts) {
-        let result = parseForRollOrDamage(part.trim())
+        //let result = parseForRollOrDamage(part.trim())
+        let result = parselink(part.trim())
         if (result?.action) {
-          if (options?.combined) result.action.formula = multiplyDice(result.action.formula, options.combined)
+          if (options?.combined && result.action.type == 'damage') result.action.formula = multiplyDice(result.action.formula, options.combined)
           performAction(result.action, actor, event, options?.targets)
         }
       }
@@ -2092,7 +2115,7 @@ GURPS.PARSELINK_MAPPINGS = {
               content: cmd,
             }
             ChatMessage.create(messageData, {})
-          } else $(document).find('#chat-message').val(cmd)
+          } else $(document).find('#chat-message').val($(document).find('#chat-message').val() + cmd)
         }
       }
       if (!!chat) chat.addEventListener('drop', event => dropHandler(event, false))
@@ -2108,6 +2131,24 @@ GURPS.PARSELINK_MAPPINGS = {
     // eslint-disable-next-line no-undef
     Hooks.on('renderActorSheet', (...args) => {
       colorGurpsActorSheet()
+    })
+    
+    // Listen for the Ctrl key and toggle the roll mode (to show the behaviour we currently do anyway)
+    game.keybindings.register('gurps', 'toggleDiceDisplay', {
+      name: 'Toggle dice display',
+      uneditable: [{ key: 'ControlLeft' }, { key: 'ControlRight' }],
+      onDown: () => {
+        if (game.settings.get(Settings.SYSTEM_NAME, Settings.SETTING_CTRL_KEY)) {
+          GURPS.savedRollMode = game.settings.get('core', 'rollMode')
+          game.settings.set('core', 'rollMode', game.user?.isGM ? 'gmroll' : 'blindroll')
+        }
+      },
+      onUp: () => {
+        if (game.settings.get(Settings.SYSTEM_NAME, Settings.SETTING_CTRL_KEY))
+          game.settings.set('core', 'rollMode', GURPS.savedRollMode)
+      },
+      precedence: CONST.KEYBINDING_PRECEDENCE.NORMAL,
+      // "ControlLeft", "ControlRight"
     })
 
     Hooks.call('gurpsinit', GURPS)
@@ -2495,7 +2536,7 @@ GURPS.PARSELINK_MAPPINGS = {
       default: 'Tabbed Sheet',
       onChange: value => console.log(`${Settings.SETTING_ALT_SHEET}: ${value}`),
     })
-
+    
     GurpsToken.ready()
     TriggerHappySupport.init()
 
