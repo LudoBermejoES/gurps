@@ -459,7 +459,8 @@ export class GurpsActor extends Actor {
               } else {
                 value = pi(data[last]) + pi(link.action.mod) // enforce that attribute is int
               }
-              if (!item.name.toUpperCase().includes('SHIELD')) {
+              const found = ['SHIELD', 'CLOAK'].find(m => item.data.name.toUpperCase().includes(m))
+              if (found) {
                 data[last] = value
               }
             } // end attributes & Dodge
