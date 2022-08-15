@@ -5640,3 +5640,10 @@
 ./Library/TMFX/Runes/Circle/TransmutationInPulse_01_Circle_Normal_500.webm,width=500
 ./Library/TMFX/Runes/Circle/TransmutationOutPulse_01_Circle_Normal_500.webm,width=500
 ./Library/TMFX/Runes/Circle/TransmutationSimple_01_Circle_Normal_500.webm,width=500
+./Library/Generic/UI/IconShield_01_Regular_Green_200x200.webm
+./Library/Generic/UI/IconShieldCracked_01_Regular_Purple_200x200.webm
+./Library/Generic/UI/Miss_02_White_200x200.webm
+./Library/Generic/UI/CriticalMiss_03_Red_200x200.webm
+./Library/Generic/Weapon_Attacks/Melee/DmgBludgeoning_01_Regular_Yellow_2Handed_800x600.webm
+./Library/Generic/UI/Critical_03_Red_200x200.webm
+./Library/Generic/Weapon_Attacks/Ranged/ThrowGrenade01_01_Regular_Green_05ft_600x400.webm

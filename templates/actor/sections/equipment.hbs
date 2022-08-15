@@ -86,7 +86,7 @@
           {{/if}}
         {{/if}}
       </div>
-      
+
       <div class='qty flex-center' data-key='data.equipment.{{../container}}.{{@key}}'>
         <button class='equipmentbutton bold' data-operation='equipment-dec'>&minus;</button>
         <span>{{this.count}}</span>
@@ -129,7 +129,7 @@
           </div>
         </div>
       </div>
-      
+
       <div class='uses flex-center' data-key='data.equipment.{{../container}}.{{@key}}'>
         {{#if (or (gt this.maxuses 0) (ne this.uses '0'))}}
           {{#if (isNum this.uses)}}<button class='equipmentbutton bold' data-operation='equipment-dec-uses' {{#if (lt this.uses 1)}}disabled{{/if}}>&minus;</button>{{/if}}
@@ -141,7 +141,7 @@
       <div class='weight gga-right'>{{toLocaleString (toNumber this.weight)}} lb</div>
       <div class='sum_cost gga-right'>{{toLocaleString (round this.costsum)}}</div>
       <div class='sum_weight gga-right'>{{toLocaleString (round this.weightsum)}} lb</div>
-      <div class='ref flex-center'>{{{pdflinkext this}}}</div>    
+      <div class='ref flex-center'>{{{pdflinkext this}}}</div>
       {{/unless}}
     {{/if}}
   {{/each}}

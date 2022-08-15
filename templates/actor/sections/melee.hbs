@@ -60,8 +60,12 @@
                 {{#if hasCollapsed}}<i class='fas fa-caret-right expandcollapseicon'></i>{{/if}}
               </div>
               <div class='tooltip gga-manual'>
-                {{{gurpslink name}}}
-                {{#if (displayItemHover this)}}
+                  {{#if this.alternateName}}
+                      {{{gurpslink this.alternateName}}}
+                  {{else}}
+                      {{{gurpslink this.name}}}
+                  {{/if}}
+                  {{#if (displayItemHover this)}}
                   <div class='tooltiptext gga-manual'><img src='{{img}}' /></div>
                 {{/if}}
               </div>

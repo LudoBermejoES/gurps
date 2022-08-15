@@ -1977,6 +1977,7 @@ const Equipment = {
     "SIG-Sauer P229, .40 S&W": "SIG-Sauer P229, .40 S&W",
     "SIG-Sauer P229, .357 SIG": "SIG-Sauer P229, .357 SIG",
     "Signal Mirror": "Espejo de señales",
+    "Natural Attacks": "Ataques naturales",
     "Signature Pad": "Bloc de notas",
     "Silk Vest": "Chaleco de seda",
     "Silk Vest + Steel Plate": "Chaleco de seda + placa de acero",
