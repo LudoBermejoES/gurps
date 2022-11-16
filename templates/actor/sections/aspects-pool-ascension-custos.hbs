@@ -1,0 +1,35 @@
+<div id='aspects-pool-ascension' class="field-block-aspects-pool">
+    <div>
+        <h1 class='header'>Aspectos</h1>
+        <div class="pad">
+            {{#if data.aspects}}
+                {{#each data.aspects}}
+                    {{#if this.notes }}
+                        <div>
+                            <label>
+                                <div class="extra-info" style="margin-bottom: 4px"  data-info="{{this.notes}}">{{this.name}}</div>
+                            </label>
+                        </div>
+                    {{else}}
+                        <div style="margin-bottom: 4px; font-size:12px" >{{this.name}}</div>
+                    {{/if}}
+                {{/each}}
+            {{/if}}
+        </div>
+    </div>
+    <div id="erebo-points" >
+        <h1 class='header'>Reserva</h1>
+        <div class='field-block3-mage-ascension-points'>
+            <div class="isABox">
+                <div class='label-centered'>Voluntad</div>
+                <div class="field-block2-erebo-points" style="height: 35px">
+                    <input class="field-centered"
+                           name="data.VOL.value" type="text" value="{{data.VOL.value}}" data-dtype="Number"/>
+                    <input type="button" class="usePool" data-type="VOL" value="Gastar"/>
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+</div>

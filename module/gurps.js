@@ -17,6 +17,7 @@ import {
   GurpsActorVampireMasqueradeSheet,
   GurpsActorEreboTabbedSheet,
   GurpsActorEreboSheet,
+  GurpsActorMageAscensionCustosSheet,
 } from './actor/actor-sheet.js'
 import { ModifierBucket } from './modifier-bucket/bucket-app.js'
 import { ChangeLogWindow } from '../lib/change-log.js'
@@ -211,7 +212,6 @@ if (!globalThis.GURPS) {
     AR: 'GURPS.attributesARNAME',
     BPY: 'GURPS.attributesBPYNAME',
     BPTRN: 'GURPS.attributesBPTRNNAME',
-
   }
 
   GURPS.skillTypes = {
@@ -246,31 +246,31 @@ if (!globalThis.GURPS) {
     'Per/VH': 'GURPS.SkillPerVH',
   }
 
-GURPS.PARSELINK_MAPPINGS = {
-  ST: 'attributes.ST.value',
-  DX: 'attributes.DX.value',
-  IQ: 'attributes.IQ.value',
-  HT: 'attributes.HT.value',
-  QN: 'attributes.QN.value',
-  WILL: 'attributes.WILL.value',
-  PER: 'attributes.PER.value',
-  AR: 'attributes.AR.value',
-  VISION: 'vision',
-  FRIGHTCHECK: 'frightcheck',
-  'FRIGHT CHECK': 'frightcheck',
-  HEARING: 'hearing',
-  TASTESMELL: 'tastesmell',
-  'TASTE SMELL': 'tastesmell',
-  TASTE: 'tastesmell',
-  SMELL: 'tastesmell',
-  TOUCH: 'touch',
-  DODGE: 'currentdodge',
-  MOVE: 'move.00000.enhanced',
-  Parry: 'equippedparry',
-  PARRY: 'equippedparry',
-  BLOCK: 'equippedblock',
-  EQ: 'equipitem'
-}
+  GURPS.PARSELINK_MAPPINGS = {
+    ST: 'attributes.ST.value',
+    DX: 'attributes.DX.value',
+    IQ: 'attributes.IQ.value',
+    HT: 'attributes.HT.value',
+    QN: 'attributes.QN.value',
+    WILL: 'attributes.WILL.value',
+    PER: 'attributes.PER.value',
+    AR: 'attributes.AR.value',
+    VISION: 'vision',
+    FRIGHTCHECK: 'frightcheck',
+    'FRIGHT CHECK': 'frightcheck',
+    HEARING: 'hearing',
+    TASTESMELL: 'tastesmell',
+    'TASTE SMELL': 'tastesmell',
+    TASTE: 'tastesmell',
+    SMELL: 'tastesmell',
+    TOUCH: 'touch',
+    DODGE: 'currentdodge',
+    MOVE: 'move.00000.enhanced',
+    Parry: 'equippedparry',
+    PARRY: 'equippedparry',
+    BLOCK: 'equippedblock',
+    EQ: 'equipitem',
+  }
 
   GURPS.SJGProductMappings = SJGProductMappings
   GURPS.USER_GUIDE_URL = 'https://bit.ly/2JaSlQd'
@@ -530,8 +530,7 @@ GURPS.PARSELINK_MAPPINGS = {
       )}\n${action.orig}`
 
       if (!!action.overridetxt) {
-        if (!event.data)
-          event.data = {}
+        if (!event.data) event.data = {}
         event.data.overridetxt = action.overridetxt
       }
       // @ts-ignore - someone somewhere must have added chatmsgData to the MouseEvent.
@@ -550,8 +549,7 @@ GURPS.PARSELINK_MAPPINGS = {
           if (j) {
             if (j.data.flags.pdfoundry) {
               handlePdf(j.data.flags.pdfoundry.PDFData.code)
-            } else
-              j.sheet?.render(true)
+            } else j.sheet?.render(true)
           }
           return true
         case 'Actor':
@@ -800,45 +798,45 @@ GURPS.PARSELINK_MAPPINGS = {
      *
      * @param {Object} data.action
      * @param {string} data.action.derivedformula
-   * @param {string} data.action.desc
-   * @param {string} data.action.costs
-   * @param {string} data.action.formula
-   * @param {boolean} data.action.blindroll
-   *
-   * @param {GurpsActor|null} data.actor
-   * @param {JQuery.Event|null} data.event
-   */
-  equipItem({ action, actor, event }) {
-    if (!actor) {
-      ui.notifications.warn(i18n('GURPS.chatYouMustHaveACharacterSelected'))
-      return false
-    }
+     * @param {string} data.action.desc
+     * @param {string} data.action.costs
+     * @param {string} data.action.formula
+     * @param {boolean} data.action.blindroll
+     *
+     * @param {GurpsActor|null} data.actor
+     * @param {JQuery.Event|null} data.event
+     */
+    equipItem({ action, actor, event }) {
+      if (!actor) {
+        ui.notifications.warn(i18n('GURPS.chatYouMustHaveACharacterSelected'))
+        return false
+      }
 
-    if(canvas.tokens.controlled.length !== 1) {
-      ui.notifications.warn('Solo puedes escoger un token');
-      return false
-    }
+      if (canvas.tokens.controlled.length !== 1) {
+        ui.notifications.warn('Solo puedes escoger un token')
+        return false
+      }
 
-    const melee = Object.values(actor.data.data.melee);
-    const ranged = Object.values(actor.data.data.ranged);
+      const melee = Object.values(actor.data.data.melee)
+      const ranged = Object.values(actor.data.data.ranged)
 
-    const attacks = [...melee, ...ranged];
+      const attacks = [...melee, ...ranged]
 
-    const value = action.melee || action.ranged || action.desc.split(':"')[1].split('"')[0];
-    const weapon = attacks.find(a => a.name.indexOf(value) === 0);
-    if(!weapon) {
-      ui.notifications.warn('No encontré el arma para ese ataque');
-      return;
-    }
-    if(window.EasyCombat) {
-      window.EasyCombat.drawEquipment(weapon.name, canvas.tokens.controlled[0], weapon.itemid);
-    }
-  },
-  /**
-   * @param {Object} data
-   *
-   * @param {Object} data.action
-   * @param {string} data.action.desc
+      const value = action.melee || action.ranged || action.desc.split(':"')[1].split('"')[0]
+      const weapon = attacks.find(a => a.name.indexOf(value) === 0)
+      if (!weapon) {
+        ui.notifications.warn('No encontré el arma para ese ataque')
+        return
+      }
+      if (window.EasyCombat) {
+        window.EasyCombat.drawEquipment(weapon.name, canvas.tokens.controlled[0], weapon.itemid)
+      }
+    },
+    /**
+     * @param {Object} data
+     *
+     * @param {Object} data.action
+     * @param {string} data.action.desc
      * @param {string} data.action.costs
      * @param {string} data.action.name
      * @param {string} data.action.mod
@@ -891,7 +889,7 @@ GURPS.PARSELINK_MAPPINGS = {
         event,
         obj: att, // save the attack in the optional parameters, in case it has rcl/rof
         followon: followon,
-        text: ''
+        text: '',
       }
       let targetmods = []
       if (opt.obj.checkotf && !(await GURPS.executeOTF(opt.obj.checkotf, false, event))) return false
@@ -953,7 +951,7 @@ GURPS.PARSELINK_MAPPINGS = {
       if (!!action.costs) GURPS.ModifierBucket.addModifier(0, action.costs)
       if (!!action.mod) GURPS.ModifierBucket.addModifier(action.mod, action.desc, targetmods)
       const chatthing = thing === '' ? att.name + mode : `[B:"${thing}${mode}"]`
- 
+
       return doRoll({
         actor,
         targetmods,
@@ -1071,7 +1069,7 @@ GURPS.PARSELINK_MAPPINGS = {
         event: event,
         action: action,
         obj: action.obj,
-        text: ''
+        text: '',
       }
       if (opt.obj?.checkotf && !(await GURPS.executeOTF(opt.obj.checkotf, false, event))) return false
       if (opt.obj?.duringotf) await GURPS.executeOTF(opt.obj.duringotf, false, event)
@@ -1081,42 +1079,42 @@ GURPS.PARSELINK_MAPPINGS = {
       else if (!!action.desc) opt.text = "<span style='font-size:85%'>" + action.desc + '</span>'
       if (action.overridetxt) opt.text += "<span style='font-size:85%'>" + action.overridetxt + '</span>'
 
-    return doRoll({
-      actor,
-      targetmods,
-      prefix: 'Roll vs ',
-      thing,
-      chatthing,
-      origtarget: target,
-      optionalArgs: opt,
-    })
-  },
-  /**
-   * @param {Object} data
-   *
-   * @param {Object} data.action
-   * @param {string} data.action.desc
-   * @param {string} data.action.costs
-   * @param {string} data.action.name
-   * @param {string} data.action.mod
-   * @param {boolean} data.action.blindroll
-   * @param {string} [data.action.target]
-   *
-   * @param {GurpsActor|null} data.actor
-   * @param {JQuery.Event|null} data.event
-   * @param {string} data.originalOtf
-   * @param {boolean} data.calcOnly
-   */
-  async ['skill-spell']({ action, actor, event, originalOtf, calcOnly }) {
-    if (!actor && (!action || !action.target)) {
-      ui.notifications?.warn('You must have a character selected')
-      return false
-    }
+      return doRoll({
+        actor,
+        targetmods,
+        prefix: 'Roll vs ',
+        thing,
+        chatthing,
+        origtarget: target,
+        optionalArgs: opt,
+      })
+    },
+    /**
+     * @param {Object} data
+     *
+     * @param {Object} data.action
+     * @param {string} data.action.desc
+     * @param {string} data.action.costs
+     * @param {string} data.action.name
+     * @param {string} data.action.mod
+     * @param {boolean} data.action.blindroll
+     * @param {string} [data.action.target]
+     *
+     * @param {GurpsActor|null} data.actor
+     * @param {JQuery.Event|null} data.event
+     * @param {string} data.originalOtf
+     * @param {boolean} data.calcOnly
+     */
+    async ['skill-spell']({ action, actor, event, originalOtf, calcOnly }) {
+      if (!actor && (!action || !action.target)) {
+        ui.notifications?.warn('You must have a character selected')
+        return false
+      }
 
-    const target = processSkillSpell({ action, actor })
-    if (!action) {
-      return false
-    }
+      const target = processSkillSpell({ action, actor })
+      if (!action) {
+        return false
+      }
 
       let thing = action.name
         .replace(/\[.*\]/, '')
@@ -1134,7 +1132,7 @@ GURPS.PARSELINK_MAPPINGS = {
         event,
         action,
         obj: action.obj,
-        text: ''
+        text: '',
       }
       if (opt.obj?.checkotf && !(await GURPS.executeOTF(opt.obj.checkotf, false, event))) return false
       if (opt.obj?.duringotf) await GURPS.executeOTF(opt.obj.duringotf, false, event)
@@ -1190,7 +1188,7 @@ GURPS.PARSELINK_MAPPINGS = {
     },
     href({ action, actor, event, originalOtf, calcOnly }) {
       window.open(action.orig, action.label)
-    }
+    },
   }
   GURPS.actionFuncs = actionFuncs
 
@@ -1365,7 +1363,8 @@ GURPS.PARSELINK_MAPPINGS = {
         //let result = parseForRollOrDamage(part.trim())
         let result = parselink(part.trim())
         if (result?.action) {
-          if (options?.combined && result.action.type == 'damage') result.action.formula = multiplyDice(result.action.formula, options.combined)
+          if (options?.combined && result.action.type == 'damage')
+            result.action.formula = multiplyDice(result.action.formula, options.combined)
           performAction(result.action, actor, event, options?.targets)
         }
       }
@@ -1991,12 +1990,17 @@ GURPS.PARSELINK_MAPPINGS = {
       makeDefault: false,
     })
 
+    Actors.registerSheet('gurps', GurpsActorMageAscensionCustosSheet, {
+      // Add this sheet last
+      label: 'Full Mago Ascension Custos (GCS)',
+      makeDefault: false,
+    })
+
     Actors.registerSheet('gurps', GurpsActorVampireMasqueradeSheet, {
       // Add this sheet last
       label: 'Full Vampire Masquerade (GCS)',
       makeDefault: false,
     })
-
 
     Actors.registerSheet('gurps', GurpsActorEreboTabbedSheet, {
       // Add this sheet last
@@ -2004,21 +2008,21 @@ GURPS.PARSELINK_MAPPINGS = {
       makeDefault: false,
     })
 
-  Actors.registerSheet('gurps', GurpsActorEreboSheet, {
-    // Add this sheet last
-    label: 'Érebo (GCS)',
-    makeDefault: false,
-  })
+    Actors.registerSheet('gurps', GurpsActorEreboSheet, {
+      // Add this sheet last
+      label: 'Érebo (GCS)',
+      makeDefault: false,
+    })
 
-  Actors.registerSheet('gurps', GurpsActorSkillsSheet, {
-    // Add this sheet last
-    label: 'Only skills',
-    makeDefault: false,
-  })
+    Actors.registerSheet('gurps', GurpsActorSkillsSheet, {
+      // Add this sheet last
+      label: 'Only skills',
+      makeDefault: false,
+    })
 
-  Items.unregisterSheet('core', ItemSheet)
-  // @ts-ignore
-  Items.registerSheet('gurps', GurpsItemSheet, { makeDefault: true })
+    Items.unregisterSheet('core', ItemSheet)
+    // @ts-ignore
+    Items.registerSheet('gurps', GurpsItemSheet, { makeDefault: true })
 
     // Warning, the very first table will take a refresh before the dice to show up in the dialog.  Sorry, can't seem to get around that
     // @ts-ignore
@@ -2115,7 +2119,10 @@ GURPS.PARSELINK_MAPPINGS = {
               content: cmd,
             }
             ChatMessage.create(messageData, {})
-          } else $(document).find('#chat-message').val($(document).find('#chat-message').val() + cmd)
+          } else
+            $(document)
+              .find('#chat-message')
+              .val($(document).find('#chat-message').val() + cmd)
         }
       }
       if (!!chat) chat.addEventListener('drop', event => dropHandler(event, false))
@@ -2132,7 +2139,7 @@ GURPS.PARSELINK_MAPPINGS = {
     Hooks.on('renderActorSheet', (...args) => {
       colorGurpsActorSheet()
     })
-    
+
     // Listen for the Ctrl key and toggle the roll mode (to show the behaviour we currently do anyway)
     game.keybindings.register('gurps', 'toggleDiceDisplay', {
       name: 'Toggle dice display',
@@ -2536,7 +2543,7 @@ GURPS.PARSELINK_MAPPINGS = {
       default: 'Tabbed Sheet',
       onChange: value => console.log(`${Settings.SETTING_ALT_SHEET}: ${value}`),
     })
-    
+
     GurpsToken.ready()
     TriggerHappySupport.init()
 

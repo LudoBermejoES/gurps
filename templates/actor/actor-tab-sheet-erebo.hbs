@@ -1,5 +1,5 @@
 <form class='{{cssClass}}' autocomplete='off' style='scroll-padding-top: 5px;'>
-    <div id='sheet-tab' class='gurpsactorsheet'>
+    <div id='sheet-tab' class='gurpsactorsheet erebo'>
         <div id='personal-erebo'>
             {{>portrait}}
             <div id="name" style="border-bottom: 1px groove #C00;">{{actor.name}}
@@ -7,9 +7,11 @@
                 ({{data.traits.title}})
             {{/if}}</div>
             {{>aspects-description-erebo}}
-            {{>block-secondary-attributes}}
+            {{>block-secondary-attributes-erebo}}
         </div>
+        {{>divider}}
          {{>block-attributes}}
+        {{>divider}}
         <nav id='nav-tabs' class='gurps-sheet-tabs' data-group='primary-tabs'>
             <li><a class='tab-item' data-tab='stats-erebo-tabbed'>{{i18n 'GURPS.statsTab'}}</a></li>
             <li><a class='tab-item' data-tab='combat'>{{i18n 'GURPS.combatTab'}}</a></li>
@@ -26,9 +28,9 @@
                 <div id='stats-erebo-tabbed'>
                     {{>skills}}
                     {{>languages-mini}}
-                    {{>encumbrance}}
-                    {{>lifting}}
-                    {{>locations parent=../data}}
+                    {{>social-traits}}
+                    {{>physical-traits}}
+                    {{>magical-traits}}
                 </div>
 
                 {{#if (or (notEmpty data.reactions) (notEmpty data.conditionalmods))}}
@@ -41,7 +43,7 @@
                 {{#if (notEmpty data.additionalresources.tracker)}}
                     {{>trackers}}
                 {{/if}}
-
+                {{>quicknote}}
                 {{>notes}}
             </div>
 
@@ -56,8 +58,8 @@
                     {{/if}}
                     <div id='combat-sidebar'>
                         {{>encumbrance}}
-                        {{>quicknote}}
                         {{>lifting}}
+                        {{>locations parent=../data}}
                     </div>
                 </div>
             </div>

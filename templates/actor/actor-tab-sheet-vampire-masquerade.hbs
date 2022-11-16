@@ -1,12 +1,17 @@
 <form class='{{cssClass}}' autocomplete='off' style='scroll-padding-top: 5px;'>
     <div id='sheet-tab' class='gurpsactorsheet'>
-        <div id='personal'>
+        <div id='personal-mage-ascension'>
             {{>portrait}}
-            {{>identity}}
-            {{>miscellaneous}}
-            {{>description}}
-            {{>points}}
+            <h1 id="name" style="border-bottom: 1px groove #C00;">{{actor.name}}
+                {{#if data.traits.title}}
+                    ({{data.traits.title}})
+                {{/if}}</h1>
+            {{>aspects-pool-vampire}}
+            {{>block-secondary-attributes-vampire-masquerade}}
         </div>
+        {{>divider}}
+        {{>block-attributes-vampire-masquerade}}
+        {{>divider}}
         <nav id='nav-tabs' class='gurps-sheet-tabs' data-group='primary-tabs'>
             <li><a class='tab-item' data-tab='stats-vampire-masquerade'>{{i18n 'GURPS.statsTab'}}</a></li>
             <li><a class='tab-item' data-tab='combat'>{{i18n 'GURPS.combatTab'}}</a></li>
@@ -20,37 +25,8 @@
         <section class='sheet-body tabbed-sheet'>
             <div class='tab' data-tab='stats-vampire-masquerade' data-group='primary-tabs'>
                 <div id='stats-vampire-masquerade'>
-                    <div id='attributes'>
-                        {{>basic-attributes}}
-                        {{>secondary-attributes}}
-                    </div>
                     {{>vampire-mini}}
-                    {{>pool-vampire}}
-
-                    <div id='hp-fp'>
-                        {{#if useCI}}
-                            {{>conditional-injury}}
-                        {{else}}
-                            {{>hpfp-tracker
-                                    name='HP'
-                                    resource=data.HP
-                                    label='GURPS.attributesHPNAME'
-                                    editable=false
-                                    condition='reeling'
-                                    testcondition=data.conditions.reeling
-                            }}
-                        {{/if}}
-                        {{>hpfp-tracker
-                                name='FP'
-                                resource=data.FP
-                                label='GURPS.attributesFPNAME'
-                                editable=false
-                                condition='exhausted'
-                                testcondition=data.conditions.exhausted
-                        }}
-                    </div>
                     {{>languages-mini}}
-                    {{>aspects-mini}}
                     {{>disciplines-mini}}
                 </div>
 
@@ -60,11 +36,6 @@
                         {{#if (notEmpty data.conditionalmods)}}{{>conditionalmods}}{{/if}}
                     </div>
                 {{/if}}
-
-                {{#if (notEmpty data.additionalresources.tracker)}}
-                    {{>trackers}}
-                {{/if}}
-
                 {{>notes}}
             </div>
 

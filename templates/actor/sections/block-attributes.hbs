@@ -2,45 +2,60 @@
     <div class='fieldblock8'>
 
         <div class="isABox">
-            <div class='label-centered'>{{i18n 'GURPS.attributesSTNAME'}} </div>
+            <div class='label-centered extra-info-no-style' data-info="La fuerza mide la potencia física y el volumen. Es crucial si eres un guerrero en un mundo primitivo, ya que una FUE te permite repartir y absorber más daño en el combate cuerpo a cuerpo.
+
+Cualquier aventurero encontrará útil la FUE  para levantar y lanzar cosas, moverse rápidamente rápidamente con una carga, etc.
+
+La FUE determina la carga básica (p. 15), el daño básico (p. 15), y los Puntos de Golpe (p. 16), y afecta al Peso y Altura de tu personaje (p. 18).">{{i18n 'GURPS.attributesSTNAME'}} </div>
             <div class='field-centered rollable' data-path='attributes.ST.value'
                  data-otf='ST'>{{data.attributes.ST.value}}</div>
         </div>
 
         <div class="isABox">
-            <div class='label-centered'>{{i18n 'GURPS.attributesDXNAME'}} </div>
+            <div class='label-centered extra-info-no-style' data-info="La destreza mide una combinación de agilidad, coordinación y habilidad motora fina. Controla tu capacidad básica en la mayoría de las habilidades atléticas, de lucha y de manejo de vehículos, así como en las habilidades artesanales que requieren un toque delicado.
+
+La DX también ayuda a determinar la Velocidad Básica (una medida del tiempo de reacción, p. 17) y el Movimiento Básico (lo rápido que corres, p. 17). Aquellos con fisiologías no humanas pueden, con el permiso del GM comprar su DX con la siguiente limitación.">{{i18n 'GURPS.attributesDXNAME'}} </div>
             <div class='field-centered rollable' data-path='attributes.DX.value'
                  data-otf='DX'>{{data.attributes.DX.value}}</div>
         </div>
 
         <div class="isABox">
-            <div class='label-centered'>{{i18n 'GURPS.attributesIQNAME'}} </div>
+            <div class='label-centered extra-info-no-style' data-info="La inteligencia mide en términos generales la capacidad cerebral, incluyendo la creatividad, la intuición, la memoria y la razón. Rige tu capacidad básica con todas las habilidades 'mentales': ciencias, interacción social, magia, etc.
+
+            Cualquier mago, científico o artilugio necesita ante todo un alto coeficiente intelectual. ">{{i18n 'GURPS.attributesIQNAME'}} </div>
             <div class='field-centered rollable' data-path='attributes.IQ.value'
                  data-otf='IQ'>{{data.attributes.IQ.value}}</div>
         </div>
 
         <div class="isABox">
-            <div class='label-centered'>{{i18n 'GURPS.attributesHTNAME'}} </div>
+            <div class='label-centered extra-info-no-style' data-info="La salud mide la energía y la vitalidad. Representa el aguante, la resistencia (al veneno, la enfermedad, la radiación, etc.) y las 'agallas' básicas. Una SAL alta es buena para cualquiera, pero es vital para los guerreros de baja tecnología. tecnología. La SAL determina los Puntos de Fatiga (p. 16), y ayuda a determinar la Velocidad Velocidad Básica (p. 17) y Movimiento Básico (p. 17).">{{i18n 'GURPS.attributesHTNAME'}} </div>
             <div class='field-centered rollable' data-path='attributes.HT.value'
                  data-otf='HT'>{{data.attributes.HT.value}}</div>
         </div>
 
         {{#if data.attributes.AR.value}}
             <div class="isABox">
-                <div class='label-centered'>Arbitrium</div>
-                <div class='field-centered rollable' data-path='attributes.QN.value'
-                     data-otf='QN'>{{data.attributes.AR.value}}</div>
-            </div class="isABox">
+                <div class='label-centered extra-info-no-style' data-info="El Arbitrium (AR) determina la capacidad del personaje a enfrentarse a la voluntad del Érebo. Los personajes con poco Arbitrium tendrán cada vez menos libertad de movimientos, estando cada vez más a merced del Destino extraño que rige a los habitantes del Érebo.
+
+El Arbitrium marca el atributo secundario de Puntos de Destino. Divide entre 3 el Arbitrium, elimina los decimales y tendrás el total de Puntos de Destino.">Arbitrium</div>
+                <div class='field-centered rollable' data-path='attributes.AR.value'
+                     data-otf='AR'>{{data.attributes.AR.value}}</div>
+            </div>
         {{/if}}
         <div class="isABox">
-            <div class='label-centered'>{{i18n 'GURPS.attributesWILLNAME'}}</div>
+            <div class='label-centered extra-info-no-style' data-info="La voluntad mide tu capacidad de resistir el estrés psicológico (lavado de cerebro miedo, hipnotismo, interrogatorio, seducción seducción, tortura, etc.) y tu resistencia resistencia a los ataques sobrenaturales (magia, psiónica, etc.). Por defecto, la Voluntad es 10. Puedes aumentarla a a costa de 5 puntos por +1, o reducirla por -5 puntos por -1. No se puede aumentar la
+Voluntad más allá de 20, o reducirla en más de 4, sin el permiso del GM.
+
+Ten en cuenta que la Voluntad no representa resistencia física - ¡compra SAL para eso!">{{i18n 'GURPS.attributesWILLNAME'}}</div>
             <div class='field-centered rollable' data-path='attributes.WILL.value' data-otf='WILL'>
                 {{data.attributes.WILL.value}}
             </div>
         </div>
 
         <div class="isABox">
-            <div class='label-centered'>{{i18n 'GURPS.frightcheck'}}</div>
+            <div class='label-centered extra-info-no-style' data-info="Un chequeo de miedo es una tirada de voluntad hecha para resistir el miedo. Los chequeos de miedo pueden ocurrir tan a menudo o tan raramente como el GM desee. En una campaña de terror en la que la gente común se encuentra con cosas espantosas, los chequeos de miedo pueden ser muy comunes. Con sólo una pequeña adaptación, el GM puede utilizar estas reglas para el asombro, la confusión, etc., así como para el miedo. Como regla general, las cosas aterradoras 'ordinarias' no requieren chequeos de miedo. Los chequeos de miedo son para eventos tan inusuales y aterradores que pueden aturdir o incluso dejar una cicatriz permanente en alguien.
+
+            Lo que se considera 'ordinario' depende de los personajes y del entorno. Este es un punto en el que la historia del personaje puede ser útil. Un estadounidense normal y corriente del siglo XXI puede tener que hacer comprobaciones de miedo para los encuentros con monstruos, cadáveres y lo sobrenatural. Un comando endurecido en la batalla en el mismo juego podría no tener que hacer tiradas por cadáveres. Y en una campaña de fantasía, todas estas cosas pueden ser bastante normales... amenazantes, pero normales. Por otro lado, un personaje de fantasía podría tener que hacer un chequeo de miedo si es transportado al siglo XXI y le dan un paseo por la interestatal...">{{i18n 'GURPS.frightcheck'}}</div>
             <div class='field-centered noedit {{rollable (not isEditing)}}' data-path='frightcheck'
                  data-otf='Fright Check'>
                 {{data.frightcheck}}
@@ -48,7 +63,7 @@
         </div>
 
         <div class="isABox">
-            <div class='label-centered'>{{i18n 'GURPS.attributesPERNAME'}}</div>
+            <div class='label-centered extra-info-no-style' data-info="La percepción representa su estado general de alerta general. El GM hace una Tirada contra tu PER para determinar si te das cuenta de algo (ver Tiradas de Percepción, p. 358). Por defecto, Per es igual a 10, pero puedes aumentarlo por 5 puntos por +1, o reducirlo por -5 puntos por -1. No puedes aumentar el Per más allá de 20, o más de 4, sin el permiso del GM.">{{i18n 'GURPS.attributesPERNAME'}}</div>
             <div class='field-centered rollable' data-path='attributes.PER.value' data-otf='PER'>
                 {{data.attributes.PER.value}}
             </div>

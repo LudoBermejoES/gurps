@@ -1,0 +1,64 @@
+<div id="erebo-points">
+    {{>divider}}
+    <div  class='field-block5-erebo-points'>
+        <div class="isABox">
+            <div class='label-centered  extra-info-no-style' data-info="Los puntos de vida representan la capacidad de tu cuerpo para soportar las heridas. Por defecto, tienes PV igual a tu FUE. Por ejemplo, FUE 10 da 10 PV. Puedes aumentar los PV a costa de 2 puntos por PV, o reducir los PV por -2 puntos por PV. En una campaña realista, el GM no debería permitir que los PV varíen más de ±30% de la FUE; por ejemplo, un personaje de FUE 10 podría tener entre 7 y 13 PV. Los no humanos y los supers no están sujetos a este límite.
+
+Puedes perder temporalmente PV ante ataques físicos (como espadas), ataques de energía (como láseres), ataques sobrenaturales, enfermedades, venenos, peligros y cualquier otra cosa que pueda herir o matar. También puedes 'quemar' PV para potenciar ciertas habilidades sobrenaturales. Si pierdes suficientes PV, acabarás cayendo inconsciente; si pierdes demasiados PV, morirás. Los PV perdidos no reducen la FUE, a pesar de estar basados en la FUE.
+
+            Las heridas a menudo se comparan con un múltiplo de tus PV; por ejemplo, '2¥PV' o 'PV/2'. Cuando este sea el caso, utiliza tu puntuación básica de PV en la fórmula, no tu total de PV actual. Para información sobre los efectos de las heridas y la recuperación de los PV perdidos, ver las páginas 418-425.
+
+            Aquellos con fisiologías no humanas pueden, con el permiso del GM, comprar PV adicionales con la siguiente limitación.">Puntos vida</div>
+            <input class="field-centered"
+                   name="data.HP.value" type="text" value="{{data.HP.value}}" data-dtype="Number"/>
+        </div>
+
+        <div class="isABox">
+            <div class='label-centered extra-info-no-style' data-info="Los Puntos de Fatiga representan el 'suministro de energía' de tu cuerpo. Por defecto, tienes FP iguales a tu SAL. Por ejemplo, la TH 10 da 10 PF.
+
+            Puedes aumentar los PF a costa de 3 puntos por PF, o reducir los PF por -3 puntos por PF. En una campaña realista, el GM no debería permitir que los PF varíen en más de ±30% de la SAL; por ejemplo, un personaje de SAL 10 podría tener entre 7 y 13 PF. Los no humanos y los supers no están sujetos a este límite. Además, mientras que el SAL está normalmente limitado a 20, no hay tal límite en la FP.
+
+            La PF se va quemando gradualmente durante una actividad intensa. La enfermedad, el calor, el hambre, la falta de sueño y otros factores similares también pueden reducir la PF. Puedes 'gastar' deliberadamente PF para alimentar un esfuerzo extra (ver p. 356) y poderes sobrenaturales (por ejemplo, hechizos mágicos). Además, algunos ataques causan daño de PF en lugar de o además del daño de HP. Si pierdes suficientes PF, te ralentizarás o caerás inconsciente - y si pierdes demasiados, ¡te arriesgas a morir por sobreesfuerzo! Los PF perdidos no reducen la TH, a pesar de estar basados en la TH.
+
+            La fatiga se compara a menudo con algún múltiplo de su PF; por ejemplo, '2¥FP' o 'FP/2'. Cuando este sea el caso, utiliza tu puntuación básica de PF en la fórmula, no tu total de PF actual.
+
+            Para más información sobre la pérdida y recuperación de PF, ver las páginas 426-427.">Puntos fatiga</div>
+            <input class="field-centered"
+                   name="data.FP.value" type="text" value="{{data.FP.value}}" data-dtype="Number"/>
+        </div>
+        <div class="isABox">
+            <div class='label-centered extra-info-no-style' data-info="Los puntos de Destino son una parte fundamental de la experiencia de Érebo, y tienen muchas aplicaciones.
+
+            Antes de hacer una tirada, puedes decidir gastar un PD para conseguir un éxito automático, o un +4 a la tirada (por ejemplo, para el combate).
+            Antes de hacer una tirada, puedes decidir gastar dos PD para conseguir un éxito crítico. ¡Pero recuerda! ¡Los otros personajes podrían contrarrestar gastando lo mismo!
+
+            Después de la tirada, puedes gastar dos PD para repetirla, si no te ha gustado. Repetimos: dos puntos.
+
+            También podrías gastar dos PD para evitar un mal mayor, como una herida severa.
+
+            Si no tienes suficientes y llegas a negativo, pierdes un punto de Arbitrium (y ganas los puntos correspondientes al nuevo nivel). Ejemplo:
+
+            Soy Regelón y tengo Arbitrium a 10, y un solo punto de destino. Me dan un espadazo que me van a reventar, así que prefiero gastar dos DP para evitarlo. Pero solo tengo uno. ¿Qué pasa entonces?
+
+            Primero, gastamos el punto que tenías. Te quedas a cero, pero necesitas otro. Entonces pierdes Arbitrium, que se queda a nueve, y recuperas 3 PD (Arbitrium 9 / 3 = 3). Ahora lo restas y te quedas con dos PD.
+" >Puntos destino</div>
+            <input class="field-centered"
+                   name="data.DP.value" type="text" value="{{data.DP.value}}" data-dtype="Number"/>
+        </div>
+        <div class="isABox">
+            <div class='label-centered extra-info-no-style' data-info="Tu movimiento básico es tu velocidad en tierra en yardas por segundo. Es la velocidad a la que puedes correr - o rodar, deslizarte, etc. - sin estorbos (aunque puedes ir un poco más rápido si 'esprintas' en línea recta; ver p. 354).
+
+            El Movimiento Básico comienza siendo igual a la Velocidad Básica, menos cualquier fracción; por ejemplo, la Velocidad Básica 5.75 da un Movimiento Básico 5. Una persona promedio tiene un Movimiento Básico 5; por lo tanto, puede correr alrededor de 5 yardas por segundo si está libre de obstáculos.
+
+            Puedes aumentar el Movimiento Básico por 5 puntos por yarda/segundo o reducirlo por -5 puntos por yarda/segundo. En el caso de los humanos normales, el entrenamiento o una complexión elegante pueden justificar hasta 3 yardas/segundo de aumento del Movimiento Básico, mientras que la discapacidad o la mala forma física pueden explicar hasta 3 yardas/segundo de reducción del Movimiento Básico.
+
+            Los no humanos y los supers no están sujetos a estos límites. Las razas y los supers que pueden moverse muy rápido deben ver el Movimiento Mejorado (p. 52). Tu puntuación de Movimiento en combate es tu Movimiento Básico modificado por tu nivel de estorbo; ver Estorbo y Movimiento (abajo).">Movimiento</div>
+            <div class='field-centered '>{{data.currentmove}}</div>
+        </div>
+
+        <div class="isABox">
+            <div class='label-centered extra-info-no-style' data-info="Tu velocidad básica es una medida de tus reflejos y tu rapidez física general física general. Ayuda a determinar tu velocidad al correr (ver Movimiento Básico, más abajo), tu posibilidad de esquivar un ataque y el orden en el que actúas en combate (una Velocidad Básica alta te permitirá "reaccionar mejor" que tus enemigos).">Velocidad</div>
+            <div class='field-centered '>{{data.basicspeed.value}}</div>
+        </div>
+    </div>
+</div>

@@ -47,6 +47,7 @@ export default class ApplyDamageDialog extends Application {
     if (!Array.isArray(damageData)) damageData = [damageData]
 
     this._calculator = new CompositeDamageCalculator(actor, damageData)
+    GURPS.calculatorDamage = this._calculator
     this.actor = actor
     this.isSimpleDialog = game.settings.get(settings.SYSTEM_NAME, settings.SETTING_SIMPLE_DAMAGE)
     this.timesToApply = 1

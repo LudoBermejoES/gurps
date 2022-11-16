@@ -2400,6 +2400,9 @@ button.equipmentbutton:last-child {
     transition:all .25s ease-in-out
 }
 
+.extra-info-no-style {
+    cursor: pointer;
+}
 
 .qtip {
     display: inline-block;

@@ -1,0 +1,32 @@
+<div id='magical-traits' class="magical-traits">
+  <h1 class='header'>Rasgos mágicos</h1>
+    <div class="pad">
+      {{#if data.magicalTraits}}
+          {{#each data.magicalTraits}}
+              <div class="list">
+
+                  <div class='extra-info' data-info="{{this.notes}}">{{#if this.alternateName}}
+                      {{{ this.alternateName}}}
+                  {{else}}
+                      {{{ this.name}}}
+                  {{/if}} <span class="pdflink" data-pdf="{{this.pageref}}">{{this.pageref}}</span></div>
+              </div>
+          {{/each}}
+      {{/if}}
+    </div>
+    {{#if data.magicalPowers}}
+    <h1 class='header'>Poderes</h1>
+    <div class="pad">
+            {{#each data.magicalPowers}}
+                <div class="list">
+
+                    <div class='extra-info' data-info="{{this.notes}}">{{#if this.alternateName}}
+                        {{{ this.alternateName}}}
+                    {{else}}
+                        {{{ this.name}}}
+                    {{/if}} <span class="pdflink" data-pdf="{{this.pageref}}">{{this.pageref}}</span></div>
+                </div>
+            {{/each}}
+    </div>
+    {{/if}}
+</div>

@@ -2,39 +2,55 @@
     <div>
         <h1 class='header'>Descripción</h1>
         {{#if data.descriptions}}
+        <div class="list">
             {{#each data.descriptions}}
-                <div class="list">
-                    <div style="padding-left: 5px">{{this.notes}}</div>
-                </div>
+                <div style="padding-left: 5px">{{this.notes}}</div>
+                <br>
             {{/each}}
+            <div style="padding-left: 5px">Edad: {{this.data.traits.age}}</div>
+        </div>
         {{/if}}
     </div>
-    <div>
-        <h1 class='header'>Aspectos</h1>
+    <div class="field-block-aspects-traits">
         <div class="pad">
-          {{#if data.aspects}}
-              {{#each data.aspects}}
-                  {{#if this.notes }}
-                  <div>
-                      <label>
-                          <div class="extra-info" style="margin-bottom: 4px"  data-info="{{this.notes}}">{{this.name}}</div>
-                      </label>
-                  </div>
-                  {{else}}
-                   <div style="margin-bottom: 4px; font-size:12px" >{{this.name}}</div>
-                  {{/if}}
-              {{/each}}
-          {{/if}}
+            {{#if data.aspects}}
+                <h1 class='header'>Aspectos</h1>
+                {{#each data.aspects}}
+                    {{#if this.notes }}
+                        <div>
+                            <label>
+                                <div class="extra-info" style="margin-bottom: 4px"  data-info="{{this.notes}}">{{this.name}}</div>
+                            </label>
+                        </div>
+                    {{else}}
+                        <div style="margin-bottom: 4px; font-size:12px" >{{this.name}}</div>
+                    {{/if}}
+                {{/each}}
+            {{/if}}
         </div>
-        {{#if data.attributes.AR.value}}
-            <div class="isABox">
-                <div class='label-centered'>Puntos destino</div>
-                <div class="field-block2-erebo-points" style="height: 35px">
-                    <input class="field-centered"
-                           name="data.DP.value" type="text" value="{{data.DP.value}}" data-dtype="Number"/>
-                    <input type="button" class="usePool" data-type="DP" value="Gastar"/>
-                </div>
-            </div>
-        {{/if}}
+        <div class="pad">
+            {{#if data.personalityTraits}}
+                <h1 class='header'>Rasgos de personalidad</h1>
+                {{#each data.personalityTraits}}
+                    {{#if this.notes }}
+                        <div>
+                            <label>
+                                <div class="extra-info" style="margin-bottom: 4px"  data-info="{{this.notes}}">{{#if this.alternateName}}
+                                    {{{ this.alternateName}}}
+                                {{else}}
+                                    {{{ this.name}}}
+                                {{/if}}</div>
+                            </label>
+                        </div>
+                    {{else}}
+                        <div style="margin-bottom: 4px; font-size:12px">{{#if this.alternateName}}
+                            {{{ this.alternateName}}}
+                        {{else}}
+                            {{{ this.name}}}
+                        {{/if}}</div>
+                    {{/if}}
+                {{/each}}
+            {{/if}}
+        </div>
     </div>
 </div>

@@ -1,0 +1,17 @@
+<div id='physical-traits' class="physical-traits">
+  <h1 class='header'>Rasgos físicos</h1>
+    <div class="pad">
+      {{#if data.physicalTraits}}
+          {{#each data.physicalTraits}}
+              <div class="list">
+
+                  <div class='extra-info' data-info="{{this.notes}}">{{#if this.alternateName}}
+                      {{{ this.alternateName}}}
+                  {{else}}
+                      {{{ this.name}}}
+                  {{/if}} <span class="pdflink" data-pdf="{{this.pageref}}">{{this.pageref}}</span></div>
+              </div>
+          {{/each}}
+      {{/if}}
+    </div>
+</div>

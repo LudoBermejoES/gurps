@@ -53,6 +53,7 @@ import { multiplyDice } from '../utilities/damage-utils.js'
 import { getSkillNameTranslated } from '../../lang/skills.js'
 import { getAdsDisNameTranslated } from '../../lang/adsDis.js'
 import { getEquipmentNameTranslated } from '../../lang/equipment.js'
+import { getSkillDescriptionTranslated } from '../../lang/skillsDescriptions.js'
 
 // Ensure that ALL actors has the current version loaded into them (for migration purposes)
 Hooks.on('createActor', async function (/** @type {Actor} */ actor) {
@@ -455,11 +456,11 @@ export class GurpsActor extends Actor {
 
               let value
               if (typeof data[last] === 'string') {
-                value = String(pi(data[last]) + pi(link.action.mod))
+                value = String(pi(data[last] || 0) + pi(link.action.mod))
               } else {
-                value = pi(data[last]) + pi(link.action.mod) // enforce that attribute is int
+                value = pi(data[last] || 0) + pi(link.action.mod) // enforce that attribute is int
               }
-              const found = ['SHIELD', 'CLOAK'].find(m => item.data.name.toUpperCase().includes(m))
+              const found = true //['SHIELD', 'CLOAK'].find(m => item.data.name.toUpperCase().includes(m))
               if (found) {
                 data[last] = value
               }
@@ -1128,6 +1129,11 @@ export class GurpsActor extends Actor {
       data.PX = {}
     }
 
+    if (!data.QE) {
+      data.QE = {}
+      data.PX = {}
+    }
+
     if (!data.BPTS) {
       data.BPTS = {}
     }
@@ -1477,6 +1483,7 @@ export class GurpsActor extends Actor {
     }
     let s = new Skill(name, '')
     s.alternateName = getSkillNameTranslated(s.name)
+    s.alternateDescription = getSkillDescriptionTranslated(s.name)
     s.pageRef(i.reference || '')
     s.uuid = i.id
     s.parentuuid = p

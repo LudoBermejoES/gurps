@@ -1,8 +1,15 @@
 import { arrayToObject, atou, i18n, i18n_f, objectToArray, zeroFill } from '../../lib/utilities.js'
 import { getTechniques } from './combat.js'
 import { getMagicalAdvantages, getMagicalSkills, getRecipees } from './magic.js'
-import {getDisciplinesSkills, getVampiricPowers} from './vampiricPowers.js'
-import { getAspects } from './aspects.js'
+import { getDisciplinesSkills, getVampiricPowers } from './vampiricPowers.js'
+import {
+  getAspects,
+  getPhysicalTraits,
+  getSocialTraits,
+  getPersonalityTraits,
+  getMagicalTraits,
+  getMagicalPowers,
+} from './aspectsTraitsSocialPhysical.js'
 import { getLanguages } from './languages.js'
 import { getDescriptions } from './descriptions.js'
 import { HitLocation, hitlocationDictionary } from '../hitlocation/hitlocation.js'
@@ -17,7 +24,7 @@ import GurpsActiveEffectListSheet from '../effects/active-effect-list.js'
 import MoveModeEditor from './move-mode-editor.js'
 import { Advantage, Equipment, Melee, Modifier, Note, Ranged, Reaction, Skill, Spell } from './actor-components.js'
 import SplitDREditor from './splitdr-editor.js'
-import {getGroupedSkills} from "./skills.js";
+import { getGroupedSkills } from './skills.js'
 import { handleOnPdf } from '../pdf-refs.js'
 
 /**
@@ -37,7 +44,8 @@ export class GurpsActorSheet extends ActorSheet {
       ],
       dragDrop: [{ dragSelector: '.item-list .item', dropSelector: null }],
     })
-  }8
+  }
+  8
 
   /* -------------------------------------------- */
 
@@ -70,39 +78,42 @@ export class GurpsActorSheet extends ActorSheet {
     const sheetData = super.getData()
     sheetData.olddata = sheetData.data
     sheetData.data = sheetData.data.data
-
-    sheetData.data.aspects = getAspects(sheetData.data.ads);
-    sheetData.data.languages = getLanguages(sheetData.data.ads);
-    sheetData.data.descriptions = getDescriptions(sheetData.data.ads);
-    const magickAdvantages = getMagicalAdvantages(sheetData.data.ads);
-    sheetData.data.magickSkills = getMagicalSkills(sheetData.data.skills).map((skill) => {
+    sheetData.data.aspects = getAspects(sheetData.data.ads)
+    sheetData.data.personalityTraits = getPersonalityTraits(sheetData.data.ads)
+    sheetData.data.socialTraits = getSocialTraits(sheetData.data.ads)
+    sheetData.data.physicalTraits = getPhysicalTraits(sheetData.data.ads)
+    sheetData.data.magicalTraits = getMagicalTraits(sheetData.data.ads)
+    sheetData.data.magicalPowers = getMagicalPowers(sheetData.data.ads)
+    sheetData.data.languages = getLanguages(sheetData.data.ads)
+    sheetData.data.descriptions = getDescriptions(sheetData.data.ads)
+    const magickAdvantages = getMagicalAdvantages(sheetData.data.ads)
+    sheetData.data.magickSkills = getMagicalSkills(sheetData.data.skills).map(skill => {
       const match = magickAdvantages.spheres.filter(sphere => sphere.name.indexOf(skill.name) == 0)
-      if(match.length) {
-        skill.sphere = match[0];
-        skill.sphere.level = Number(skill.sphere.name.split(' ')[1]);
+      if (match.length) {
+        skill.sphere = match[0]
+        skill.sphere.level = Number(skill.sphere.name.split(' ')[1])
       }
-      return skill;
+      return skill
     })
 
     const groupedSkills = getGroupedSkills(sheetData.data.skills)
-    sheetData.data.groupedSkills = Object.keys(groupedSkills).sort().reduce(
-        (obj, key) => {
-          obj[key] = groupedSkills[key];
-          return obj;
-        },
-        {});
+    sheetData.data.groupedSkills = Object.keys(groupedSkills)
+      .sort()
+      .reduce((obj, key) => {
+        obj[key] = groupedSkills[key]
+        return obj
+      }, {})
 
-    sheetData.data.magickRecipees = getRecipees(sheetData.data.skills);
-    sheetData.data.magickAdvantages = magickAdvantages;
-    if(sheetData.data.attributes.AR) {
-      sheetData.data.DPMax = Math.trunc(sheetData.data.attributes.AR.value / 3);
+    sheetData.data.magickRecipees = getRecipees(sheetData.data.skills)
+    sheetData.data.magickAdvantages = magickAdvantages
+    if (sheetData.data.attributes.AR) {
+      sheetData.data.DPMax = Math.trunc(sheetData.data.attributes.AR.value / 3)
     }
 
+    sheetData.data.combatTechniques = getTechniques(sheetData.data.skills)
 
-    sheetData.data.combatTechniques = getTechniques(sheetData.data.skills);
-
-    sheetData.data.vampirePowers = getVampiricPowers(sheetData.data.ads);
-    sheetData.data.vampireDisciplines = getDisciplinesSkills(sheetData.data.skills);
+    sheetData.data.vampirePowers = getVampiricPowers(sheetData.data.ads)
+    sheetData.data.vampireDisciplines = getDisciplinesSkills(sheetData.data.skills)
 
     sheetData.ranges = GURPS.rangeObject.ranges
     sheetData.useCI = GURPS.ConditionalInjury.isInUse()
@@ -191,39 +202,41 @@ export class GurpsActorSheet extends ActorSheet {
     this.makelistdrag(html, '.meleedraggable', 'melee')
     this.makelistdrag(html, '.rangeddraggable', 'ranged')
 
-    html.find('.extra-info').click((evt) => {
-      const t = evt.target;
-      const title = $(t).text();
-      const info = $(t).attr('data-info');
-      const pageRef = $(t).attr('data-pageref');
-      let page = info;
-      if(pageRef) {
-        page = `<div style="white-space: pre-line; line-height: 1.3">${info}\n<span class="pdflink" data-pdf="${pageRef}">Ver más</span>\n\n</div>`;
+    html.find('.extra-info, .extra-info-no-style').click(evt => {
+      const t = evt.target
+      const title = $(t).text()
+      const info = $(t).attr('data-info')
+      const pageRef = $(t).attr('data-pageref')
+      let page = info
+      if (pageRef) {
+        page = `<div style="white-space: pre-line; line-height: 1.3">${info}\n<span class="pdflink" data-pdf="${pageRef}">Ver más</span>\n\n</div>`
       } else {
-        page = `<div style="white-space: pre-line; line-height: 1.3">${info}\n\n</div>`;
+        page = `<div style="white-space: pre-line; line-height: 1.3">${info}\n\n</div>`
       }
 
-
-      let d = new Dialog({
-        title: title,
-        content: page,
-        buttons: {
-          close: {
-            icon: '<i class="fas fa-times"></i>',
-            label: "Close",
-            callback: () => console.log("Chose Two")
-          }
+      let d = new Dialog(
+        {
+          title: title,
+          content: page,
+          buttons: {
+            close: {
+              icon: '<i class="fas fa-times"></i>',
+              label: 'Close',
+              callback: () => console.log('Chose Two'),
+            },
+          },
+          default: 'close',
+          render: html => {
+            html.find('.pdflink').on('click', handleOnPdf)
+          },
+          close: html => console.log('This always is logged no matter which option is chosen'),
         },
-        default: "close",
-        render: html => {
-          html.find('.pdflink').on('click', handleOnPdf)
-        },
-        close: html => console.log("This always is logged no matter which option is chosen")
-      }, {
-        width: 600,
-      });
-      d.render(true);
-    });
+        {
+          width: 600,
+        }
+      )
+      d.render(true)
+    })
 
     html.find('[data-operation="share-portrait"]').click(ev => {
       ev.preventDefault()
@@ -638,46 +651,47 @@ export class GurpsActorSheet extends ActorSheet {
 
     html.find('#addFirstResourceTracker').on('click', ev => this._addTracker())
 
-    html.find('.blowParadox').click(async(ev) => {
-      const paradox = this.actor.data.data.PX.value;
-      const roll = await new Roll(`${paradox}d10cs>6`).toMessage({flavor: "Puntos de paradoja que estallan (ver <span class='pdflink' data-pdf='Mage549''>Tabla de Paradoja</span>)", displayName: this.actor.displayname });
+    html.find('.blowParadox').click(async ev => {
+      const paradox = this.actor.data.data.PX.value
+      const roll = await new Roll(`${paradox}d10cs>6`).toMessage({
+        flavor:
+          "Puntos de paradoja que estallan (ver <span class='pdflink' data-pdf='Mage549''>Tabla de Paradoja</span>)",
+        displayName: this.actor.displayname,
+      })
       let json = `{ "data.PX.value": ${this.actor.data.data.PX.value - roll.roll._total} }`
       this.actor.update(JSON.parse(json))
-    });
-
+    })
 
     html.find('.usePool').click(ev => {
-      const poolStr = $(ev.target).attr('data-type');
-      const pool = this.actor.data.data[poolStr];
-      if(pool) {
-        if(pool.value > 0) {
+      const poolStr = $(ev.target).attr('data-type')
+      const pool = this.actor.data.data[poolStr]
+      if (pool) {
+        if (pool.value > 0) {
           let chatData = {
             user: game.user._id,
             speaker: ChatMessage.getSpeaker(),
             content: '',
-          };
+          }
 
-          let json = `{ "data.${poolStr}.value": ${pool.value-1} }`
+          let json = `{ "data.${poolStr}.value": ${pool.value - 1} }`
           this.actor.update(JSON.parse(json))
 
-          if(poolStr == 'VOL') {
-            GURPS.executeOTF('["+4 por Voluntad" +4 Voluntad]');
-            chatData.content = `${this.actor.data.name} usa Fuerza de voluntad para ganar un +4 a la próxima tirada`;
+          if (poolStr == 'VOL') {
+            GURPS.executeOTF('["+4 por Voluntad" +4 Voluntad]')
+            chatData.content = `${this.actor.data.name} usa Fuerza de voluntad para ganar un +4 a la próxima tirada`
           }
-          if(poolStr == 'QE') {
-            GURPS.executeOTF('["+2 a magia por quintaesencia" +2 magia por quintaesencia]');
-            chatData.content = `${this.actor.data.name} usa Quintaesencia para ganar un +2 a la próxima tirada de magia`;
+          if (poolStr == 'QE') {
+            GURPS.executeOTF('["+2 a magia por quintaesencia" +2 magia por quintaesencia]')
+            chatData.content = `${this.actor.data.name} usa Quintaesencia para ganar un +2 a la próxima tirada de magia`
           }
-          if(poolStr == 'DP') {
-            GURPS.executeOTF('["+4 a tirada por punto de destino" +4 tirada por punto de destino]');
-            chatData.content = `${this.actor.data.name} usa un punto de destino para ganar un +4 a la próxima tirada`;
+          if (poolStr == 'DP') {
+            GURPS.executeOTF('["+4 a tirada por punto de destino" +4 tirada por punto de destino]')
+            chatData.content = `${this.actor.data.name} usa un punto de destino para ganar un +4 a la próxima tirada`
           }
-          ChatMessage.create(chatData, {});
+          ChatMessage.create(chatData, {})
         }
       }
     })
-
-
   }
 
   _createHeaderMenus(html) {
@@ -746,16 +760,16 @@ export class GurpsActorSheet extends ActorSheet {
 
     let opts = [
       this._createMenu(
-          i18n('GURPS.sortContentsAscending'),
-          '<i class="fas fa-sort-amount-down-alt"></i>',
-          this._sortContentAscending.bind(this),
-          this._isSortable.bind(this, includeCollapsed)
+        i18n('GURPS.sortContentsAscending'),
+        '<i class="fas fa-sort-amount-down-alt"></i>',
+        this._sortContentAscending.bind(this),
+        this._isSortable.bind(this, includeCollapsed)
       ),
       this._createMenu(
-          i18n('GURPS.sortContentsDescending'),
-          '<i class="fas fa-sort-amount-down"></i>',
-          this._sortContentDescending.bind(this),
-          this._isSortable.bind(this, includeCollapsed)
+        i18n('GURPS.sortContentsDescending'),
+        '<i class="fas fa-sort-amount-down"></i>',
+        this._sortContentDescending.bind(this),
+        this._isSortable.bind(this, includeCollapsed)
       ),
     ]
 
@@ -798,9 +812,9 @@ export class GurpsActorSheet extends ActorSheet {
     let index = 0
     Object.values(list)
       .sort((a, b) => {
-        const aName = a.alternateName || a.name;
-        const bName = b.alternateName || b.name;
-        return reverse ? bName.localeCompare(aName) : aName.localeCompare(bName);
+        const aName = a.alternateName || a.name
+        const bName = b.alternateName || b.name
+        return reverse ? bName.localeCompare(aName) : aName.localeCompare(bName)
       })
       .forEach(o => GURPS.put(sortedobj, o, index++))
     await this.actor.update({ [key]: sortedobj })
@@ -1306,12 +1320,13 @@ export class GurpsActorSheet extends ActorSheet {
     let sortedobj = {}
     let index = 0
     Object.values(object)
-        .sort((a, b) => {
-          if(a.alternateName) {
-            return a.alternateName.localeCompare(b.alternateName)
-          }
-          return a.name.localeCompare(b.name)
-        })
+      .sort((a, b) => {
+        9
+        if (a.alternateName) {
+          return a.alternateName.localeCompare(b.alternateName)
+        }
+        return a.name.localeCompare(b.name)
+      })
       .forEach(o => GURPS.put(sortedobj, o, index++))
 
     await this.actor.update({ [key]: sortedobj })
@@ -1328,7 +1343,7 @@ export class GurpsActorSheet extends ActorSheet {
     let index = 0
     Object.values(object)
       .sort((a, b) => {
-        if(b.alternateName) {
+        if (b.alternateName) {
           return b.alternateName.localeCompare(a.alternateName)
         }
         return b.name.localeCompare(a.name)
@@ -1785,6 +1800,27 @@ export class GurpsActorMageAscensionSheet extends GurpsActorSheet {
   }
 }
 
+export class GurpsActorMageAscensionCustosSheet extends GurpsActorSheet {
+  /** @override */
+  static get defaultOptions() {
+    return mergeObject(super.defaultOptions, {
+      classes: ['gurps', 'sheet', 'actor'],
+      width: 860,
+      height: 600,
+      tabs: [{ navSelector: '.gurps-sheet-tabs', contentSelector: '.sheet-body', initial: 'description' }],
+      dragDrop: [{ dragSelector: '.item-list .item', dropSelector: null }],
+    })
+  }
+
+  /* -------------------------------------------- */
+
+  /** @override */
+  get template() {
+    if (!game.user.isGM && this.actor.limited) return 'systems/gurps/templates/actor/actor-sheet-gcs-limited.hbs'
+    return 'systems/gurps/templates/actor/actor-tab-sheet-mage-ascension-custos.hbs'
+  }
+}
+
 export class GurpsActorVampireMasqueradeSheet extends GurpsActorSheet {
   /** @override */
   static get defaultOptions() {
@@ -1805,7 +1841,6 @@ export class GurpsActorVampireMasqueradeSheet extends GurpsActorSheet {
     return 'systems/gurps/templates/actor/actor-tab-sheet-vampire-masquerade.hbs'
   }
 }
-
 
 export class GurpsActorEreboSheet extends GurpsActorSheet {
   /** @override */

@@ -1,3 +1,9 @@
+@font-face {
+  font-family: 'Newaster';
+  url('../fonts/Newaster.woff') format('woff'), /* Modern Browsers */
+  url('../fonts/Newaster.ttf')  format('truetype'), /* Safari, Android, iOS */
+}
+
 :root {
   --controlhover: 0 0 5px red;
   --sectiongap: 0.05in;
@@ -258,7 +264,7 @@
 
 .rollable {
   color: black;
-  background-color: rgb(255, 255, 190) !important;
+  background-color: rgb(234, 234, 250) !important;
   min-width: fit-content;
 }
 
@@ -295,7 +301,7 @@
   cursor: pointer;
   text-decoration: none;
   background-image: none;
-  background-color: rgb(255, 190, 130) !important;
+  background-color: rgb(173, 173, 235) !important;
   color: black;
   border-right: 1px solid rgb(128, 95, 65) !important;
   border-bottom: 1px solid rgb(128, 95, 65) !important;
@@ -304,7 +310,7 @@
 
 .gmod {
   color: black;
-  background-color: rgb(255, 230, 190) !important;
+  background-color: rgb(235, 235, 250) !important;
 }
 
 .gmod:active {
@@ -312,7 +318,7 @@
   text-decoration: none;
   color: black;
   background-image: none;
-  background-color: rgb(255, 128, 100) !important;
+  background-color: rgb(173, 173, 235) !important;
   padding: 1px 1em 1px 1px;
   border-bottom: 2px solid #cccccc;
   border-left: 2px solid #333333;
@@ -515,7 +521,11 @@
   height: 100%;
   padding: 5px;
   scroll-behavior: smooth;
-  background: white;
+}
+
+form .editable {
+  background-repeat: repeat;
+  background-image: url("http://www.zingerbugimages.com/backgrounds/beige_parchment_paper_background_1800x1600.jpg");
 }
 
 .gurps .sheet-header {
@@ -972,11 +982,20 @@ body {
 
 .field-block-description-aspects {
   display: grid;
+  grid-template-columns: 1fr;
+  padding-bottom: 0.15em;
+  align-items: start;
+  grid-gap: var(--sectiongap);
+}
+
+.field-block-aspects-traits {
+  display: grid;
   grid-template-columns: 1fr 1fr;
   padding-bottom: 0.15em;
   align-items: start;
   grid-gap: var(--sectiongap);
 }
+
 
 .field-block-aspects-pool {
   display: grid;
@@ -989,6 +1008,13 @@ body {
 .field-block4-erebo-points {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr 1fr;
+  align-items: end;
+  padding-bottom: 0.15em;
+}
+
+.field-block5-erebo-points {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
   align-items: end;
   padding-bottom: 0.15em;
 }
@@ -1145,7 +1171,7 @@ body {
 }
 
 #attributes-top .rollable {
-  background-color: #FFFFFF !important;
+  background-color: transparent !important;
   color: #800000;
 }
 
@@ -1277,10 +1303,11 @@ body {
   grid-area: stats;
   display: grid;
   grid-template:
-    'location  languages-mini      skills'
-    'location  encumbrance     skills'
-    'location   lifting           skills';
-  grid-template-columns: 1fr 1fr 2fr;
+    'languages-mini      skills'
+    'physical-traits      skills'
+    'social-traits             skills'
+    'magical-traits             skills';
+  grid-template-columns: 2fr 2fr;
   grid-gap: var(--sectiongap);
 }
 
@@ -1289,11 +1316,11 @@ body {
   grid-area: stats;
   display: grid;
   grid-template:
-    'attributes      aspects-mini     vampire-mini    disciplines-mini'
-    'attributes      hp-fp            vampire-mini    disciplines-mini'
-    'attributes      pool-vampire     vampire-mini    disciplines-mini'
-    'attributes      languages-mini   vampire-mini    disciplines-mini';
-  grid-template-columns: 0fr 1fr 1fr 1fr;
+    'vampire-mini    languages-mini'
+    'vampire-mini    disciplines-mini'
+    'vampire-mini    disciplines-mini'
+    'vampire-mini    disciplines-mini';
+  grid-template-columns: 1fr 1fr;
   grid-gap: var(--sectiongap);
 }
 
@@ -1657,7 +1684,7 @@ Nactions .reacthead i,
 .equipmentlist .ref:nth-child(20n + 20),
 #notes .notedraggable:nth-child(4n + 3),
 #notes .ref:nth-child(4n + 4) {
-  background-color: #e8ffe8;
+  background-color: #f2f2f2;
 }
 
 #equipmentcarried .equipped {
@@ -1788,7 +1815,7 @@ Nactions .reacthead i,
 }
 
 .current {
-  background-color: lightgoldenrodyellow !important;
+  background-color: #eaeafa !important;
 }
 
 .list_note {
@@ -2078,7 +2105,7 @@ Nactions .reacthead i,
 #combat-location .where:nth-last-child(8n + 3),
 #combat-location .penalty:nth-last-child(8n + 2),
 #combat-location .dr:nth-last-child(8n + 1) {
-  background-color: #e8ffe8;
+  background-color: #f2f2f2;
 }
 
 #combat-location .header:nth-last-child(8n + 4),
@@ -2141,7 +2168,7 @@ Nactions .reacthead i,
 #combat-encumber .current:nth-last-child(10n + 3),
 #combat-encumber .current:nth-last-child(10n + 2),
 #combat-encumber .current:nth-last-child(10n + 1) {
-  background-color: lightgoldenrodyellow;
+  background-color: #eaeafa;
 }
 
 #combat-weapons {
@@ -2231,7 +2258,7 @@ Nactions .reacthead i,
 }
 
 #range-table .label:nth-child(odd) {
-  background-color: #e8ffe8;
+  background-color: #f2f2f2;
 }
 
 /* Message Chat styles */
@@ -2349,7 +2376,7 @@ Nactions .reacthead i,
   text-decoration: underline;
   text-shadow: none;
   font-weight: bold;
-  background-color: #e8ffe8;
+  background-color: #f2f2f2;
   font-size: 105%;
 }
 
@@ -2424,4 +2451,64 @@ input.gcs-input:disabled {
 .attribute-value-erebo {
   text-align: center !important;
   font-size: 20px !important;
+}
+
+.diamond-container {
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+
+/********* TRIPLE DIAMOND DIVIDER *********/
+.triple-diamond-deco-container {
+  display: grid;
+  grid-template-columns:
+    [line-start]    1fr
+    [small-start]   8px
+    [large-start]   2px
+    [small-end]   12px
+    [small-start]  2px
+    [large-end]     8px
+    [small-end]     1fr
+    [line-end]
+;
+  grid-template-rows:
+    [large-start] 3px
+    [small-start] 5px
+    [midline]     5px
+    [small-end]   3px
+    [large-end]
+;
+  /*   background-color: peachpuff; */
+}
+
+.triple-diamond-deco-container .left-line {
+  grid-column: line-start / small-end 1;
+  grid-row: midline / large-end;
+  border-top: 1px dotted black;
+}
+
+.triple-diamond-deco-container .right-line {
+  grid-column: small-start 2 / line-end;
+  grid-row: midline / large-end;
+  border-top: 1px dotted black;
+}
+
+.triple-diamond-deco-container .small-diamond-left {
+  grid-column: small-start 1 / small-end 1;
+  grid-row: small-start / small-end;
+  transform: rotate(45deg);
+  border: 1px dotted black;
+}
+
+.triple-diamond-deco-container .small-diamond-right {
+  grid-column: small-start 2 / small-end 2;
+  grid-row: small-start / small-end;
+  transform: rotate(45deg);
+  border: 1px dotted black;
+}
+
+.triple-diamond-deco-container .large-diamond {
+  grid-area: large;
+  transform: rotate(45deg);
+  border: 1px dotted black;
 }

@@ -82,7 +82,7 @@
         <div class="sheet-mini-spheres">
             {{#each data.magickAdvantages.mundaneBackgrounds}}
                 <div>
-                    <span class='extra-info' data-info="{{this.notes}}" data-pageref="{{this.pageref}}">{{this.name}}</span>
+                <span class='extra-info' data-info="{{this.notes}}" data-pageref="{{this.pageref}}"> {{#if this.alternateName}}  {{this.alternateName}} {{else}}{{this.name}} {{/if}}</span>
                 </div>
             {{/each}}
         </div>
