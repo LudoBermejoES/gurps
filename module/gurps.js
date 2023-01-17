@@ -33,6 +33,7 @@ import {
   wait,
   quotedAttackName,
   requestFpHp,
+  sanitize
 } from '../lib/utilities.js'
 import { doRoll } from '../module/dierolls/dieroll.js'
 import { ResourceTrackerManager } from './actor/resource-tracker-manager.js'
@@ -46,7 +47,7 @@ import GurpsJournalEntry from './journal.js'
 import TriggerHappySupport from './effects/triggerhappy.js'
 
 /**
- * Added to color the rollable parts of the character sheet.
+ * /dded to color the rollable parts of the character sheet.
  * Made this part eslint compatible...
  * ~Stevil
  */
@@ -76,6 +77,8 @@ import * as GURPSSpeedProvider from './speed-provider.js'
 import { multiplyDice } from './utilities/damage-utils.js'
 import GurpsWiring from './gurps-wiring.js'
 import { gurpslink } from './utilities/gurpslink.js'
+import { PDFEditorSheet } from './pdf/edit.js'
+import { JournalEntryPageGURPS } from './pdf/index.js'
 
 let GURPS = undefined
 
@@ -107,13 +110,13 @@ if (!globalThis.GURPS) {
   Settings.initializeSettings()
   GURPS.EffectModifierControl = new EffectModifierControl()
 
-  // CONFIG.debug.hooks = true
+  //CONFIG.debug.hooks = true;
 
   // Expose Maneuvers to make them easier to use in modules
   GURPS.Maneuvers = Maneuvers
 
   // Use the target d6 icon for rolltable entries
-  CONFIG.RollTable.resultIcon = 'systems/gurps/icons/single-die.webp'
+  //CONFIG.RollTable.resultIcon = 'systems/gurps/icons/single-die.webp'
   CONFIG.time.roundTime = 1
 
   GURPS.StatusEffect = new StatusEffect()
@@ -166,10 +169,11 @@ if (!globalThis.GURPS) {
       })
   }
 
-  // TODO Why are these global?
+  // TODO Why are these global?  Because they are used as semaphores for certain multithreaded processes
   GURPS.ChatCommandsInProcess = [] // Taking advantage of synchronous nature of JS arrays
   GURPS.PendingOTFs = []
   GURPS.IgnoreTokenSelect = false
+
   GURPS.wait = wait
 
   GURPS.attributepaths = {
@@ -417,7 +421,7 @@ if (!globalThis.GURPS) {
   GURPS.executeOTF = executeOTF
 
   function processSkillSpell({ action, actor }) {
-    let actordata = actor?.data
+    let actordata = actor?.system
 
     // skill
     var skill
@@ -430,7 +434,7 @@ if (!globalThis.GURPS) {
       }
     }
     // @ts-ignore
-    else skill = GURPS.findSkillSpell(actor?.data?.data, action.name, !!action.isSkillOnly, !!action.isSpellOnly)
+    else skill = GURPS.findSkillSpell(actor?.system, action.name, !!action.isSkillOnly, !!action.isSpellOnly)
     if (!skill) {
       return 0
     }
@@ -441,11 +445,9 @@ if (!globalThis.GURPS) {
     // on a floating skill check, we want the skill with the highest relative skill level
     if (!!action.floatingAttribute) {
       if (!!actor) {
-        let value = GURPS.resolve(action.floatingAttribute, actordata.data)
+        let value = GURPS.resolve(action.floatingAttribute, actordata)
         let rsl = skill.relativelevel //  this is something like 'IQ-2' or 'Touch+3'
-        console.log(rsl)
         let valueText = rsl.replace(/^.*([+-]\d+)$/g, '$1')
-        console.log(valueText)
         skillLevel = valueText === rsl ? parseInt(value) : parseInt(valueText) + parseInt(value)
       } else {
         ui.notifications?.warn('You must have a character selected to use a "Based" Skill')
@@ -523,7 +525,7 @@ if (!globalThis.GURPS) {
      * @param {boolean} data.action.quiet
      * @param {JQuery.Event|null} data.event
      */
-    async chat({ action, event }) {
+    async chat({ action, actor, event }) {
       // @ts-ignore
       const chat = `/setEventFlags ${!!action.quiet} ${!!event?.shiftKey} ${game.keyboard.isModifierActive(
         KeyboardManager.MODIFIER_KEYS.CONTROL
@@ -533,8 +535,12 @@ if (!globalThis.GURPS) {
         if (!event.data) event.data = {}
         event.data.overridetxt = action.overridetxt
       }
+      let savedActor = GURPS.LastActor
+      if (actor) GURPS.SetLastActor(actor) // try to ensure the correct last actor.
       // @ts-ignore - someone somewhere must have added chatmsgData to the MouseEvent.
-      return await GURPS.ChatProcessors.startProcessingLines(chat, event?.chatmsgData, event)
+      let ret = await GURPS.ChatProcessors.startProcessingLines(chat, event?.chatmsgData, event)
+      if (savedActor) GURPS.SetLastActor(savedActor)
+      return ret
     },
     /**
      * @param {Object} data
@@ -546,11 +552,10 @@ if (!globalThis.GURPS) {
       switch (action.link) {
         case 'JournalEntry':
           let j = game.journal?.get(action.id)
-          if (j) {
-            if (j.data.flags.pdfoundry) {
-              handlePdf(j.data.flags.pdfoundry.PDFData.code)
-            } else j.sheet?.render(true)
-          }
+          if (j)  j.sheet?.render(true)
+          return true
+        case 'JournalEntryPage':
+          Journal._showEntry(action.id)
           return true
         case 'Actor':
           game.actors?.get(action.id)?.sheet?.render(true)
@@ -638,7 +643,7 @@ if (!globalThis.GURPS) {
         ui.notifications?.warn(i18n('GURPS.chatYouMustHaveACharacterSelected'))
         return false
       }
-      let df = action.derivedformula.match(/sw/i) ? actor.data.data.swing : actor.data.data.thrust
+      let df = action.derivedformula.match(/sw/i) ? actor.system.swing : actor.system.thrust
       // action fails if there's no formula
       if (!df) {
         ui.notifications?.warn(`${actor.name} does not have a ${action.derivedformula.toUpperCase()} formula`)
@@ -688,7 +693,7 @@ if (!globalThis.GURPS) {
         return false
       }
       let att = null
-      att = GURPS.findAttack(actor.data.data, action.name, !!action.isMelee, !!action.isRanged) // find attack possibly using wildcards
+      att = GURPS.findAttack(actor.system, action.name, !!action.isMelee, !!action.isRanged) // find attack possibly using wildcards
       if (!att) {
         ui.notifications.warn(
           `No melee or ranged attack named '${action.name.replace('<', '&lt;')}' found on ${actor.name}`
@@ -745,13 +750,14 @@ if (!globalThis.GURPS) {
      */
     controlroll({ action, actor, event }) {
       const target = parseInt(action.target)
+      let aid = actor ? `@${actor.id}@` : ''
       let thing
       let chatthing
       if (!!action.desc) {
         thing = action.desc
-        chatthing = `["Control Roll, ${thing}"CR:${target} ${thing}]`
+        chatthing = `["Control Roll, ${thing}"${aid}CR:${target} ${thing}]`
       } else {
-        chatthing = `[CR:${target}]`
+        chatthing = `[${aid}CR:${target}]`
       }
       return doRoll({
         actor,
@@ -783,7 +789,7 @@ if (!globalThis.GURPS) {
         ui.notifications.warn(i18n('GURPS.chatYouMustHaveACharacterSelected'))
         return false
       }
-      let df = action.derivedformula.match(/[Ss][Ww]/) ? actor.data.data.swing : actor.data.data.thrust
+      let df = action.derivedformula.match(/[Ss][Ww]/) ? actor.system.swing : actor.system.thrust
       if (!!action.costs) GURPS.ModifierBucket.addModifier(0, action.costs)
       const originalFormula = action.derivedformula + action.formula
       return doRoll({
@@ -857,7 +863,7 @@ if (!globalThis.GURPS) {
         ui.notifications.warn('attack action without name')
         return false
       }
-      let att = GURPS.findAttack(actor.data.data, action.name, !!action.isMelee, !!action.isRanged) // find attack possibly using wildcards
+      let att = GURPS.findAttack(actor.system, action.name, !!action.isMelee, !!action.isRanged) // find attack possibly using wildcards
       if (!att) {
         if (!action.calcOnly) {
           ui.notifications.warn(`No melee attack named '${action.name.replace('<', '&lt;')}' found on ${actor.name}`)
@@ -872,8 +878,10 @@ if (!globalThis.GURPS) {
         .replace(/\[.*\]/, '')
         .replace(/ +/g, ' ')
         .trim()
-      const chatthing = `[${p}${quotedAttackName({ name: thing, mode: att.mode })}]`
-      const followon = `[D:${quotedAttackName({ name: thing, mode: att.mode })}]`
+      let qn = quotedAttackName({ name: thing, mode: att.mode })
+      let aid = actor ? `@${actor.id}@` : ''
+      const chatthing = `[${aid}${p}${qn}]`
+      const followon = `[${aid}D:${qn}]`
       let target = att.level
       if (!target) {
         ui.notifications.warn(`attack named ${thing} has level of 0 or NaN`)
@@ -892,8 +900,8 @@ if (!globalThis.GURPS) {
         text: '',
       }
       let targetmods = []
-      if (opt.obj.checkotf && !(await GURPS.executeOTF(opt.obj.checkotf, false, event))) return false
-      if (opt.obj.duringotf) await GURPS.executeOTF(opt.obj.duringotf, false, event)
+      if (opt.obj.checkotf && !(await GURPS.executeOTF(opt.obj.checkotf, false, event, actor))) return false
+      if (opt.obj.duringotf) await GURPS.executeOTF(opt.obj.duringotf, false, event, actor)
       if (!!action.costs) GURPS.ModifierBucket.addModifier(0, action.costs)
       if (!!action.mod) GURPS.ModifierBucket.addModifier(action.mod, action.desc, targetmods)
       if (action.overridetxt) opt.text += "<span style='font-size:85%'>" + action.overridetxt + '</span>'
@@ -927,7 +935,7 @@ if (!globalThis.GURPS) {
         ui.notifications.warn(i18n('GURPS.chatYouMustHaveACharacterSelected'))
         return false
       }
-      let att = GURPS.findAttack(actor.data.data, action.name, !!action.isMelee, false) // find attack possibly using wildcards
+      let att = GURPS.findAttack(actor.system, action.name, !!action.isMelee, false) // find attack possibly using wildcards
       if (!att) {
         ui.notifications.warn(`No melee attack named '${action.name.replace('<', '&lt;')}' found on ${actor.name}`)
         return false
@@ -950,8 +958,8 @@ if (!globalThis.GURPS) {
       let targetmods = []
       if (!!action.costs) GURPS.ModifierBucket.addModifier(0, action.costs)
       if (!!action.mod) GURPS.ModifierBucket.addModifier(action.mod, action.desc, targetmods)
-      const chatthing = thing === '' ? att.name + mode : `[B:"${thing}${mode}"]`
-
+      let aid = actor ? `@${actor.id}@` : ''
+      const chatthing = thing === '' ? att.name + mode : `[${aid}B:"${thing}${mode}"]`
       return doRoll({
         actor,
         targetmods,
@@ -983,7 +991,7 @@ if (!globalThis.GURPS) {
         ui.notifications.warn(i18n('GURPS.chatYouMustHaveACharacterSelected'))
         return false
       }
-      let att = GURPS.findAttack(actor.data.data, action.name, !!action.isMelee, false) // find attack possibly using wildcards
+      let att = GURPS.findAttack(actor.system, action.name, !!action.isMelee, false) // find attack possibly using wildcards
       if (!att) {
         ui.notifications.warn(`No melee attack named '${action.name.replace('<', '&lt;')}' found on ${actor.name}`)
         return false
@@ -1006,7 +1014,8 @@ if (!globalThis.GURPS) {
       let targetmods = []
       if (!!action.costs) GURPS.ModifierBucket.addModifier(0, action.costs)
       if (!!action.mod) GURPS.ModifierBucket.addModifier(action.mod, action.desc, targetmods)
-      const chatthing = thing === '' ? att.name + mode : `[P:"${thing}${mode}"]`
+      let aid = actor ? `@${actor.id}@` : ''
+      const chatthing = thing === '' ? att.name + mode : `[${aid}P:"${thing}${mode}"]`
 
       return doRoll({
         actor,
@@ -1045,12 +1054,12 @@ if (!globalThis.GURPS) {
       if (!target && !!actor) {
         if (!!action.melee) {
           // Is it trying to match to an attack name (should only occur with Parry: & Block:
-          let meleeAttack = GURPS.findAttack(actor.data.data, action.melee)
+          let meleeAttack = GURPS.findAttack(actor.system, action.melee)
           if (!!meleeAttack) {
             target = parseInt(meleeAttack[action.attribute.toLowerCase()]) // should only occur with parry & block
           }
         } else {
-          target = parseInt(GURPS.resolve(action.path, actor.data.data))
+          target = parseInt(GURPS.resolve(action.path, actor.system))
         }
       }
       const thing = action.name
@@ -1063,7 +1072,8 @@ if (!globalThis.GURPS) {
         return { target: target + modifier, thing: thing }
       }
       let targetmods = []
-      const chatthing = originalOtf ? `[${originalOtf}]` : `[${thing}]`
+      let aid = actor ? `@${actor.id}@` : ''
+      const chatthing = originalOtf ? `[${aid}${originalOtf}]` : `[${aid}${thing}]`
       let opt = {
         blind: action.blindroll,
         event: event,
@@ -1071,8 +1081,8 @@ if (!globalThis.GURPS) {
         obj: action.obj,
         text: '',
       }
-      if (opt.obj?.checkotf && !(await GURPS.executeOTF(opt.obj.checkotf, false, event))) return false
-      if (opt.obj?.duringotf) await GURPS.executeOTF(opt.obj.duringotf, false, event)
+      if (opt.obj?.checkotf && !(await GURPS.executeOTF(opt.obj.checkotf, false, event, actor))) return false
+      if (opt.obj?.duringotf) await GURPS.executeOTF(opt.obj.duringotf, false, event, actor)
       opt.text = ''
       if (!!action.costs) GURPS.ModifierBucket.addModifier(0, action.costs)
       if (!!action.mod) GURPS.ModifierBucket.addModifier(action.mod, action.desc, targetmods)
@@ -1126,7 +1136,8 @@ if (!globalThis.GURPS) {
         return { target: target + modifier, thing: thing }
       }
       let targetmods = []
-      let chatthing = originalOtf ? `[${originalOtf}]` : `[S:"${thing}"]`
+      let aid = actor ? `@${actor.id}@` : ''
+      let chatthing = originalOtf ? `[${aid}${originalOtf}]` : `[${aid}S:"${thing}"]`
       let opt = {
         blind: action.blindroll,
         event,
@@ -1134,8 +1145,8 @@ if (!globalThis.GURPS) {
         obj: action.obj,
         text: '',
       }
-      if (opt.obj?.checkotf && !(await GURPS.executeOTF(opt.obj.checkotf, false, event))) return false
-      if (opt.obj?.duringotf) await GURPS.executeOTF(opt.obj.duringotf, false, event)
+      if (opt.obj?.checkotf && !(await GURPS.executeOTF(opt.obj.checkotf, false, event, actor))) return false
+      if (opt.obj?.duringotf) await GURPS.executeOTF(opt.obj.duringotf, false, event, actor)
 
       if (!!action.costs) GURPS.ModifierBucket.addModifier(0, action.costs)
       if (!!action.mod) GURPS.ModifierBucket.addModifier(action.mod, action.desc, targetmods)
@@ -1146,16 +1157,16 @@ if (!globalThis.GURPS) {
     },
 
     /*
-    [AMRS][DPK]
-    A: ads & attack (melee & range)
-    AD: ads
-    AT: attack
-    M: melee
-    R: ranged
-    S: skills & spells
-    SK: skills
-    SP: spells
-  */
+							[AMRS][DPK]
+							A: ads & attack (melee & range)
+							AD: ads
+							AT: attack
+							M: melee
+							R: ranged
+							S: skills & spells
+							SK: skills
+							SP: spells
+						  */
     ['test-exists']({ action, actor, event, originalOtf, calcOnly }) {
       switch (action.prefix) {
         case 'A':
@@ -1218,6 +1229,7 @@ if (!globalThis.GURPS) {
    */
   async function performAction(action, actor, event = null, targets = []) {
     if (!action || !(action.type in actionFuncs)) return false
+    if (action.sourceId) actor = game.actors.get(action.sourceId)
     const origAction = action
     const originalOtf = action.orig
     const calcOnly = action.calcOnly
@@ -1239,13 +1251,12 @@ if (!globalThis.GURPS) {
     const removeOtf = '^ *(\\[ ?["\'])?' // pattern to remove some of the OtF syntax from search name so attacks start start with an OtF can be matched
     var t
     if (!actor) return t
-    if (actor instanceof GurpsActor) actor = actor.getGurpsActorData()
-    // if (!!actor.data?.data?.additionalresources) actor = actor.data
+    if (actor instanceof GurpsActor) actor = actor.system
     let skillRegExp = new RegExp(removeOtf + makeRegexPatternFrom(sname, false, false), 'i')
     let best = 0
     if (!isSpellOnly)
       recurselist(actor.skills, s => {
-        if (s.name.match(skillRegExp) && s.level > best) {
+        if (s.name?.match(skillRegExp) && s.level > best) {
           t = s
           best = parseInt(s.level)
         }
@@ -1253,7 +1264,7 @@ if (!globalThis.GURPS) {
     if (!t)
       if (!isSkillOnly)
         recurselist(actor.spells, s => {
-          if (s.name.match(skillRegExp) && s.level > best) {
+          if (s.name?.match(skillRegExp) && s.level > best) {
             t = s
             best = parseInt(s.level)
           }
@@ -1270,7 +1281,7 @@ if (!globalThis.GURPS) {
   function findAdDisad(actor, sname) {
     var t
     if (!actor) return t
-    if (actor instanceof GurpsActor) actor = actor.getGurpsActorData()
+    if (actor instanceof GurpsActor) actor = actor.system
     sname = makeRegexPatternFrom(sname, false)
     let regex = new RegExp(sname, 'i')
     recurselist(actor.ads, s => {
@@ -1290,9 +1301,9 @@ if (!globalThis.GURPS) {
     const removeOtf = '^ *(\\[ ?["\'])?' // pattern to remove some of the OtF syntax from search name so attacks start start with an OtF can be matched
     var t
     if (!actor) return t
-    if (actor instanceof GurpsActor) actor = actor.getGurpsActorData()
-    //  if (!!actor.data?.data?.additionalresources) actor = actor.data
-    let fullregex = new RegExp(removeOtf + makeRegexPatternFrom(sname, false, false), 'i')
+    if (actor instanceof GurpsActor) actor = actor.system
+    let s = sanitize(sname)
+    let fullregex = new RegExp(removeOtf + makeRegexPatternFrom(s, false, false), 'i')
     let smode = ''
     let m = XRegExp.matchRecursive(sname, '\\(', '\\)', 'g', {
       unbalanced: 'skip-lazy',
@@ -1303,7 +1314,7 @@ if (!globalThis.GURPS) {
       sname = m[0].value.trim()
       smode = m[1].value.trim().toLowerCase()
     }
-    let nameregex = new RegExp(removeOtf + makeRegexPatternFrom(sname, false, false), 'i')
+    let nameregex = new RegExp(removeOtf + makeRegexPatternFrom(s, false, false), 'i')
     if (isMelee)
       // @ts-ignore
       recurselist(actor.melee, (e, k, d) => {
@@ -1370,14 +1381,15 @@ if (!globalThis.GURPS) {
       }
       return
     } else if ('path' in element.dataset) {
+      let srcid = !!actor ? "@" + actor.id + "@" : ''
       prefix = 'Roll vs '
       thing = GURPS._mapAttributePath(element.dataset.path)
       formula = '3d6'
       target = parseInt(element.innerText)
       if ('otf' in element.dataset)
         if (thing.toUpperCase() != element.dataset.otf.toUpperCase())
-          chatthing = thing + '/[' + element.dataset.otf + ']'
-        else chatthing = '[' + element.dataset.otf + ']'
+          chatthing = thing + '/[' + srcid + element.dataset.otf + ']'
+        else chatthing = '[' + srcid + element.dataset.otf + ']'
     } else if ('otf' in element.dataset) {
       // strip out any inner OtFs when coming from the UI.   Mainly attack names
       let otf = element.dataset.otf.trim()
@@ -1402,9 +1414,9 @@ if (!globalThis.GURPS) {
       let k = $(element).closest('[data-key]').attr('data-key')
       if (!k) k = element.dataset.key
       if (!!k) {
-        if (actor) opt.obj = getProperty(actor.data, k) // During the roll, we may want to extract something from the object
-        if (opt.obj.checkotf && !(await GURPS.executeOTF(opt.obj.checkotf, false, event))) return
-        if (opt.obj.duringotf) await GURPS.executeOTF(opt.obj.duringotf, false, event)
+        if (actor) opt.obj = getProperty(actor, k) // During the roll, we may want to extract something from the object
+        if (opt.obj.checkotf && !(await GURPS.executeOTF(opt.obj.checkotf, false, event, actor))) return
+        if (opt.obj.duringotf) await GURPS.executeOTF(opt.obj.duringotf, false, event, actor)
       }
       formula = '3d6'
       let t = element.innerText
@@ -1446,8 +1458,8 @@ if (!globalThis.GURPS) {
       if (target.match(/^[hf]p/i)) {
         let k = target.toUpperCase()
         // @ts-ignore
-        delta = actor.data.data[k].value - delta
-        await actor.update({ ['data.' + k + '.value']: delta })
+        delta = actor.system[k].value - delta
+        await actor.update({ ['system.' + k + '.value']: delta })
       }
       if (target.match(/^tr/i)) {
         await GURPS.ChatProcessors.startProcessingLines('/setEventFlags true false false\\\\/' + target + ' -' + delta) // Make the tracker command quiet
@@ -1590,7 +1602,7 @@ if (!globalThis.GURPS) {
     i = objpath.lastIndexOf('.')
     let parentpath = objpath.substring(0, i)
     let objkey = objpath.substr(i + 1)
-    let object = GURPS.decode(actor.data, objpath)
+    let object = GURPS.decode(actor, objpath)
     let t = parentpath + '.-=' + objkey
     let oldRender = actor.ignoreRender
     actor.ignoreRender = true
@@ -1631,7 +1643,7 @@ if (!globalThis.GURPS) {
     i = objpath.lastIndexOf('.')
     let parentpath = objpath.substring(0, i)
     let objkey = objpath.substr(i + 1)
-    let object = GURPS.decode(actor.data, objpath)
+    let object = GURPS.decode(actor, objpath)
     let t = parentpath + '.-=' + objkey
     await actor.internalUpdate({ [t]: null }) // Delete the whole object
     let start = parseInt(key)
@@ -1693,14 +1705,13 @@ if (!globalThis.GURPS) {
       }
       let display = true
       if (!!src && game.settings.get(Settings.SYSTEM_NAME, Settings.SETTING_REMOVE_UNEQUIPPED)) {
-        // if an optional src is provided (which == actor.data.data) assume we are checking attacks to see if they are equipped
+        // if an optional src is provided (which == actor.system) assume we are checking attacks to see if they are equipped
         recurselist(src.equipment.carried, e => {
           if (eqt.name.startsWith(e.name) && !e.equipped) display = false
         })
       }
       if (display) {
         let fragment = options.fn(eqt, { data: data })
-        // if (!!eqt?.equipped) console.log(fragment)
         ret = ret + fragment
       }
       ret = ret + listeqtrecurse(eqt.contains, options, level + 1, data, parentkey + key + '.contains.')
@@ -1926,6 +1937,7 @@ if (!globalThis.GURPS) {
     // @ts-ignore
     CONFIG.Actor.documentClass = GurpsActor
     CONFIG.Item.documentClass = GurpsItem
+    CONFIG.JournalEntryPage.documentClass = JournalEntryPageGURPS
 
     // add custom ActiveEffectConfig sheet class
     CONFIG.ActiveEffect.sheetClass = GurpsActiveEffectConfig
@@ -2024,11 +2036,19 @@ if (!globalThis.GURPS) {
     // @ts-ignore
     Items.registerSheet('gurps', GurpsItemSheet, { makeDefault: true })
 
+    DocumentSheetConfig.unregisterSheet(JournalEntryPage, 'core', JournalPDFPageSheet)
+
+    DocumentSheetConfig.registerSheet(JournalEntryPage, 'gurps', PDFEditorSheet, {
+      types: ['pdf'],
+      makeDefault: true,
+      label: 'GURPS PDF Editor Sheet',
+    })
+
     // Warning, the very first table will take a refresh before the dice to show up in the dialog.  Sorry, can't seem to get around that
     // @ts-ignore
     Hooks.on('createRollTable', async function (entity, options, userId) {
       await entity.update({ img: 'systems/gurps/icons/single-die.webp' })
-      entity.data.img = 'systems/gurps/icons/single-die.webp'
+      entity.img = 'systems/gurps/icons/single-die.webp'
     })
 
     // @ts-ignore
@@ -2098,13 +2118,21 @@ if (!globalThis.GURPS) {
         event.preventDefault()
         if (event.originalEvent) event = event.originalEvent
         const data = JSON.parse(event.dataTransfer.getData('text/plain'))
-        if (!!data && !!data.otf) {
+        if (!!data && (!!data.otf || !!data.bucket)) {
           let cmd = ''
           if (!!data.encodedAction) {
             let action = JSON.parse(atou(data.encodedAction))
             if (action.quiet) cmd += '!'
           }
-          cmd += data.otf
+          if (data.otf)
+            cmd += data.otf
+          else {
+            let sep = ''
+            data.bucket.forEach(otf => {
+              cmd += sep + otf
+               sep = ' & '
+            })
+          }
           if (!!data.displayname) {
             let q = '"'
             if (data.displayname.includes('"')) q = "'"
@@ -2186,7 +2214,7 @@ if (!globalThis.GURPS) {
     //   }).render(true)
 
     // @ts-ignore
-    GURPS.currentVersion = SemanticVersion.fromString(game.system.data.version)
+    GURPS.currentVersion = SemanticVersion.fromString(game.system.version)
     // Test for migration
     let mv = game.settings.get(Settings.SYSTEM_NAME, Settings.SETTING_MIGRATION_VERSION)
     let quiet = false
@@ -2199,15 +2227,16 @@ if (!globalThis.GURPS) {
     const migrationVersion = SemanticVersion.fromString(mv)
     // @ts-ignore
     if (migrationVersion.isLowerThan(GURPS.currentVersion)) {
+      // TODO: remove
       // check which migrations are needed
       // @ts-ignore
-      if (migrationVersion.isLowerThan(Settings.VERSION_096)) await Migration.migrateTo096(quiet)
+      // if (migrationVersion.isLowerThan(Settings.VERSION_096)) await Migration.migrateTo096(quiet)
       // @ts-ignore
-      if (migrationVersion.isLowerThan(Settings.VERSION_097)) await Migration.migrateTo097(quiet)
+      // if (migrationVersion.isLowerThan(Settings.VERSION_097)) await Migration.migrateTo097(quiet)
       // @ts-ignore
-      if (migrationVersion.isLowerThan(Settings.VERSION_0104)) await Migration.migrateTo0104(quiet)
+      // if (migrationVersion.isLowerThan(Settings.VERSION_0104)) await Migration.migrateTo0104(quiet)
 
-      game.settings.set(Settings.SYSTEM_NAME, Settings.SETTING_MIGRATION_VERSION, game.system.data.version)
+      game.settings.set(Settings.SYSTEM_NAME, Settings.SETTING_MIGRATION_VERSION, game.system.version)
     }
 
     // Show changelog
@@ -2228,7 +2257,7 @@ if (!globalThis.GURPS) {
   <hr/>
   <div style='text-align: center;'>
     <div style="margin-bottom: 5px;">Like our work? Consider supporting us:</div>
-    <iframe src="https://github.com/sponsors/crnormand/button" title="Sponsor crnormand" height="35" width="116" style="border: 0;"></iframe>
+    <div><a href="https://github.com/sponsors/crnormand?o=esb"><img height="24" src="systems/gurps/icons/sponsor.png"> Github Sponsor</a></div><br>
     <div><a href="https://ko-fi.com/crnormand"><img height="24" src="systems/gurps/icons/SupportMe_stroke@2x.webp"></a></div>
   </div>
 </div>`,
@@ -2294,12 +2323,12 @@ if (!globalThis.GURPS) {
         game.user.assignHotbarMacro(macro, slot)
       }
 
-      let oldmacro = game.macros.get(game.user.data.hotbar[slot])
+      let oldmacro = game.macros.get(game.user.hotbar[slot])
       if (!!oldmacro && !!oldmacro.getFlag('gurps', 'drag-drop-otf')) {
         let c = (!!data.bucket ? '/clearmb\n' : '') + cmd
         new Dialog({
           title: 'Merge or Replace On-the-Fly macro',
-          content: `Merge both macros into this:<br><br><mark>${oldmacro.data.command.split('\n').join('<br>')}<br>${cmd
+          content: `Merge both macros into this:<br><br><mark>${oldmacro.command.split('\n').join('<br>')}<br>${cmd
             .split('\n')
             .join('<br>')}</mark><br><br>Or just replace current macro with:<br><br><mark>${c
             .split('\n')
@@ -2309,7 +2338,7 @@ if (!globalThis.GURPS) {
               icon: '<i class="fas fa-angle-double-down"></i>',
               label: 'Merge',
               callback: () => {
-                setmacro(oldmacro.data.name, oldmacro.data.command + '\n' + cmd)
+                setmacro(oldmacro.name, oldmacro.command + '\n' + cmd)
               },
             },
             two: {
@@ -2384,7 +2413,11 @@ if (!globalThis.GURPS) {
     // @ts-ignore
     game.socket.on('system.gurps', async resp => {
       if (resp.type == 'updatebucket') {
-        if (resp.users.includes(game.user.id)) GURPS.ModifierBucket.updateModifierBucket(resp.bucket)
+        if (resp.users.includes(game.user.id)) {
+          if (resp.add) {
+            resp.bucket.modifierList.forEach(e => GURPS.ModifierBucket.addModifier(e.mod, e.desc))
+          } else GURPS.ModifierBucket.updateModifierBucket(resp.bucket)
+        }
       }
       if (resp.type == 'initiativeChanged') {
         CONFIG.Combat.initiative = {
@@ -2417,15 +2450,15 @@ if (!globalThis.GURPS) {
           content: `<p>${srcActor.name} wants to give you ${resp.itemData.name} (${resp.count}),</p><br>Ok?`,
           yes: () => {
             // @ts-ignore
-            let destKey = destactor._findEqtkeyForId('globalid', resp.itemData.data.globalid)
+            let destKey = destactor._findEqtkeyForId('name', resp.itemData.name)
             if (!!destKey) {
               // already have some
               // @ts-ignore
-              let destEqt = getProperty(destactor.data, destKey)
+              let destEqt = getProperty(destactor, destKey)
               // @ts-ignore
-              destactor.updateEqtCount(destKey, destEqt.count + resp.count)
+              destactor.updateEqtCount(destKey, +destEqt.count + resp.count)
             } else {
-              resp.itemData.data.equipped = true
+              resp.itemData.system.equipped = true
               // @ts-ignore
               destactor.addNewItemData(resp.itemData)
             }
@@ -2456,13 +2489,13 @@ if (!globalThis.GURPS) {
         // @ts-ignore
         let srcActor = game.actors.get(resp.srcactorid)
         // @ts-ignore
-        let eqt = getProperty(srcActor.data, resp.srckey)
+        let eqt = getProperty(srcActor, resp.srckey)
         if (resp.count >= eqt.count) {
           // @ts-ignore
           srcActor.deleteEquipment(resp.srckey)
         } else {
           // @ts-ignore
-          srcActor.updateEqtCount(resp.srckey, eqt.count - resp.count)
+          srcActor.updateEqtCount(resp.srckey, +eqt.count - resp.count)
         }
         // @ts-ignore
         let destActor = game.actors.get(resp.destactorid)
@@ -2546,6 +2579,33 @@ if (!globalThis.GURPS) {
 
     GurpsToken.ready()
     TriggerHappySupport.init()
+
+    CONFIG.TextEditor.enrichers = CONFIG.TextEditor.enrichers.concat([
+    {
+        pattern : /\[.*\]/gm,
+        enricher : async (match, options) => {
+            let s = gurpslink(match[0])
+            const doc = document.createElement("span");
+            doc.innerHTML = s;
+            return doc;
+        }
+    }])
+
+    Hooks.on('renderGMNote', (app, html, options) => {
+      let h = html.find('[data-edit')
+      h[0].innerHTML = gurpslink(h[0].innerHTML)
+      GurpsWiring.hookupAllEvents(html)
+    })
+
+      // Hack to clean up multiple maneuver icons.   This will be fixed in future releaseds of the Bestiaries.
+   setTimeout(() => {
+      [ 'createCombatant', 'deleteCombatant', 'deleteCombat'].forEach(h => {
+        let t = Hooks.events[h].reduce((total, value) => {
+          return (value.fn.toString().includes('Maneuver(')) ? total + 1 : total
+        }, 0)
+        while (t-- > 1) Hooks.events[h].pop()
+      })
+    }, 1000)
 
     // End of system "READY" hook.
     Hooks.call('gurpsready')

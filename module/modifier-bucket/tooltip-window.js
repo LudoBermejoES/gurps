@@ -2,9 +2,8 @@ import { displayMod, horiz, i18n } from '../../lib/utilities.js'
 import { parselink } from '../../lib/parselink.js'
 import * as HitLocations from '../hitlocation/hitlocation.js'
 import * as Settings from '../../lib/miscellaneous-settings.js'
-import ModifierBucketJournals from './select-journals.js'
 import GurpsWiring from '../gurps-wiring.js'
-
+import { gurpslink } from '../../module/utilities/gurpslink.js'
 /**
  * The ModifierBucketEditor displays the popup (tooltip) window where modifiers can be applied
  * to the current or other actors.
@@ -13,7 +12,7 @@ export default class ModifierBucketEditor extends Application {
   constructor(bucket, options = {}) {
     super(options)
 
-    console.trace('+++++ Create ModifierBucketEditor +++++')
+    // console.trace('+++++ Create ModifierBucketEditor +++++')
 
     this.bucket = bucket // reference to class ModifierBucket, which is the 'button' that opens this window
     this.inside = false
@@ -31,6 +30,10 @@ export default class ModifierBucketEditor extends Application {
       scale: scale,
       classes: ['modifier-bucket'],
     })
+  }
+
+  get title() {
+    return 'Modifiers'
   }
 
   /**
@@ -52,13 +55,23 @@ export default class ModifierBucketEditor extends Application {
   }
 
   get journals() {
-    let modifierJournalIds = ModifierBucketJournals.getJournalIds()
-    let journals = Array.from(game.journal)
-      .filter(it => modifierJournalIds.includes(it.id))
-      .map(it => game.journal.get(it.id))
-    journals = journals.filter(it => it.testUserPermission(game.user, CONST.ENTITY_PERMISSIONS.OBSERVER))
-    return journals
+    const settings = game.settings.get(Settings.SYSTEM_NAME, Settings.SETTING_BUCKET_JOURNALS) || []
+    let bucketPages = []
+    game.journal.forEach(j => {
+      j.pages.forEach(p => {
+        for (const k in settings) {
+          const id = settings[k]
+          if (p.id == id) bucketPages.push(p)
+        }
+      })
+    })
+    return bucketPages
   }
+  
+  convertModifiers(list) {
+    return list.map(it => `[${i18n(it)}]`).map(it => gurpslink(it))
+  }
+
 
   /**
    * @override
@@ -94,14 +107,30 @@ export default class ModifierBucketEditor extends Application {
     data.currentmods = []
 
     if (!!GURPS.LastActor) {
+      let self = this.convertModifiers(GURPS.LastActor.system.conditions.self.modifiers)
+      self.forEach(e => data.currentmods.push(e))
+
+      let target = this.convertModifiers(GURPS.LastActor.system.conditions.target.modifiers)
+      if (target.length > 0) {
+        data.currentmods.push(horiz(i18n("GURPS.targetedModifiers")))
+        target.forEach(e => data.currentmods.push(e))
+      }
+      let user = this.convertModifiers(GURPS.LastActor.system.conditions.usermods ? GURPS.LastActor.system.conditions.usermods : [])
+      if (user.length > 0) {
+      let uc = "(" + i18n("GURPS.equipmentUserCreated") + ")"
+        data.currentmods.push(horiz(i18n("GURPS.equipmentUserCreated")))
+        user.forEach(e => data.currentmods.push(e.replace(uc, '')))
+      }
+
+/*
       let melee = []
       let ranged = []
       let defense = []
       let gen = []
-
-      let effects = GURPS.LastActor.effects.filter(e => !e.data.disabled)
+      
+      let effects = GURPS.LastActor.effects.filter(e => !e.disabled)
       for (let effect of effects) {
-        let type = effect.data.flags?.core?.statusId
+        let type = effect.flags?.core?.statusId
         let m = ModifiersForStatus[type]
         if (!!m) {
           melee = melee.concat(m.melee)
@@ -126,6 +155,7 @@ export default class ModifierBucketEditor extends Application {
         data.currentmods.push(horiz('Defense'))
         defense.forEach(e => data.currentmods.push(e))
       }
+*/
     }
     return data
   }
@@ -157,7 +187,7 @@ export default class ModifierBucketEditor extends Application {
       let width = parseFloat(html.css('width').replace('px', ''))
       // ensure that left is not negative
       let left = Math.max(bucketLeft + bucketWidth / 2 - width / 2, 10)
-      console.log(`bucketLeft: ${bucketLeft}; width: ${width}; left: ${left}`)
+      // console.log(`bucketLeft: ${bucketLeft}; width: ${width}; left: ${left}`)
       html.css('left', `${left}px`)
       // }
     }
@@ -240,7 +270,7 @@ export default class ModifierBucketEditor extends Application {
   }
 
   _onleave(ev) {
-    console.log('onleave')
+    // console.log('onleave')
     this.inside = false
     this.bucket.SHOWING = false
     this.close()
@@ -249,7 +279,7 @@ export default class ModifierBucketEditor extends Application {
   _onenter(ev) {
     if (!this.options.popOut) {
       if (!this.inside) {
-        console.log('onenter')
+        // console.log('onenter')
         this.inside = true
         $(ev.currentTarget).mouseleave(ev => this._onleave(ev))
       }
@@ -479,12 +509,12 @@ const ModifierLiterals = {
     return ''
   },
   /**
-    return `[+1 ${i18n('GURPS.modifierGMSaidSo')}]
-    [-1 ${i18n('GURPS.modifierGMSaidSo')}]
-    [+4 ${i18n('GURPS.modifierGMBlessed')}]
-    [-4 ${i18n('GURPS.modifierGMDontTry')}]`
-  },
-  */
+		return `[+1 ${i18n('GURPS.modifierGMSaidSo')}]
+		[-1 ${i18n('GURPS.modifierGMSaidSo')}]
+		[+4 ${i18n('GURPS.modifierGMBlessed')}]
+		[-4 ${i18n('GURPS.modifierGMDontTry')}]`
+	  },
+	  */
 
   get TaskDifficultyModifiers() {
     return [

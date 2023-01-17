@@ -17,6 +17,8 @@ export class StatusEffect {
     this._registerSetting()
 
     GURPS.SavedStatusEffects = CONFIG.statusEffects
+    GURPS.StatusEffectStanding = 'standing'
+    GURPS.StatusEffectStandingLabel = 'GURPS.STATUSStanding'
 
     this.useActiveEffects = true // StatusEffect.useActiveEffects()
     this._statusEffects = {}
@@ -43,6 +45,10 @@ export class StatusEffect {
       type: Boolean,
       default: false,
       onChange: value => console.log(`${StatusEffect.SETTING_USE_ACTIVE_EFFECTS} : ${value}`),
+    })
+
+    Hooks.on('createActiveEffect', (args) => {
+      console.log(args)
     })
   }
 
@@ -72,22 +78,22 @@ export class StatusEffect {
         // I'm sneakily using ActiveEffects to implement postures even if the system setting is turned off.
         changes: [
           {
-            key: 'data.conditions.self.modifiers',
+            key: 'system.conditions.self.modifiers',
             value: 'GURPS.modifierPostureProneDefend',
             mode: CONST.ACTIVE_EFFECT_MODES.ADD,
           },
           {
-            key: 'data.conditions.self.modifiers',
+            key: 'system.conditions.self.modifiers',
             value: 'GURPS.modifierPostureProneMelee',
             mode: CONST.ACTIVE_EFFECT_MODES.ADD,
           },
           {
-            key: 'data.conditions.target.modifiers',
+            key: 'system.conditions.target.modifiers',
             value: 'GURPS.modifierPostureProneRanged',
             mode: CONST.ACTIVE_EFFECT_MODES.ADD,
           },
           {
-            key: 'data.conditions.posture',
+            key: 'system.conditions.posture',
             value: 'prone',
             mode: CONST.ACTIVE_EFFECT_MODES.OVERRIDE,
           },
@@ -110,17 +116,17 @@ export class StatusEffect {
         label: 'GURPS.STATUSKneel',
         changes: [
           {
-            key: 'data.conditions.self.modifiers',
+            key: 'system.conditions.self.modifiers',
             value: 'GURPS.modifierPostureKneelDefend',
             mode: CONST.ACTIVE_EFFECT_MODES.ADD,
           },
           {
-            key: 'data.conditions.self.modifiers',
+            key: 'system.conditions.self.modifiers',
             value: 'GURPS.modifierPostureKneelMelee',
             mode: CONST.ACTIVE_EFFECT_MODES.ADD,
           },
           {
-            key: 'data.conditions.target.modifiers',
+            key: 'system.conditions.target.modifiers',
             value: 'GURPS.modifierPostureCrouchRanged',
             mode: CONST.ACTIVE_EFFECT_MODES.ADD,
           },
@@ -130,7 +136,7 @@ export class StatusEffect {
             mode: CONST.ACTIVE_EFFECT_MODES.OVERRIDE,
           },
           {
-            key: 'data.conditions.posture',
+            key: 'system.conditions.posture',
             value: 'kneel',
             mode: CONST.ACTIVE_EFFECT_MODES.OVERRIDE,
           },
@@ -147,12 +153,12 @@ export class StatusEffect {
         label: 'GURPS.STATUSCrouch',
         changes: [
           {
-            key: 'data.conditions.self.modifiers',
+            key: 'system.conditions.self.modifiers',
             value: 'GURPS.modifierPostureCrouchMelee',
             mode: CONST.ACTIVE_EFFECT_MODES.ADD,
           },
           {
-            key: 'data.conditions.target.modifiers',
+            key: 'system.conditions.target.modifiers',
             value: 'GURPS.2',
             mode: CONST.ACTIVE_EFFECT_MODES.ADD,
           },
@@ -162,7 +168,7 @@ export class StatusEffect {
             mode: CONST.ACTIVE_EFFECT_MODES.OVERRIDE,
           },
           {
-            key: 'data.conditions.posture',
+            key: 'system.conditions.posture',
             value: 'crouch',
             mode: CONST.ACTIVE_EFFECT_MODES.OVERRIDE,
           },
@@ -179,17 +185,17 @@ export class StatusEffect {
         label: 'GURPS.STATUSSit',
         changes: [
           {
-            key: 'data.conditions.self.modifiers',
+            key: 'system.conditions.self.modifiers',
             value: 'GURPS.modifierPostureKneelMelee',
             mode: CONST.ACTIVE_EFFECT_MODES.ADD,
           },
           {
-            key: 'data.conditions.self.modifiers',
+            key: 'system.conditions.self.modifiers',
             value: 'GURPS.modifierPostureKneelDefend',
             mode: CONST.ACTIVE_EFFECT_MODES.ADD,
           },
           {
-            key: 'data.conditions.target.modifiers',
+            key: 'system.conditions.target.modifiers',
             value: 'GURPS.modifierPostureProneRanged',
             mode: CONST.ACTIVE_EFFECT_MODES.ADD,
           },
@@ -199,7 +205,7 @@ export class StatusEffect {
             mode: CONST.ACTIVE_EFFECT_MODES.OVERRIDE,
           },
           {
-            key: 'data.conditions.posture',
+            key: 'system.conditions.posture',
             value: 'sit',
             mode: CONST.ACTIVE_EFFECT_MODES.OVERRIDE,
           },
@@ -216,17 +222,17 @@ export class StatusEffect {
         label: 'GURPS.STATUSCrawling',
         changes: [
           {
-            key: 'data.conditions.self.modifiers',
+            key: 'system.conditions.self.modifiers',
             value: 'GURPS.modifierPostureProneMelee',
             mode: CONST.ACTIVE_EFFECT_MODES.ADD,
           },
           {
-            key: 'data.conditions.self.modifiers',
+            key: 'system.conditions.self.modifiers',
             value: 'GURPS.modifierPostureProneDefend',
             mode: CONST.ACTIVE_EFFECT_MODES.ADD,
           },
           {
-            key: 'data.conditions.target.modifiers',
+            key: 'system.conditions.target.modifiers',
             value: 'GURPS.modifierPostureProneRanged',
             mode: CONST.ACTIVE_EFFECT_MODES.ADD,
           },
@@ -236,7 +242,7 @@ export class StatusEffect {
             mode: CONST.ACTIVE_EFFECT_MODES.OVERRIDE,
           },
           {
-            key: 'data.conditions.posture',
+            key: 'system.conditions.posture',
             value: 'crawl',
             mode: CONST.ACTIVE_EFFECT_MODES.OVERRIDE,
           },
@@ -290,7 +296,7 @@ export class StatusEffect {
         label: 'GURPS.STATUSReeling',
         changes: [
           {
-            key: 'data.conditions.reeling',
+            key: 'system.conditions.reeling',
             value: true,
             mode: CONST.ACTIVE_EFFECT_MODES.OVERRIDE,
           },
@@ -316,12 +322,12 @@ export class StatusEffect {
         label: 'GURPS.STATUSExhausted',
         changes: [
           {
-            key: 'data.conditions.exhausted',
+            key: 'system.conditions.exhausted',
             value: true,
             mode: CONST.ACTIVE_EFFECT_MODES.OVERRIDE,
           },
           {
-            key: 'data.attributes.ST.import',
+            key: 'system.attributes.ST.import',
             value: 0.5,
             mode: CONST.ACTIVE_EFFECT_MODES.MULTIPLY,
           },
@@ -534,54 +540,124 @@ export class StatusEffect {
       'bad+1': {
         icon: 'systems/gurps/icons/statuses/BAD+1.webp',
         id: 'bad+1',
-        label: 'GURPS.STATUSBad',
+        label: 'GURPS.STATUSBad+1',
+        changes: [
+          {
+            key: 'system.conditions.self.modifiers',
+            value: 'GURPS.STATUSBad+1',
+            mode: CONST.ACTIVE_EFFECT_MODES.ADD,
+          }
+        ]
       },
       'bad+2': {
         icon: 'systems/gurps/icons/statuses/BAD+2.webp',
         id: 'bad+2',
-        label: 'GURPS.STATUSBad',
+        label: 'GURPS.STATUSBad+2',
+        changes: [
+          {
+            key: 'system.conditions.self.modifiers',
+            value: 'GURPS.STATUSBad+2',
+            mode: CONST.ACTIVE_EFFECT_MODES.ADD,
+          }
+        ]
       },
       'bad+3': {
         icon: 'systems/gurps/icons/statuses/BAD+3.webp',
         id: 'bad+3',
-        label: 'GURPS.STATUSBad',
+        label: 'GURPS.STATUSBad+3',
+        changes: [
+          {
+            key: 'system.conditions.self.modifiers',
+            value: 'GURPS.STATUSBad+3',
+            mode: CONST.ACTIVE_EFFECT_MODES.ADD,
+          }
+        ]
       },
       'bad+4': {
         icon: 'systems/gurps/icons/statuses/BAD+4.webp',
         id: 'bad+4',
-        label: 'GURPS.STATUSBad',
+        label: 'GURPS.STATUSBad+4',
+        changes: [
+          {
+            key: 'system.conditions.self.modifiers',
+            value: 'GURPS.STATUSBad+4',
+            mode: CONST.ACTIVE_EFFECT_MODES.ADD,
+          }
+        ]
       },
       'bad+5': {
         icon: 'systems/gurps/icons/statuses/BAD+5.webp',
         id: 'bad+5',
-        label: 'GURPS.STATUSBad',
+        label: 'GURPS.STATUSBad+5',
+        changes: [
+          {
+            key: 'system.conditions.self.modifiers',
+            value: 'GURPS.STATUSBad+5',
+            mode: CONST.ACTIVE_EFFECT_MODES.ADD,
+          }
+        ]
       },
       'bad-1': {
         icon: 'systems/gurps/icons/statuses/BAD-1.webp',
         id: 'bad-1',
-        label: 'GURPS.STATUSBad',
+        label: 'GURPS.STATUSBad-1',
+        changes: [
+          {
+            key: 'system.conditions.self.modifiers',
+            value: 'GURPS.STATUSBad-1',
+            mode: CONST.ACTIVE_EFFECT_MODES.ADD,
+          }
+        ]
       },
       'bad-2': {
         icon: 'systems/gurps/icons/statuses/BAD-2.webp',
         id: 'bad-2',
-        label: 'GURPS.STATUSBad',
+        label: 'GURPS.STATUSBad-2',
+        changes: [
+          {
+            key: 'system.conditions.self.modifiers',
+            value: 'GURPS.STATUSBad-2',
+            mode: CONST.ACTIVE_EFFECT_MODES.ADD,
+          }
+        ]
       },
       'bad-3': {
         icon: 'systems/gurps/icons/statuses/BAD-3.webp',
         id: 'bad-3',
-        label: 'GURPS.STATUSBad',
+        label: 'GURPS.STATUSBad-3',
+        changes: [
+          {
+            key: 'system.conditions.self.modifiers',
+            value: 'GURPS.STATUSBad-3',
+            mode: CONST.ACTIVE_EFFECT_MODES.ADD,
+          }
+        ]
       },
       'bad-4': {
         icon: 'systems/gurps/icons/statuses/BAD-4.webp',
         id: 'bad-4',
-        label: 'GURPS.STATUSBad',
+        label: 'GURPS.STATUSBad-4',
+        changes: [
+          {
+            key: 'system.conditions.self.modifiers',
+            value: 'GURPS.STATUSBad-4',
+            mode: CONST.ACTIVE_EFFECT_MODES.ADD,
+          }
+        ]
       },
       'bad-5': {
         icon: 'systems/gurps/icons/statuses/BAD-5.webp',
         id: 'bad-5',
-        label: 'GURPS.STATUSBad',
+        label: 'GURPS.STATUSBad-5',
+        changes: [
+          {
+            key: 'system.conditions.self.modifiers',
+            value: 'GURPS.STATUSBad-5',
+            mode: CONST.ACTIVE_EFFECT_MODES.ADD,
+          }
+        ]
       },
-      'disarmed': {
+      disarmed: {
         icon: 'systems/gurps/icons/statuses/disarmed.webp',
         id: 'disarmed',
         label: 'GURPS.STATUSDisarmed',
@@ -595,7 +671,7 @@ const _getActiveEffectsData = function (id) {
     shock1: {
       changes: [
         {
-          key: 'data.conditions.self.modifiers',
+          key: 'system.conditions.self.modifiers',
           value: 'GURPS.modifierStatusShock1',
           mode: CONST.ACTIVE_EFFECT_MODES.ADD,
         },
@@ -612,7 +688,7 @@ const _getActiveEffectsData = function (id) {
     shock2: {
       changes: [
         {
-          key: 'data.conditions.self.modifiers',
+          key: 'system.conditions.self.modifiers',
           value: 'GURPS.modifierStatusShock2',
           mode: CONST.ACTIVE_EFFECT_MODES.ADD,
         },
@@ -629,7 +705,7 @@ const _getActiveEffectsData = function (id) {
     shock3: {
       changes: [
         {
-          key: 'data.conditions.self.modifiers',
+          key: 'system.conditions.self.modifiers',
           value: 'GURPS.modifierStatusShock3',
           mode: CONST.ACTIVE_EFFECT_MODES.ADD,
         },
@@ -646,7 +722,7 @@ const _getActiveEffectsData = function (id) {
     shock4: {
       changes: [
         {
-          key: 'data.conditions.self.modifiers',
+          key: 'system.conditions.self.modifiers',
           value: 'GURPS.modifierStatusShock4',
           mode: CONST.ACTIVE_EFFECT_MODES.ADD,
         },
@@ -663,12 +739,12 @@ const _getActiveEffectsData = function (id) {
     stun: {
       changes: [
         {
-          key: 'data.conditions.self.modifiers',
+          key: 'system.conditions.self.modifiers',
           value: 'GURPS.modifierStatusStunned',
           mode: CONST.ACTIVE_EFFECT_MODES.ADD,
         },
         {
-          key: 'data.conditions.maneuver',
+          key: 'system.conditions.maneuver',
           value: 'do_nothing',
           mode: CONST.ACTIVE_EFFECT_MODES.CUSTOM,
         },
@@ -686,12 +762,12 @@ const _getActiveEffectsData = function (id) {
     mentalstun: {
       changes: [
         {
-          key: 'data.conditions.self.modifiers',
+          key: 'system.conditions.self.modifiers',
           value: 'GURPS.modifierStatusStunned',
           mode: CONST.ACTIVE_EFFECT_MODES.ADD,
         },
         {
-          key: 'data.conditions.maneuver',
+          key: 'system.conditions.maneuver',
           value: 'do_nothing',
           mode: CONST.ACTIVE_EFFECT_MODES.CUSTOM,
         },
@@ -709,7 +785,7 @@ const _getActiveEffectsData = function (id) {
     grapple: {
       changes: [
         {
-          key: 'data.conditions.self.modifiers',
+          key: 'system.conditions.self.modifiers',
           value: 'GURPS.modifierGrappling',
           mode: CONST.ACTIVE_EFFECT_MODES.ADD,
         },
@@ -723,12 +799,12 @@ const _getActiveEffectsData = function (id) {
     nauseated: {
       changes: [
         {
-          key: 'data.conditions.self.modifiers',
+          key: 'system.conditions.self.modifiers',
           value: 'GURPS.modifierAfflictionNausea',
           mode: CONST.ACTIVE_EFFECT_MODES.ADD,
         },
         {
-          key: 'data.conditions.self.modifiers',
+          key: 'system.conditions.self.modifiers',
           value: 'GURPS.modifierAfflictionNauseaDef',
           mode: CONST.ACTIVE_EFFECT_MODES.ADD,
         },
@@ -742,12 +818,12 @@ const _getActiveEffectsData = function (id) {
     coughing: {
       changes: [
         {
-          key: 'data.conditions.self.modifiers',
+          key: 'system.conditions.self.modifiers',
           value: 'GURPS.modifierAfflictionCough',
           mode: CONST.ACTIVE_EFFECT_MODES.ADD,
         },
         {
-          key: 'data.conditions.self.modifiers',
+          key: 'system.conditions.self.modifiers',
           value: 'GURPS.modifierAfflictionCoughIQ',
           mode: CONST.ACTIVE_EFFECT_MODES.ADD,
         },
@@ -761,7 +837,7 @@ const _getActiveEffectsData = function (id) {
     retching: {
       changes: [
         {
-          key: 'data.conditions.self.modifiers',
+          key: 'system.conditions.self.modifiers',
           value: 'GURPS.modifierAfflictionRetch',
           mode: CONST.ACTIVE_EFFECT_MODES.ADD,
         },
@@ -779,7 +855,7 @@ const _getActiveEffectsData = function (id) {
     drowsy: {
       changes: [
         {
-          key: 'data.conditions.self.modifiers',
+          key: 'system.conditions.self.modifiers',
           value: 'GURPS.modifierAfflictionDrowsy',
           mode: CONST.ACTIVE_EFFECT_MODES.ADD,
         },
@@ -793,12 +869,12 @@ const _getActiveEffectsData = function (id) {
     tipsy: {
       changes: [
         {
-          key: 'data.conditions.self.modifiers',
+          key: 'system.conditions.self.modifiers',
           value: 'GURPS.modifierAfflictionTipsy',
           mode: CONST.ACTIVE_EFFECT_MODES.ADD,
         },
         {
-          key: 'data.conditions.self.modifiers',
+          key: 'system.conditions.self.modifiers',
           value: 'GURPS.modifierAfflictionTipsyCR',
           mode: CONST.ACTIVE_EFFECT_MODES.ADD,
         },
@@ -812,12 +888,12 @@ const _getActiveEffectsData = function (id) {
     drunk: {
       changes: [
         {
-          key: 'data.conditions.self.modifiers',
+          key: 'system.conditions.self.modifiers',
           value: 'GURPS.modifierAfflictionDrunk',
           mode: CONST.ACTIVE_EFFECT_MODES.ADD,
         },
         {
-          key: 'data.conditions.self.modifiers',
+          key: 'system.conditions.self.modifiers',
           value: 'GURPS.modifierAfflictionDrunkCR',
           mode: CONST.ACTIVE_EFFECT_MODES.ADD,
         },
@@ -831,7 +907,7 @@ const _getActiveEffectsData = function (id) {
     euphoria: {
       changes: [
         {
-          key: 'data.conditions.self.modifiers',
+          key: 'system.conditions.self.modifiers',
           value: 'GURPS.modifierAfflictionEuphoria',
           mode: CONST.ACTIVE_EFFECT_MODES.ADD,
         },
@@ -845,7 +921,7 @@ const _getActiveEffectsData = function (id) {
     mild_pain: {
       changes: [
         {
-          key: 'data.conditions.self.modifiers',
+          key: 'system.conditions.self.modifiers',
           value: 'GURPS.modifierAfflictionModerateHPT',
           mode: CONST.ACTIVE_EFFECT_MODES.ADD,
         },
@@ -859,7 +935,7 @@ const _getActiveEffectsData = function (id) {
     moderate_pain: {
       changes: [
         {
-          key: 'data.conditions.self.modifiers',
+          key: 'system.conditions.self.modifiers',
           value: 'GURPS.modifierAfflictionModerate',
           mode: CONST.ACTIVE_EFFECT_MODES.ADD,
         },
@@ -873,7 +949,7 @@ const _getActiveEffectsData = function (id) {
     moderate_pain2: {
       changes: [
         {
-          key: 'data.conditions.self.modifiers',
+          key: 'system.conditions.self.modifiers',
           value: 'GURPS.modifierAfflictionTerribleHPT',
           mode: CONST.ACTIVE_EFFECT_MODES.ADD,
         },
@@ -887,7 +963,7 @@ const _getActiveEffectsData = function (id) {
     severe_pain: {
       changes: [
         {
-          key: 'data.conditions.self.modifiers',
+          key: 'system.conditions.self.modifiers',
           value: 'GURPS.modifierAfflictionSevere',
           mode: CONST.ACTIVE_EFFECT_MODES.ADD,
         },
@@ -901,7 +977,7 @@ const _getActiveEffectsData = function (id) {
     terrible_pain: {
       changes: [
         {
-          key: 'data.conditions.self.modifiers',
+          key: 'system.conditions.self.modifiers',
           value: 'GURPS.modifierAfflictionTerrible',
           mode: CONST.ACTIVE_EFFECT_MODES.ADD,
         },
@@ -926,12 +1002,12 @@ const _getActiveEffectsData = function (id) {
     blind: {
       changes: [
         {
-          key: 'data.conditions.self.modifiers',
+          key: 'system.conditions.self.modifiers',
           value: 'GURPS.modifiersBlindAttack',
           mode: CONST.ACTIVE_EFFECT_MODES.ADD,
         },
         {
-          key: 'data.conditions.self.modifiers',
+          key: 'system.conditions.self.modifiers',
           value: 'GURPS.modifiersBlindDefend',
           mode: CONST.ACTIVE_EFFECT_MODES.ADD,
         },
@@ -954,24 +1030,24 @@ const _getActiveEffectsData = function (id) {
 }
 
 // chat
-// data.conditions.exhausted
-// data.conditions.maneuver
-// data.conditions.posture
-// data.conditions.reeling
-// data.conditions.self.modifiers
-// data.conditions.target.modifiers
-// data.moveoverride.maneuver
-// data.moveoverride.posture
-// data.attributes.ST.import
+// system.conditions.exhausted
+// system.conditions.maneuver
+// system.conditions.posture
+// system.conditions.reeling
+// system.conditions.self.modifiers
+// system.conditions.target.modifiers
+// system.moveoverride.maneuver
+// system.moveoverride.posture
+// system.attributes.ST.import
 
 export const GURPSActiveEffectsChanges = {
-  'data.conditions.exhausted': 'GURPS.exhausted',
-  'data.conditions.maneuver': 'GURPS.maneuver',
-  'data.conditions.posture': 'GURPS.posture',
-  'data.conditions.reeling': 'GURPS.reeling',
-  'data.conditions.self.modifiers': 'GURPS.selfModifiers',
-  'data.conditions.target.modifiers': 'GURPS.targetModifiers',
-  'data.moveoverride.maneuver': 'GURPS.moveManeuver',
-  'data.moveoverride.posture': 'GURPS.movePosture',
-  'data.attributes.ST.import': 'GURPS.strength',
+  'system.conditions.exhausted': 'GURPS.exhausted',
+  'system.conditions.maneuver': 'GURPS.maneuver',
+  'system.conditions.posture': 'GURPS.posture',
+  'system.conditions.reeling': 'GURPS.reeling',
+  'system.conditions.self.modifiers': 'GURPS.selfModifiers',
+  'system.conditions.target.modifiers': 'GURPS.targetModifiers',
+  'system.moveoverride.maneuver': 'GURPS.moveManeuver',
+  'system.moveoverride.posture': 'GURPS.movePosture',
+  'system.attributes.ST.import': 'GURPS.strength',
 }

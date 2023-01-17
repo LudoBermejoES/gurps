@@ -1,4 +1,4 @@
-import { displayMod, generateUniqueId } from '../../lib/utilities.js'
+import { i18n, displayMod, generateUniqueId } from '../../lib/utilities.js'
 import * as Settings from '../../lib/miscellaneous-settings.js'
 import ModifierBucketEditor from './tooltip-window.js'
 import { parselink } from '../../lib/parselink.js'
@@ -15,21 +15,23 @@ Hooks.once('init', async function () {
 
   // @ts-ignore -- Need to look into why a GurpsRoll isn't a Roll
   CONFIG.Dice.rolls.push(GurpsRoll)
-  CONFIG.Dice.terms["d"] = GurpsDie  // Hack to get Dice so nice working (it checks the terms["d"].name vs the Dice class name
+  CONFIG.Dice.terms['d'] = GurpsDie // Hack to get Dice so nice working (it checks the terms["d"].name vs the Dice class name
 
   // MONKEY_PATCH
   // Patch DiceTerm.fromMatch to hi-jack the returned Die instances and in turn patch them to
   // include the properties we need to support Physical Dice
-  if (!!DiceTerm.fromMatch) {
-    let _fromMatch = DiceTerm.fromMatch
-    let newFromMatch = function (/** @type {RegExpMatchArray} */ match) {
-      let result = _fromMatch(match)
-      if (result instanceof Die) result = new GurpsDie(result).asDiceTerm()
-      return result
-    }
-
-    DiceTerm.fromMatch = newFromMatch
-  }
+  /**
+	if (!!DiceTerm.fromMatch) {
+	  let _fromMatch = DiceTerm.fromMatch
+	  let newFromMatch = function (match) {
+		let result = _fromMatch(match)
+		if (result instanceof Die && !result instanceof GurpsDie) result = new GurpsDie(result).asDiceTerm()
+		return result
+	  }
+  
+	  DiceTerm.fromMatch = newFromMatch
+	}
+	**/
 
   // MONKEY_PATCH
   // Patch Roll to have the properties we need for Physical Dice and modifier bucket handling.
@@ -63,7 +65,6 @@ Hooks.once('init', async function () {
       },
     })
   }
-
 })
 
 Hooks.once('ready', async function () {
@@ -90,7 +91,7 @@ export class GurpsDie extends Die {
   constructor(die) {
     super({
       number: die.number,
-      faces: die.faces,
+      faces: die.faces ? die.faces : 6, // GurpsDie (type 'd') defaults to 6 faces
       // @ts-ignore
       modifiers: die.modifiers,
       results: die.results,
@@ -308,9 +309,10 @@ class ModifierStack {
   _add(list, mod, reason, replace = false) {
     /** @type {Modifier|undefined} */
     var oldmod
+    reason = reason.replace("(" + i18n("GURPS.equipmentUserCreated") + ")", '').trim()   // Remove User Created tag
     let i = list.findIndex(e => e.desc == reason && !e.desc.match(/\* *Cost/i)) // Don't double up on *Costs modifiers... so they will pay the full cost
     if (i > -1) {
-      if (replace) list.splice(i, 1)
+      if (replace) list.splice(i, 1) // only used by range modifier
       else oldmod = list[i] // Must modify list (cannot use filter())
     }
     let m = (mod + '').match(/([+-])?@margin/i)
@@ -369,7 +371,7 @@ export class ModifierBucket extends Application {
   constructor(options = {}) {
     super(options)
 
-    console.trace('+++++ Create ModifierBucket +++++')
+    // console.trace('+++++ Create ModifierBucket +++++')
 
     this.isTooltip = game.settings.get(Settings.SYSTEM_NAME, Settings.SETTING_MODIFIER_TOOLTIP)
 
@@ -478,6 +480,7 @@ export class ModifierBucket extends Application {
    * @param {string | null} id
    */
   sendBucketToPlayer(id) {
+    if ('SHOWALL' == id) return
     if (!id) {
       // Only occurs if the GM clicks on 'everyone'
       let _users = game.users
@@ -506,10 +509,12 @@ export class ModifierBucket extends Application {
     if (game.user?.hasRole('GAMEMASTER'))
       // Only actual GMs can update other user's flags
       users.forEach(u => u.setFlag('gurps', 'modifierstack', mb)) // Only used by /showmbs.   Not used by local users.
+    let ctrl = game.keyboard.isModifierActive(KeyboardManager.MODIFIER_KEYS.CONTROL)
     game.socket?.emit('system.gurps', {
       type: 'updatebucket',
       users: users.map(u => u.id),
       bucket: GURPS.ModifierBucket.modifierStack,
+      add: ctrl,
     })
   }
 
@@ -538,7 +543,7 @@ export class ModifierBucket extends Application {
       data.damageAccumulators = GURPS.LastActor.damageAccumulators
       data.accumulatorIndex = this.accumulatorIndex
       ca = GURPS.LastActor.displayname
-      if (ca.length > 25) ca = ca.substring(0, 22) + '…'
+      if (ca && ca.length > 25) ca = ca.substring(0, 22) + '…'
     }
     data.currentActor = ca
     return data
@@ -566,7 +571,7 @@ export class ModifierBucket extends Application {
         return ev.dataTransfer?.setData(
           'text/plain',
           JSON.stringify({
-            displayname: 'Modifier Bucket',
+            //displayname: 'Modifier Bucket',
             type: 'modifierbucket',
             bucket: bucket,
           })

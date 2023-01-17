@@ -14,9 +14,16 @@ export class EffectModifierControl {
     Hooks.on('getSceneControlButtons', this._createEffectModifierButton.bind(this))
     Hooks.on('controlToken', this._controlToken.bind(this))
     Hooks.on('updateToken', this._updateToken.bind(this))
-    Hooks.on('createActiveEffect', this._createActiveEffect.bind(this))
+    Hooks.on('createActiveEffect', this._updatedActiveEffect.bind(this))
+    Hooks.on('deleteActiveEffect', this._updatedActiveEffect.bind(this))
     Hooks.on('targetToken', this._targetToken.bind(this))
-    Hooks.once('ready', () => (this._ui = new EffectModifierPopout(null, this)))
+    Hooks.once('ready', () => {
+      if (this.shouldUseEffectModifierPopup()) {
+        this._ui = new EffectModifierPopout(null, this)
+        this.refresh()
+        this.togglePopup()
+      }
+    })
     Hooks.on('closeEffectModifierPopout', () => (this.showPopup = false))
   }
 
@@ -69,17 +76,17 @@ export class EffectModifierControl {
     }
   }
 
-  _createActiveEffect(effect, _, __) {
+  _updatedActiveEffect(effect, _, __) {
     let effectID = effect?.parent.id
     let sharedStateID = this.token?.actor.id
-    console.log(`_createActiveEffect: effect id: ${effectID}, token actor id: ${sharedStateID}`)
+    console.debug(`updated ActiveEffect: effect id: ${effectID}, token actor id: ${sharedStateID}`)
     if (effect?.parent.id === this.token?.actor.id) this._ui.render(false)
   }
 
   _updateToken(tokenDocument) {
     let tokenID = tokenDocument.object?.id
     let sharedStateID = this.token?.id
-    console.log(`_updateToken: token id: ${tokenID}, token actor id: ${sharedStateID}`)
+    console.debug(`_updateToken: token id: ${tokenID}, token actor id: ${sharedStateID}`)
     if (tokenDocument.object === this.token) this._ui.render(false)
   }
 
@@ -116,5 +123,9 @@ export class EffectModifierControl {
     } else {
       this._ui.closeApp(closeOptions)
     }
+  }
+  
+  refresh() {
+    this._ui?.render(true)
   }
 }

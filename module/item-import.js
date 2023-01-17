@@ -20,13 +20,13 @@ export class ItemImporter {
     if (j.type !== 'equipment_list') {
       return ui.notifications.error('The file you uploaded is not a GCS Equipment Library!')
     }
-    if (j.version !== 2) {
+    if (![2, 4].includes(j.version)) {
       return ui.notifications.error('The file you uploaded is not of the right version!')
     }
     let pack = game.packs.find(p => p.metadata.name === filename)
     if (!pack)
       pack = await CompendiumCollection.createCompendium({
-        entity: 'Item',
+        type: 'Item',
         label: filename,
         name: filename,
         package: 'world',
@@ -48,7 +48,7 @@ export class ItemImporter {
     let itemData = {
       name: i.description,
       type: 'equipment',
-      data: {
+      system: {
         eqt: {
           name: i.description,
           notes: i.notes,
@@ -110,14 +110,14 @@ export class ItemImporter {
             damage: w.calc.damage || '',
             mode: w.usage || '',
             name: itemData.name,
-            notes: itemData.data.eqt.notes || '',
-            pageref: itemData.data.eqt.pageref || '',
+            notes: itemData.system.eqt.notes || '',
+            pageref: itemData.system.eqt.pageref || '',
             parry: w.parry || '',
             reach: w.reach || '',
             st: w.strength || '',
             otf: otf_list.join('|') || '',
           }
-          itemData.data.melee[zeroFill(Object.keys(itemData.data.melee).length + 1)] = wep
+          itemData.system.melee[zeroFill(Object.keys(itemData.system.melee).length + 1)] = wep
         } else if (w.type === 'ranged_weapon') {
           let wep = {
             acc: w.accuracy || '',
@@ -126,8 +126,8 @@ export class ItemImporter {
             damage: w.calc.damage || '',
             mode: w.usage,
             name: itemData.name,
-            notes: itemData.data.eqt.notes || '',
-            pageref: itemData.data.eqt.pageref || '',
+            notes: itemData.system.eqt.notes || '',
+            pageref: itemData.system.eqt.pageref || '',
             range: w.range,
             rcl: w.recoil,
             rof: w.rate_of_fire,
@@ -135,7 +135,7 @@ export class ItemImporter {
             st: w.strength,
             otf: otf_list.join('|') || '',
           }
-          itemData.data.ranged[zeroFill(Object.keys(itemData.data.ranged).length + 1)] = wep
+          itemData.system.ranged[zeroFill(Object.keys(itemData.system.ranged).length + 1)] = wep
         }
       }
     let bonus_list = []
@@ -159,7 +159,7 @@ export class ItemImporter {
         } else if (f.type === 'dr_bonus') {
           bonus_list.push(`DR ${bonus} *${f.location}`)
         } else if (f.type === 'skill_bonus') {
-          if (f.selection_type === 'skills_with_name' && f.name.compare === 'is') {
+          if (f.selection_type === 'skills_with_name' && f.name?.compare === 'is') {
             if (f.specialization?.compare === 'is') {
               bonus_list.push(
                 `A:${(f.name.qualifier || '').replace(/ /g, '*')}${(f.specialization.qualifier || '').replace(
@@ -170,7 +170,7 @@ export class ItemImporter {
             } else if (!f.specialization) {
               bonus_list.push(`A:${(f.name.qualifier || '').replace(/ /g, '*')} ${bonus}`)
             }
-          } else if (f.selection_type === 'weapons_with_name' && f.name.compare === 'is') {
+          } else if (f.selection_type === 'weapons_with_name' && f.name?.compare === 'is') {
             if (f.specialization?.compare === 'is') {
               bonus_list.push(
                 `A:${(f.name.qualifier || '').replace(/ /g, '*')}${(f.specialization.qualifier || '').replace(
@@ -185,7 +185,7 @@ export class ItemImporter {
             bonus_list.push(`A:${itemData.name.replace(/ /g, '*')} ${bonus}`)
           }
         } else if (f.type === 'spell_bonus') {
-          if (f.match === 'spell_name' && f.name.compare === 'is') {
+          if (f.match === 'spell_name' && f.name?.compare === 'is') {
             bonus_list.push(`S:${(f.name.qualifier || '').replace(/ /g, '*')} ${bonus}`)
           }
         } else if (f.type === 'weapon_bonus') {
@@ -205,19 +205,19 @@ export class ItemImporter {
           }
         }
       }
-    itemData.data.bonuses = bonus_list.join('\n')
-    const cachedItems = [];
+    itemData.system.bonuses = bonus_list.join('\n')
+    const cachedItems = []
     for (let i of pack.index) {
-      cachedItems.push(await pack.getDocument(i._id));
+      cachedItems.push(await pack.getDocument(i._id))
     }
-    let oi = await cachedItems.find(p => p.data.data.eqt.uuid === itemData.data.eqt.uuid)
+    let oi = await cachedItems.find(p => p.system.eqt.uuid === itemData.system.eqt.uuid)
     if (!!oi) {
-      let oldData = duplicate(oi.data.data)
-      let newData = duplicate(itemData.data)
-      delete oldData.eqt.uuid
-      delete newData.eqt.uuid
+      let oldData = duplicate(oi)
+      let newData = duplicate(itemData)
+      delete oldData.system.eqt.uuid
+      delete newData.system.eqt.uuid
       if (oldData != newData) {
-        return oi.update(itemData)
+        return oi.update(newData)
       }
     } else {
       return Item.create(itemData, { pack: `world.${filename}` })

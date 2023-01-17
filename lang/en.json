@@ -4,22 +4,18 @@
   "GURPS.DontShowAgain": "Don't show README again",
   "GURPS.copyrightGURPS": "GURPS is a trademark of Steve Jackson Games, and its rules and art are copyrighted by Steve Jackson Games. All rights are reserved by Steve Jackson Games. This game aid is the original creation of Chris Normand/Nose66 and is released for free distribution, and not for resale, under the permissions granted by http://www.sjgames.com/general/online_policy.html",
   "GURPS.copyrightGCS": "GCS is copyrighted 1998-2020 by Richard A. Wilkes. All rights reserved ",
-
   "__Char Sheet__": "=========",
   "GURPS.portrait": "Portrait",
-
   "__Character Sheet Identity__": "=========",
   "GURPS.identity": "Identity",
   "GURPS.identityName": "Name",
   "GURPS.identityPlayer": "Player",
   "GURPS.identityTitle": "Title",
-
   "__Character Sheet Miscellaneous__": "=========",
   "GURPS.miscellaneous": "Miscellaneous",
   "GURPS.miscellaneousCreated": "Created",
   "GURPS.miscellaneousModified": "Modified",
   "GURPS.miscellaneousOptions": "Options",
-
   "__Character Description__": "=========",
   "GURPS.description": "Description",
   "GURPS.descriptionAge": "Age",
@@ -37,7 +33,6 @@
   "GURPS.descriptionTechLevel": "Tech Level (TL)",
   "GURPS.weight": "Weight",
   "GURPS.share": "Share",
-
   "__Character Points__": "=========",
   "GURPS.point": "Point",
   "GURPS.points": "Points",
@@ -49,7 +44,6 @@
   "GURPS.pointsSkills": "Skills",
   "GURPS.pointsSpells": "Spells",
   "GURPS.pointsUnspent": "Unspent",
-
   "__Character Attributes__": "=========",
   "GURPS.attributes": "Attributes",
   "GURPS.attributesDX": "DX",
@@ -86,13 +80,11 @@
   "GURPS.vision": "Vision",
   "GURPS.attributesQN": "QN",
   "GURPS.attributesQNNAME": "Quintessence",
-
   "__ Character AddsDisadsPerksQuirks__": "=========",
   "GURPS.advDisadvPerkQuirks": "Advantages, Disadvantages, Perks & Quirks",
   "GURPS.highPainThreshold": "High Pain Threshold",
   "GURPS.lowPainThreshold": "Low Pain Threshold",
   "GURPS.perfectBalance": "Perfect Balance",
-
   "__ Character Skills__": "=========",
   "GURPS.rsl": "RSL",
   "GURPS.SkillDXA": "DX/A",
@@ -121,7 +113,6 @@
   "GURPS.SkillWillH": "Will/H",
   "GURPS.SkillWillVH": "Will/VH",
   "GURPS.sl": "SL",
-
   "__Character Spells__": "=========",
   "GURPS.spellClass": "Class",
   "GURPS.spellCollege": "College",
@@ -132,7 +123,6 @@
   "GURPS.spellTime": "Time",
   "GURPS.spellResist": "Resisted By",
   "GURPS.spellDifficulty": "Difficulty",
-
   "__Character Equipment__": "=========",
   "GURPS.equipment": "Equipment",
   "GURPS.otherEquipment": "Other Equipment",
@@ -143,7 +133,6 @@
   "GURPS.equipmentMaxUses": "Max Uses",
   "GURPS.equipmentTechlevel": "Tech Level",
   "GURPS.equipmentFoundryItem": "Foundry Item",
-
   "__Character Encumbrance/Lift__": "=========",
   "GURPS.basicLift": "Basic Lift",
   "GURPS.carryOnBack": "Carry on Back",
@@ -157,7 +146,6 @@
   "GURPS.shiftSlightly": "Shift Slightly",
   "GURPS.shoveAndKnockOver": "Shove & Knock Over",
   "GURPS.twoHandLift": "Two-Hand Lift",
-
   "__Character Weapons__": "=========",
   "GURPS.acc": "Acc",
   "GURPS.block": "Block",
@@ -174,7 +162,6 @@
   "GURPS.rof": "RoF",
   "GURPS.shots": "Shots",
   "GURPS.usage": "Usage",
-
   "__Apply Damage Dialog__": "=========",
   "GURPS.addAbbrev": "Abbrev",
   "GURPS.addAdditionalStackingModifier": "Additional modifier",
@@ -234,7 +221,6 @@
   "GURPS.addTypeAndWoundingModifiers": "Type & Wounding Modifiers",
   "GURPS.addVulnerability": "Vulnerability",
   "GURPS.addWHard": "w/Hard",
-
   "__Body Plan__": "=========",
   "GURPS.BODYPLANarachnoid": "Arachnoid",
   "GURPS.BODYPLANavian": "Avian",
@@ -254,7 +240,6 @@
   "GURPS.BODYPLANvermiform": "Vermiform",
   "GURPS.BODYPLANvermiformWinged": "Serpent, Winged",
   "GURPS.BODYPLANwinged humanoid": "Humanoid, Winged",
-
   "__Chat Messages__": "=========",
   "GURPS.chatClearing": "Clearing",
   "GURPS.chatClearingLastActor": "Clearing Last Actor",
@@ -313,7 +298,7 @@
   "GURPS.chatHelpWait": "Wait X milliseconds before executing the next chat command<hr>parameters:\nX: the number of milliseconds to wait\n<hr>examples:\n/wait 500",
   "GURPS.chatHelpRa": "Roll Against (or Private Roll Against)<hr>parameters:\nX: Skill level to roll against\nSkillname-X: Roll against X, but display 'Skillname' instead of 'Default'\n<hr>examples:\n/ra 12\n.ra 13\n/pra 11\n.pra 10\n/ra Sneak-12\n.ra Brawling-13\n/pra Trap-11\n.pra FastDraw-10",
   "GURPS.chatHelpFpHp": "Apply formula to FP or HP of selected characters<hr>parameters:\n&lt;formula&gt;\nreset: Reset FP or HP back to starting value<hr>examples:\n/fp +1\n/hp -1\n/fp +1d\n/hp +1d-3!\n/fp reset\n",
-  "GURPS.chatHelpSelect": "Select token(s)<hr>parameters:\n&lt;character name&gt;\n@self: select the token of the current character\n!:select across all scenes, not just current<hr>examples:\n/select Bog\n/select @self\n/select Bog !",
+  "GURPS.chatHelpSelect": "Select token(s)<hr>parameters:\n&lt;character name (may use '*')&gt;\n@self: select the token of the current character\n!:select across all scenes, not just current<hr>examples:\n/select Bog\n/select @self\n/select Bog !",
   "GURPS.chatHelpUses": "Modify the USES column of equipment<hr>parameters:\n&lt;formula&gt;\n&lt;equipment&gt;\no:&lt;equipment&gt;: only search 'other' list\nreset: set USES to MAX_USES<hr>examples:\n/uses +1 equipment\n/uses -2 equipment\n/uses =20 equipment\n/uses +1 o:equipment\n/uses reset equipment",
   "GURPS.chatHelpQty": "Modify the QTY column of equipment<hr>parameters:\n&lt;formula&gt;\n&lt;equipment&gt;\no:&lt;equipment&gt;: only search 'other' list<hr>examples:\n/qty +1 equipment\n/qty -2 equipment\n/qty =20 equipment\n/qty +1 o:equipment",
   "GURPS.chatHelpLight": "Set token's light level<hr>parameters:\nnone|off: turn off light\nX: dim light radius\nY: bright light radius\nZ: broadcast angle of light \n#RRGGBB: color of light\nW: color intensity (0.0-1.0)\n&lt;anim&gt;: animation pattern (torch, pulse, chroma, wave, fog, sunburst, dome, emanation, hexa, ghost, energy, roiling, hole\nSPEED: speed of animation (1-10)\nINT: intensity of animation (1-10)<hr>examples:\n/li 6 2\n/li 8 3 90\n/li 6 2 #ff0000\n/li 6 2 #ff1111 0.5\n/li 6 2 torch\n/li 8 4 90 #ff7777 0.5 pulse 5 5\nhttps://foundryvtt.com/article/lighting/",
@@ -322,16 +307,14 @@
   "GURPS.chatHelpRemote": "Execute an On-the-Fly formula remotely<hr>parameters:\n[OtF]: On-the-Fly formula\n&lt;player names&gt;|<i>blank</i>: list of player names (or <i>blank</i> to send to all players)<hr>examples:\n/rem &#91;&rlm;PER] Chris\n/rem [&rlm;ST+2]",
   "GURPS.chatHelpEveryone": "Apply formula to FP or HP of all player characters or roll On-the-Fly formula locally against all player characters<hr>parameters:\nfp &lt;formula&gt;\nhp &lt;formula&gt;\n [OtF]: execute OtF (locally) for all player characters\nfp reset: Reset FP back to starting values\nhp reset: Reset HP back to starting values<hr>examples:\n/ev fp +1\n/ev hp -1\n/ev fp +1d\n/ev hp +1d-3!\n/ev fp reset\n/ev [&rlm;PER]",
   "GURPS.chatHelpAnim": "Play a centered or moving animation.\n<hr>parameters (for both)\nlist: display a list of available animations\nwX: wait X seconds before displaying animation\n&lt;filename pattern&gt;: pattern can contain <b>*</b>\nXx:Y: repeat animation X times (2x, 3x, etc.) with Y seconds delay between animations\n<hr>parameters for centered animations:\nc: indicates a centered animation\n*X: scale animation by X\n@self: use self as center, instead of target\nThe following options can be added after 'c'\n f: flip the animation on the x axis (left to right)\n m: move the centered animation to the target\n n: do not rotate moving centered animation\n X: degrees to rotate animation\n :Y,Z: offset animation (default 0.5,0.5)\n<hr>examples of centered animations:\n/anim &lt;pattern&gt; c *0.5 3x\n'centered, 1/2 scale, 3 times'\n\n/anim &lt;pattern&gt; cf *2 3x:4\n'centered, flipped (left-right), 2x scale, 3 times with 4 second delay\n\n/anim &lt;pattern&gt; cm\n'centered, move animation from self to target'\n\n/anim &lt;pattern&gt; cmn\n'centered, move animation from self to target, do not rotate'\n\n/anim &lt;pattern&gt; cfm\n'centered, flipped, move animation from self to target'\n\n/anim &lt;pattern&gt; c90\n'centered, rotate 90 degrees'\n\n/anim &lt;pattern&gt; cf180 *.333\n'centered, flipped, rotate 180 degrees, 1/3 scale'\n\n/anim &lt;pattern&gt; cm45\n/anim &lt;pattern&gt; c:0,1\n/anim &lt;pattern&gt; cf:0.5,1\n/anim &lt;pattern&gt; cmn:0.9,1 *2\n<hr>parameters for a moving animations:\n-X: shift left (0.0-1.0) towards the start of the animation\n+X: stretch right (0.0-infinity) towards the destination\n<hr>examples of moving animations:\n/anim &lt;pattern&gt; -0.1 +0.1 2x\n'moving animation, left shift 10%, right stretch 10%, 2 times'",
-  "GURPS.chatHelpShow": "Show various values from tokens in the scene<hr>parameters:\n&lt;Attributes (primary and secondary)&gt;\n&lt;Skill names&gt;\nparry\nblock\nwill\nfright\nper\nvision\nhearing\ntaste\nsmell\nmove\nspeed<hr>examples:\n/show IQ\n/show Stealth PER\n/show per move speed\n/show vision hearing",
+  "GURPS.chatHelpShow": "Show various values from tokens in the scene<hr>parameters:\n-a : sort alphabetically\n-pc : only show PCs\n-npc : only show NPCs\n&lt;Attributes (primary and secondary)&gt;\n&lt;Skill names&gt;\nparry\nblock\nwill\nfright\nper\nvision\nhearing\ntaste\nsmell\nmove\nspeed<hr>examples:\n/show -pc HP FP IQ\n/show -a Stealth PER\n/show per move speed\n/show -npc vision hearing",
   "GURPS.chatHelpManeuver": "Set the following maneuvers on the current character.  You may use * to match Maneuver names, example: '/man All Out*Double'<hr>",
   "GURPS.chatHelpRepeat": "Repeat the following /anim command with a delay of X seconds in between.<hr>examples:\n/repeat /anim 1.2 heal*blue c",
   "GURPS.chatWantsToExecute": "Wants to execute <b>{command}</b> on {name},<br><br>Is that OK?",
   "GURPS.chatSentTo": "Sent command [{cmd}] to {name}",
-
   "__Permissions__": "=========",
   "GURPS.cannotDragNonFoundryEqt": "You cannot drag non-Foundry equipment to another character.",
   "GURPS.youDoNotHavePermssion": "You do not have permission to do that.",
-
   "__Damage Types__": "=========",
   "GURPS.damageAbbrevburn": "burn",
   "GURPS.damageAbbrevcor": "cor",
@@ -360,22 +343,19 @@
   "GURPS.damageTypePiercing": "Piercing",
   "GURPS.damageTypeSmall Piercing": "Small Piercing",
   "GURPS.damageTypeToxic": "Toxic",
-
   "__Drag Ruler__": "=========",
   "GURPS.dragrulerFly": "Fly",
   "GURPS.dragrulerSprint": "Sprint",
   "GURPS.dragrulerWalk": "Walk",
-
   "__Fantastic Dungeon Grappling__": "=========",
-  "GURPS.grapplingControlled": "Controlled",
+  "GURPS.grapplingControlled": "Controlled [-8 DX]",
   "GURPS.grapplingControlPoints": "Control Points",
   "GURPS.grapplingCPAbbrev": "ctrl",
-  "GURPS.grapplingGrabbed": "Grabbed",
-  "GURPS.grapplingGrappled": "Grappled",
-  "GURPS.grapplingPinned": "Pinned",
-  "GURPS.grapplingRestrained": "Restrained",
+  "GURPS.grapplingGrabbed": "Grabbed [-2 DX]",
+  "GURPS.grapplingGrappled": "Grappled [-4 DX]",
+  "GURPS.grapplingPinned": "Pinned [-12 DX]",
+  "GURPS.grapplingRestrained": "Restrained [-6 DX]",
   "GURPS.grapplingUnrestrained": "Unrestrained",
-
   "__Hit Location__": "=========",
   "GURPS.hitLocation": "Hit Location",
   "GURPS.hitLocationArm 1-2": "Arm 1-2",
@@ -438,7 +418,6 @@
   "GURPS.hitLocationVitals": "Vitals",
   "GURPS.hitLocationWhere": "Where",
   "GURPS.hitLocationWing": "Wing",
-
   "__Modifier Bucket__": "=========",
   "GURPS.modifier": "Modifier",
   "GURPS.modifierAddRangeRuler": "Bucket: Add Range Ruler modifier",
@@ -578,7 +557,6 @@
   "GURPS.modifierViewScale": "Bucket: Scale Factor",
   "GURPS.modifierViewScaleHint": "Use this to scale up or down the size of the Modifier Bucket.",
   "GURPS.modifierWillCheck": "WILL check to maintain Aim",
-
   "__PDF References__": "=========",
   "GURPS.pdfAllOutDefense": "B365",
   "GURPS.pdfBlockRetreat": "B377",
@@ -625,14 +603,12 @@
   "GURPS.pdfTelegraphicAttack": "MA113",
   "GURPS.pdfTempAttribPenalties": "B421",
   "GURPS.pdfVisibility": "B394",
-
   "__Resolve Damage Dialog__": "=========",
   "GURPS.RESOLVEDAMAGEMultiple": "Multiple rolls",
   "GURPS.RESOLVEDAMAGEPrompt": "What do you want to do with this Damage roll?",
   "GURPS.RESOLVEDAMAGEQuantity": "Number of rolls:",
   "GURPS.RESOLVEDAMAGESendTo": "Send OtF to...",
   "GURPS.RESOLVEDAMAGETitle": "Resolve Damage Roll",
-
   "__Resource Trackers__": "=========",
   "GURPS.resourceCopyTemplate": "Copy Template",
   "GURPS.resourceCurrentValue": "Current Value",
@@ -659,11 +635,9 @@
   "GURPS.resourceEnforceMinimum": "Enforce Minimum",
   "GURPS.resourceEnforceMaximum": "Enforce Maximum",
   "GURPS.resourceTemplateName": "Template Name",
-
   "Skill Names__": "=========",
   "GURPS.skillAcrobatics": "Acrobatics",
   "GURPS.skillJudo": "Judo",
-
   "__Slam Calculator__": "=========",
   "GURPS.slamAOAStrong": "All-Out Attack (Strong)",
   "GURPS.slamCalculator": "Slam Calculator",
@@ -671,8 +645,8 @@
   "GURPS.slamRelativeVelocity": "Relative Velocity",
   "GURPS.slams": "slams",
   "GURPS.slamShieldDB": "Shield DB",
-  "GURPS.slamVelocity": "Velocity",
-
+  "GURPS.slamVelocity": "Hexes moved",
+  "GURPS.slamDFRPGRules": "Use the Dungeon Fantasy RPG rules",
   "__Status/Conditions__": "=========",
   "GURPS.STATUSAgony": "Agony",
   "GURPS.STATUSAim": "Aiming",
@@ -710,9 +684,17 @@
   "GURPS.STATUSTerriblePain": "Terrible Pain",
   "GURPS.STATUSTipsy": "Tipsy",
   "GURPS.STATUSWait": "Waiting",
-  "GURPS.STATUSBad": "Basic Abstract Difficulty",
+  "GURPS.STATUSBad+1": "+1 Basic Abstract Difficulty",
+  "GURPS.STATUSBad+2": "+2 Basic Abstract Difficulty",
+  "GURPS.STATUSBad+3": "+3 Basic Abstract Difficulty",
+  "GURPS.STATUSBad+4": "+4 Basic Abstract Difficulty",
+  "GURPS.STATUSBad+5": "+5 Basic Abstract Difficulty",
+  "GURPS.STATUSBad-1": "-1 Basic Abstract Difficulty",
+  "GURPS.STATUSBad-2": "-2 Basic Abstract Difficulty",
+  "GURPS.STATUSBad-3": "-3 Basic Abstract Difficulty",
+  "GURPS.STATUSBad-4": "-4 Basic Abstract Difficulty",
+  "GURPS.STATUSBad-5": "-5 Basic Abstract Difficulty",
   "GURPS.STATUSDisarmed": "Disarmed",
-
   "__Maneuvers__": "=========",
   "GURPS.maneuver": "Maneuver",
   "GURPS.maneuverDoNothing": "Do Nothing",
@@ -737,7 +719,6 @@
   "GURPS.maneuverReady": "Ready",
   "GURPS.maneuverConcentrate": "Concentrate",
   "GURPS.maneuverWait": "Wait",
-
   "__Import Messages__": "=========",
   "GURPS.importCannotImportGCADirectly": "We cannot import a GCA file directly. Please export the file using the 'export to Foundry VTT.gce' script.",
   "GURPS.importCannotImportGCSDirectly": "We cannot import a GCS file directly. Please export the file using the 'Foundry VTT' output template.",
@@ -770,7 +751,6 @@
   "GURPS.importSeeUsersGuide": "Check the Users Guide for details on where to get the latest version.",
   "GURPS.importOldGCSFile": "Your character was saved with an older version of GCS, which does not output some required attributes. Update GCS to at least version 4.36, open and save your character file, then try again.",
   "GURPS.importNoJSONDetected": "Cannot parse JSON. Your GCS file seems to be corrupted.",
-
   "__System Settings__": "=========",
   "GURPS.settingShowReadMe": "Show 'Read Me' on version change",
   "GURPS.settingHintShowReadMe": "If checked, the system will display the 'Read Me' file every time a version change is detected.",
@@ -871,7 +851,6 @@
   "GURPS.settingDefaultADDAction": "Set default action for Damage Dialog",
   "GURPS.settingHintefaultADDAction": "When set to 'Target' it will choose 'Apply' for Player Characters and 'Apply Quietly' for NPCs.",
   "GURPS.settingApplyBasedOnTarget": "'Target'",
-
   "__Color Settings__": "=========",
   "GURPS.settingColorSheetMenuTitle": "Color Character Sheet",
   "GURPS.settingColorSheetMenuHint": "Color Character Sheet Settings",
@@ -918,7 +897,6 @@
   "GURPS.colorSheetMenuAreasAdsDisadsTextColor": "Ads/Disads Text Color",
   "GURPS.colorSheetMenuAreasAdsDisadsHoverColor": "Ads/Disads Hover Color",
   "GURPS.colorSheetMenuAreasAdsDisadsHoverTextColor": "Ads/Disads Hover Text Color",
-
   "GURPS.adDisad": "Advantage/Disadvantage",
   "GURPS.adDisadQuirkPerk": "Advantage/Disadvantage/Quirk/Perk",
   "GURPS.conditionalModifier": "Conditional Modifier",
@@ -996,6 +974,7 @@
   "GURPS.itemEditor": "Item Editor",
   "GURPS.itemFeatures": "Features",
   "GURPS.itemImport": "Import Equipment Library",
+  "GURPS.characterImport": "Import Character Library",
   "GURPS.knockback": "Knockback, {amount} {unit}",
   "GURPS.knockbackCheck": "{name}: roll {dx}, {acrobatics}, or {judo} or fall!",
   "GURPS.level": "Level",
@@ -1066,7 +1045,6 @@
   "GURPS.warning": "WARNING",
   "GURPS.yard": "yard",
   "GURPS.yards": "yards",
-
   "GURPS.addTracker": "Add Resource Tracker at the end",
   "GURPS.edit": "Edit",
   "GURPS.moveToCarriedEquipment": "Move to Carried Equipment",
@@ -1074,7 +1052,6 @@
   "GURPS.dropResolve": "Where do you want to drop this object?",
   "GURPS.dropBefore": "Before the target",
   "GURPS.dropInside": "Inside the target",
-
   "GURPS.moveNone": "None ({reason})",
   "GURPS.moveConstant": "{value} {unit}/sec ({reason})",
   "GURPS.moveStep": "Step ({reason})",
@@ -1082,7 +1059,6 @@
   "GURPS.moveTwoThirds": "×2/3 ({reason})",
   "GURPS.moveHalf": "Half ({reason})",
   "GURPS.moveFull": "Full",
-
   "GURPS.setManeuver": "Set Maneuver",
   "GURPS.abbrevPoints": "Pts",
   "GURPS.abbrevReference": "Ref",
@@ -1113,7 +1089,6 @@
   "GURPS.settingHintUsePhysicalDice": "If enabled, TRUSTED players will be prompted for all die roll values. This allows players to roll physical dice and enter the results into Foundry.",
   "GURPS.settingUseQuintessence": "Use Quintessence",
   "GURPS.settingHintUseQuintessence": "If enabled, adds the Quintessence attribute, and Quintessence Points become available to use as a Resource Tracker.",
-
   "GURPS.STATUSStanding": "Standing",
   "GURPS.STATUSCrawling": "Crawling",
   "GURPS.STATUSProne": "Lying Down",
@@ -1121,19 +1096,14 @@
   "GURPS.STATUSRetreat": "Retrocediendo",
 
   "GURPS.effectHintBlind": "-6 to hit if accustomed to being blind; Hearing -2 success lowers the to hit penalty to -4.",
-
   "GURPS.effectChatModifiedToHit": "{displayName} is<br>[{modifier}]",
   "GURPS.effectChatRangedModifier": "{displayName} is<br>[-2 to be hit with ranged combat ({posture})].",
-
   "GURPS.tokenToolsTitle": "Open Effect Modifier Popup",
-
   "GURPS.effectModNoTokenSelected": "No token selected",
   "GURPS.targetedModifiers": "Targeted Modifiers",
   "GURPS.settingActiveEffects": "Turn on Active Effects",
   "GURPS.targetModifiers": "Target:",
-
   "GURPS.settingHintActiveEffects": "Allow the GM to create and apply Active Effects",
-
   "GURPS.CR0": "CR: N/A (Cannot Resist)",
   "GURPS.CR6": "CR: 6 (Resist Rarely)",
   "GURPS.CR9": "CR: 9 (Resist Fairly Often)",
@@ -1141,7 +1111,6 @@
   "GURPS.CR15": "CR: 15 (Resist Almost All The Time)",
   "GURPS.modifiersBlindAttack": "-10 to hit (Blind)",
   "GURPS.modifiersBlindDefend": "-4 on Active Defenses (Blind)",
-
   "GURPS.moveModeGround": "Ground",
   "GURPS.moveModeAir": "Air",
   "GURPS.moveModeWater": "Water",
@@ -1149,7 +1118,6 @@
   "GURPS.moveModeOther": "Other...",
   "GURPS.moveModeType": "Move Type",
   "GURPS.moveModeValue": "Yards/Turn",
-
   "GURPS.effectsTermination": "Termination Condition (OtF)",
   "GURPS.effectsEffect": "Effect",
   "GURPS.default": "Default",
@@ -1157,10 +1125,11 @@
   "GURPS.activeEffects": "Active Effects",
   "GURPS.quicknotes": "Quick Notes",
   "GURPS.techniquesTab": "Techniques",
-  "GURPS.quicknotes": "Quick Notes",
   "GURPS.language": "Language",
   "GURPS.spoken": "Spoken",
   "GURPS.written": "Written",
+  "GURPS.pdfOffset": "Page Offset",
+  "GURPS.pdfCode": "PDF Book Code",
   "GURPS.accented": "Accented",
   "GURPS.native": "Native",
   "GURPS.broken": "Broken"

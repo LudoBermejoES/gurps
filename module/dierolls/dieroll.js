@@ -34,6 +34,8 @@ export async function doRoll({
   targetmods = await GURPS.ModifierBucket.applyMods(targetmods) // append any global mods
 
   chatdata['targetmods'] = targetmods
+  let multiples = [] // The roll results (to display the individual dice rolls)
+  chatdata['multiples'] = multiples
 
   for (let m of targetmods) {
     modifier += m.modint
@@ -46,6 +48,10 @@ export async function doRoll({
     user: game.user.id,
     speaker: speaker,
     type: CONST.CHAT_MESSAGE_TYPES.ROLL,
+  }
+  if (optionalArgs.event?.data?.private) {
+    messageData.whisper = [game.user.id]
+    messageData.type = CONST.CHAT_MESSAGE_TYPES.WHISPER
   }
 
   let roll = null // Will be the Roll
@@ -64,6 +70,7 @@ export async function doRoll({
     await roll.evaluate({ async: true })
     let rtotal = roll.total
 
+    chatdata['showPlus'] = true
     chatdata['rtotal'] = rtotal
     chatdata['loaded'] = !!roll.isLoaded
     chatdata['rolls'] = !!roll.dice[0] ? roll.dice[0].results.map(it => it.result.toString()).join(',') : ''
@@ -89,7 +96,7 @@ export async function doRoll({
 
     if (margin > 0 && !!optionalArgs.obj && !!optionalArgs.obj.rcl) {
       // if the attached obj (see handleRoll()) as Recoil information, do the additional math
-      let rofrcl = Math.floor(margin / parseInt(optionalArgs.obj.rcl)) + 1
+      let rofrcl = Math.floor(margin / parseFloat(optionalArgs.obj.rcl)) + 1
       if (!!optionalArgs.obj.rof) {
         let rof = optionalArgs.obj.rof
         let m = rof.match(/(\d+)[×xX\*](\d+)/) // Support shotgun RoF (3x9)
@@ -104,13 +111,19 @@ export async function doRoll({
 
     chatdata['optlabel'] = optionalArgs.text || ''
 
-    if (game.dice3d && !game.dice3d.messageHookDisabled) {  // save for after roll animation is complete
+    if (game.dice3d && !game.dice3d.messageHookDisabled) {
+      // save for after roll animation is complete
       if (failure && optionalArgs.obj?.failotf) GURPS.PendingOTFs.unshift(optionalArgs.obj.failotf)
       if (!failure && optionalArgs.obj?.passotf) GURPS.PendingOTFs.unshift(optionalArgs.obj.passotf)
     } else {
       if (failure && optionalArgs.obj?.failotf) GURPS.executeOTF(optionalArgs.obj.failotf, optionalArgs.event)
       if (!failure && optionalArgs.obj?.passotf) GURPS.executeOTF(optionalArgs.obj.passotf, optionalArgs.event)
     }
+    let r = {}
+    r['rtotal'] = rtotal
+    r['loaded'] = !!roll.isLoaded
+    r['rolls'] = !!roll.dice[0] ? roll.dice[0].results.map(it => it.result).join() : ''
+    multiples.push(r)
   } else {
     // This is non-targeted, non-damage roll where the modifier is added to the roll, not the target
     // NOTE:   Damage rolls have been moved to damagemessage.js/DamageChat
@@ -121,19 +134,17 @@ export async function doRoll({
       min = 1
     }
 
-    let multiples = []
-    chatdata['multiples'] = multiples
-    let max = +(optionalArgs.event?.data?.repeat) || 1
+    let max = +optionalArgs.event?.data?.repeat || 1
     if (max > 1) chatdata['chatthing'] = 'x' + max
     for (let i = 0; i < max; i++) {
       roll = Roll.create(formula + `+${modifier}`)
       await roll.evaluate({ async: true })
-  
+
       let rtotal = roll.total
       if (rtotal < min) {
         rtotal = min
       }
-  
+
       // ? if (rtotal == 1) thing = thing.replace('points', 'point')
       let r = {}
       r['rtotal'] = rtotal
@@ -169,9 +180,9 @@ export async function doRoll({
     isCtrl ||
     (game.settings.get(Settings.SYSTEM_NAME, Settings.SETTING_SHIFT_CLICK_BLIND) && !!optionalArgs.event?.shiftKey)
   ) {
-    messageData.whisper = ChatMessage.getWhisperRecipients("GM").map(u => u.id);
-    messageData.blind = true  // possibly not used anymore
-    creatOptions.rollMode = "blindroll" // new for V9
+    messageData.whisper = ChatMessage.getWhisperRecipients('GM').map(u => u.id)
+    // messageData.blind = true  // possibly not used anymore
+    creatOptions.rollMode = 'blindroll' // new for V9
   }
 
   messageData.sound = CONFIG.sounds.dice
