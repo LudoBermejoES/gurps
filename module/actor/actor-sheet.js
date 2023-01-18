@@ -78,7 +78,6 @@ export class GurpsActorSheet extends ActorSheet {
     sheetData.olddata = sheetData.data
     sheetData.data = this.actor.system
     sheetData.system = this.actor.system
-    sheetData.data = sheetData.data.data
     sheetData.data.aspects = getAspects(sheetData.data.ads)
     sheetData.data.personalityTraits = getPersonalityTraits(sheetData.data.ads)
     sheetData.data.socialTraits = getSocialTraits(sheetData.data.ads)
@@ -917,8 +916,7 @@ export class GurpsActorSheet extends ActorSheet {
         if (!!eqt.itemid) {
           itemData = this.actor.items.get(eqt.itemid) // We have to get it now, as the source of the drag, since the target may not be owned by us
           let img = new Image()
-          if (itemData)
-            img.src = itemData.img
+          if (itemData) img.src = itemData.img
           const w = 50
           const h = 50
           const preview = DragDrop.createDragImage(img, w, h)

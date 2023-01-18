@@ -86,7 +86,7 @@ export class GurpsActor extends Actor {
   getOwners() {
     return game.users?.contents.filter(u => this.getUserLevel(u) >= CONST.DOCUMENT_PERMISSION_LEVELS.OWNER)
   }
-  
+
   // 0.8.x added steps necessary to switch sheets
   /**
    * @param {Application} newSheet
@@ -105,24 +105,24 @@ export class GurpsActor extends Actor {
 
   prepareData() {
     super.prepareData()
-    Object.keys(this.data.data.melee || []).forEach(
-      key => (this.data.data.melee[key].alternateName = getEquipmentNameTranslated(this.data.data.melee[key].name))
+    Object.keys(this.system.melee || []).forEach(
+      key => (this.system.melee[key].alternateName = getEquipmentNameTranslated(this.system.melee[key].name))
     )
-    Object.keys(this.data.data.ranged || []).forEach(
-      key => (this.data.data.ranged[key].alternateName = getEquipmentNameTranslated(this.data.data.ranged[key].name))
+    Object.keys(this.system.ranged || []).forEach(
+      key => (this.system.ranged[key].alternateName = getEquipmentNameTranslated(this.system.ranged[key].name))
     )
 
-    Object.keys(this?.data?.data?.equipment?.carried || []).forEach(
+    Object.keys(this?.system?.equipment?.carried || []).forEach(
       key =>
-        (this.data.data.equipment.carried[key].alternateName = getEquipmentNameTranslated(
-          this.data.data.equipment.carried[key].name
+        (this.system.equipment.carried[key].alternateName = getEquipmentNameTranslated(
+          this.system.equipment.carried[key].name
         ))
     )
 
-    Object.keys(this?.data?.data?.equipment?.other || []).forEach(
+    Object.keys(this?.system?.equipment?.other || []).forEach(
       key =>
-        (this.data.data.equipment.other[key].alternateName = getEquipmentNameTranslated(
-          this.data.data.equipment.other[key].name
+        (this.system.equipment.other[key].alternateName = getEquipmentNameTranslated(
+          this.system.equipment.other[key].name
         ))
     )
     // By default, it does this:
@@ -498,7 +498,7 @@ export class GurpsActor extends Actor {
       })
     return eqtkey
   }
-  
+
   /**
    * @param {{ [key: string]: any }} dict
    * @param {string} type
@@ -3049,7 +3049,7 @@ export class GurpsActor extends Actor {
   _removeOtf(key, text) {
     if (!text) return [text, null]
     let otf = null
-    let found = true 
+    let found = true
     while (found) {
       found = false
       var start
@@ -3846,7 +3846,7 @@ export class GurpsActor extends Actor {
     // @ts-ignore
     if (typeof itemData.toObject === 'function') {
       d = itemData.toObject()
-      d.system.eqt.count = itemData.system.eqt.count    // For some reason the count isn't deepcopied correctly.
+      d.system.eqt.count = itemData.system.eqt.count // For some reason the count isn't deepcopied correctly.
     }
     // @ts-ignore
     let localItems = await this.createEmbeddedDocuments('Item', [d]) // add a local Foundry Item based on some Item data

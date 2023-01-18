@@ -33,7 +33,7 @@ import {
   wait,
   quotedAttackName,
   requestFpHp,
-  sanitize
+  sanitize,
 } from '../lib/utilities.js'
 import { doRoll } from '../module/dierolls/dieroll.js'
 import { ResourceTrackerManager } from './actor/resource-tracker-manager.js'
@@ -552,7 +552,7 @@ if (!globalThis.GURPS) {
       switch (action.link) {
         case 'JournalEntry':
           let j = game.journal?.get(action.id)
-          if (j)  j.sheet?.render(true)
+          if (j) j.sheet?.render(true)
           return true
         case 'JournalEntryPage':
           Journal._showEntry(action.id)
@@ -1381,7 +1381,7 @@ if (!globalThis.GURPS) {
       }
       return
     } else if ('path' in element.dataset) {
-      let srcid = !!actor ? "@" + actor.id + "@" : ''
+      let srcid = !!actor ? '@' + actor.id + '@' : ''
       prefix = 'Roll vs '
       thing = GURPS._mapAttributePath(element.dataset.path)
       formula = '3d6'
@@ -2124,13 +2124,12 @@ if (!globalThis.GURPS) {
             let action = JSON.parse(atou(data.encodedAction))
             if (action.quiet) cmd += '!'
           }
-          if (data.otf)
-            cmd += data.otf
+          if (data.otf) cmd += data.otf
           else {
             let sep = ''
             data.bucket.forEach(otf => {
               cmd += sep + otf
-               sep = ' & '
+              sep = ' & '
             })
           }
           if (!!data.displayname) {
@@ -2581,15 +2580,16 @@ if (!globalThis.GURPS) {
     TriggerHappySupport.init()
 
     CONFIG.TextEditor.enrichers = CONFIG.TextEditor.enrichers.concat([
-    {
-        pattern : /\[.*\]/gm,
-        enricher : async (match, options) => {
-            let s = gurpslink(match[0])
-            const doc = document.createElement("span");
-            doc.innerHTML = s;
-            return doc;
-        }
-    }])
+      {
+        pattern: /\[.*\]/gm,
+        enricher: async (match, options) => {
+          let s = gurpslink(match[0])
+          const doc = document.createElement('span')
+          doc.innerHTML = s
+          return doc
+        },
+      },
+    ])
 
     Hooks.on('renderGMNote', (app, html, options) => {
       let h = html.find('[data-edit')
@@ -2597,11 +2597,11 @@ if (!globalThis.GURPS) {
       GurpsWiring.hookupAllEvents(html)
     })
 
-      // Hack to clean up multiple maneuver icons.   This will be fixed in future releaseds of the Bestiaries.
-   setTimeout(() => {
-      [ 'createCombatant', 'deleteCombatant', 'deleteCombat'].forEach(h => {
+    // Hack to clean up multiple maneuver icons.   This will be fixed in future releaseds of the Bestiaries.
+    setTimeout(() => {
+      ;['createCombatant', 'deleteCombatant', 'deleteCombat'].forEach(h => {
         let t = Hooks.events[h].reduce((total, value) => {
-          return (value.fn.toString().includes('Maneuver(')) ? total + 1 : total
+          return value.fn.toString().includes('Maneuver(') ? total + 1 : total
         }, 0)
         while (t-- > 1) Hooks.events[h].pop()
       })
