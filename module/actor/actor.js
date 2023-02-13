@@ -3672,20 +3672,25 @@ export class GurpsActor extends Actor {
     else ui.notifications?.warn('Only GMs are allowed to Apply Damage.')
   }
 
+  getUUID(dragData) {
+    const id = dragData.id || dragData.uuid
+    const uuid = typeof dragData.pack === 'string' ? `Compendium.${dragData.pack}.${id}` : `${dragData.type}.${id}`
+    return uuid
+  }
+
   // Drag and drop from Item colletion
   /**
    * @param {{ type: any; x?: number; y?: number; payload?: any; pack?: any; id?: any; data?: any; }} dragData
    */
   async handleItemDrop(dragData) {
+    debugger
     console.log('handleItemDrop', dragData)
     if (!this.isOwner) {
       ui.notifications?.warn(i18n('GURPS.youDoNotHavePermssion'))
       return
     }
-    const uuid =
-      typeof dragData.pack === 'string'
-        ? `Compendium.${dragData.pack}.${dragData.id}`
-        : `${dragData.type}.${dragData.id}`
+
+    const uuid = this.getUUID(dragData)
     let global = await fromUuid(dragData.uuid)
     let data = !!global ? global : dragData
     if (!data) {
