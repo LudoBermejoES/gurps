@@ -154,13 +154,45 @@ if (!globalThis.GURPS) {
   GURPS.lastTargetedRoll = {}
   GURPS.lastTargetedRolls = {} // mapped by both actor and token id
 
-  GURPS.addUse = function (event) {
+  function checkAddUse(event) {
     if (game.user.isGM) {
-      const parent = $(event.target).closest('.chat-message')
-      const messageId = $(event.target).closest('.chat-message').data('messageId')
-      const name = event?.target?.dataset?.name
-      const actorId = event?.target?.dataset?.actorId
-      const uses = event?.target?.dataset?.uses || 1
+      let d = new Dialog({
+        title: 'Añadir un uso de habilidad',
+        content:
+          '<p>Te acaban de pedir añadir un uso de habilidad</p>' + $(`*[data-message-id="${event.messageId}"]`).html(),
+        buttons: {
+          one: {
+            icon: '<i class="fas fa-check"></i>',
+            label: 'Aceptar',
+            callback: () => {
+              const iEvent = {
+                target: $(`*[data-message-id="${event.messageId}"]`).find('.addUse'),
+              }
+
+              GURPS.addUse(iEvent)
+            },
+          },
+          two: {
+            icon: '<i class="fas fa-times"></i>',
+            label: 'No aceptar',
+            callback: () => console.log('No aceptar'),
+          },
+        },
+        default: 'two',
+        render: html => console.log('Register interactivity in the rendered dialog'),
+        close: html => console.log('This always is logged no matter which option is chosen'),
+      })
+      d.render(true)
+    }
+  }
+
+  GURPS.addUse = function (event) {
+    const parent = $(event.target).closest('.chat-message')
+    const messageId = $(event.target).closest('.chat-message').data('messageId')
+    if (game.user.isGM) {
+      const name = event.target.attr('data-name')
+      const actorId = event.target.attr('data-actor-id')
+      const uses = event.target.attr('uses') || 1
       const actor = game.actors.get(actorId)
       const skill = findSkillSpell(actor, name)
       const skillUses = isNaN(skill.uses) ? 0 : Number(skill.uses)
@@ -173,6 +205,11 @@ if (!globalThis.GURPS) {
         const chatMessage = game.messages.get(messageId)
         chatMessage.update({ id: messageId, content: parent.find('.gga-chat-message').html() })
       }
+    } else {
+      game.socket.emit('system.gurps', {
+        type: 'addUse',
+        messageId,
+      })
     }
 
     return false
@@ -2465,6 +2502,10 @@ if (!globalThis.GURPS) {
           decimals: resp.decimals,
         }
       }
+      if (resp.type == 'addUse') {
+        checkAddUse(resp)
+      }
+
       if (resp.type == 'playerFpHp') {
         requestFpHp(resp)
       }
