@@ -85,6 +85,7 @@ export async function doRoll({
     let seventeen = rtotal >= 17
     failure = seventeen || margin < 0
 
+    chatdata['actor'] = actor
     chatdata['isCritSuccess'] = isCritSuccess
     chatdata['isCritFailure'] = isCritFailure
     chatdata['margin'] = margin
@@ -93,6 +94,12 @@ export async function doRoll({
     chatdata['isDraggable'] = !seventeen && margin != 0
     chatdata['otf'] = (margin >= 0 ? '+' + margin : margin) + ' margin for ' + thing
     chatdata['followon'] = optionalArgs.followon
+    if (optionalArgs.usesDialog) {
+      if (!isCritFailure && (isCritSuccess || (margin > -5 && margin < 5))) {
+        chatdata['usesDialog'] = optionalArgs.usesDialog
+        chatdata['uses'] = isCritSuccess ? 3 : 1
+      }
+    }
 
     if (margin > 0 && !!optionalArgs.obj && !!optionalArgs.obj.rcl) {
       // if the attached obj (see handleRoll()) as Recoil information, do the additional math

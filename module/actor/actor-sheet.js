@@ -1221,7 +1221,7 @@ export class GurpsActorSheet extends ActorSheet {
       obj,
       'systems/gurps/templates/skill-editor-popup.html',
       'Skill Editor',
-      ['name', 'import', 'relativelevel', 'pageref', 'notes', 'checkotf', 'duringotf', 'passotf', 'failotf'],
+      ['name', 'import', 'relativelevel', 'pageref', 'notes', 'checkotf', 'duringotf', 'passotf', 'failotf', 'uses'],
       ['points']
     )
   }
@@ -1283,6 +1283,7 @@ export class GurpsActorSheet extends ActorSheet {
 
               let u = html.find('.save') // Should only find in Note (or equipment)
               if (!!u) obj.save = u.is(':checked')
+              debugger
               actor.internalUpdate({ [path]: obj })
             },
           },

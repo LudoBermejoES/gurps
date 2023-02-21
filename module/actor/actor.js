@@ -1473,12 +1473,18 @@ export class GurpsActor extends Actor {
       name += addition + ')'
     }
     let s = new Skill(name, '')
+    s.uses = 0
     s.alternateName = getSkillNameTranslated(s.name)
     s.alternateDescription = getSkillDescriptionTranslated(s.name)
     s.pageRef(i.reference || '')
     s.uuid = i.id
     s.parentuuid = p
     if (['skill', 'technique'].includes(i.type)) {
+      const skill = GURPS.findSkillSpell(this, s.name)
+      if (skill) {
+        s.uses = skill.uses
+      }
+
       s.category = (i.categories && i.categories[0]) || ''
       s.type = i.type.toUpperCase()
       s.import = !!i.calc ? i.calc.level : ''
@@ -3683,7 +3689,6 @@ export class GurpsActor extends Actor {
    * @param {{ type: any; x?: number; y?: number; payload?: any; pack?: any; id?: any; data?: any; }} dragData
    */
   async handleItemDrop(dragData) {
-    debugger
     console.log('handleItemDrop', dragData)
     if (!this.isOwner) {
       ui.notifications?.warn(i18n('GURPS.youDoNotHavePermssion'))

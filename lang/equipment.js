@@ -3070,7 +3070,7 @@ const Equipment = {
   'Signet Ring (Gold)': 'Anillo de sello (oro)',
   'Slashing Wheel': 'Rueda de corte',
   Sleigh: 'Trineo',
-  Sling: 'Sling',
+  Sling: 'Honda ',
   'Sling Pellet': 'Pelota de la honda',
   'Sling, Long Arm': 'Eslinga, brazo largo',
   "Sloop, 21'": "Sloop, 21'",
