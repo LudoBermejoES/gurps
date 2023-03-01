@@ -225,10 +225,19 @@ export class GurpsActorSheet extends ActorSheet {
           title: title,
           content: page,
           buttons: {
+            sendToChat: {
+              label: 'Enviar al chat',
+              callback: async html => {
+                ChatMessage.create({
+                  content: page,
+                  user: game.user.id,
+                  type: CONST.CHAT_MESSAGE_TYPES.WHISPER,
+                })
+              },
+            },
             close: {
-              icon: '<i class="fas fa-times"></i>',
-              label: 'Close',
-              callback: () => console.log('Chose Two'),
+              label: 'Cerrar',
+              callback: async html => {},
             },
           },
           default: 'close',
@@ -435,6 +444,43 @@ export class GurpsActorSheet extends ActorSheet {
         }
       })
     } // end enhanced input
+
+    html.find('.alternate-description-button').click(ev => {
+      ev.preventDefault()
+      let parent = $(ev.currentTarget).closest('[data-key]')
+
+      let path = parent[0].dataset.key
+      let actor = this.actor
+      let obj = duplicate(getProperty(actor, path)) // must dup so difference can be detected when updated
+      if (!!obj.itemid) {
+        let item = this.actor.items.get(obj.itemid)
+        item.editingActor = this.actor
+        item.sheet.render(true)
+        return
+      }
+      if (path.includes('skills')) {
+        this.showAlternateDescription(
+          actor,
+          path,
+          obj,
+          'systems/gurps/templates/skill-description.html',
+          'Habilidad',
+          [
+            'name',
+            'import',
+            'relativelevel',
+            'pageref',
+            'notes',
+            'checkotf',
+            'duringotf',
+            'passotf',
+            'failotf',
+            'uses',
+          ],
+          ['points']
+        )
+      }
+    })
 
     // On mouseover any item with the class .tooltip-manager which also has a child (image) of class .tooltippic,
     // display the tooltip in the correct position.
@@ -1283,9 +1329,45 @@ export class GurpsActorSheet extends ActorSheet {
 
               let u = html.find('.save') // Should only find in Note (or equipment)
               if (!!u) obj.save = u.is(':checked')
-              debugger
               actor.internalUpdate({ [path]: obj })
             },
+          },
+        },
+        render: h => {
+          $(h).find('textarea').on('drop', this.dropFoundryLinks)
+          $(h).find('input').on('drop', this.dropFoundryLinks)
+        },
+      },
+      {
+        width: width,
+        popOut: true,
+        minimizable: false,
+        jQuery: true,
+      }
+    )
+    d.render(true)
+  }
+
+  async showAlternateDescription(actor, path, obj, html, title, strprops, numprops, width = 560) {
+    let dlgHtml = await renderTemplate(html, obj)
+    let d = new Dialog(
+      {
+        title: title,
+        content: dlgHtml,
+        buttons: {
+          sendToChat: {
+            label: 'Enviar al chat',
+            callback: async html => {
+              ChatMessage.create({
+                content: dlgHtml,
+                user: game.user.id,
+                type: CONST.CHAT_MESSAGE_TYPES.WHISPER,
+              })
+            },
+          },
+          close: {
+            label: 'Cerrar',
+            callback: async html => {},
           },
         },
         render: h => {

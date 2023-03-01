@@ -59,6 +59,9 @@
 					<div class='tooltiptext gga-manual'><img src='{{this.img}}' /></div>
 					{{/if}}
 				</div>
+                {{#if this.alternateDescription }}
+                    <i class="fa fa-book alternate-description-button" style="margin-left: 5px" aria-hidden="true"></i>
+                {{/if}}
 				<div>
 					{{#if (isFoundryItem this)}}
 					<i class='fas fa-star tooltip gga-item'>

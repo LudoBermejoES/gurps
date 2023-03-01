@@ -355,7 +355,7 @@ const Skills = {
   'Sewing/TL': 'Costura/TL',
   Search__1: 'Buscar',
   'Sewing/TL__1': 'Costura/TL',
-  'Sex Appeal': 'Sex Appeal',
+  'Sex Appeal': 'Seducir',
   Shadowing: 'Seguir',
   Shield: 'Escudo',
   'Shield (Shield)': 'Escudo (Medio)',

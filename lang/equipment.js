@@ -438,7 +438,7 @@ const Equipment = {
   'Whip, 5 yards long': 'Látigo, 5 yardas de largo',
   'Whip, 6 yards long': 'Látigo, 6 yardas de largo',
   'Whip, 7 yards long': 'Látigo, 7 yardas de largo',
-  Wineskin: 'Piel de vino',
+  Wineskin: 'Bota  de vino',
   'Space" Pen': 'Bolígrafo "Espacio',
   '.22 Long Rifle (5.7x16mmR)': 'Rifle largo del 22 (5.7x16mmR)',
   '.22 Short (5.6x11mmR)': '.22 Short (5.6x11mmR)',
