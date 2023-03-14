@@ -1874,6 +1874,7 @@ export class GurpsActor extends Actor {
     for (let i of skills) p_skills = this.skPointCount(i, p_skills)
     for (let i of spells) p_spells = this.skPointCount(i, p_spells)
     p_unspent -= p_atts + p_ads + p_disads + p_quirks + p_skills + p_spells + p_race
+
     return {
       'system.totalpoints.attributes': p_atts,
       'system.totalpoints.ads': p_ads,

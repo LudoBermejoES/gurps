@@ -1090,7 +1090,7 @@ body {
   grid-area: personal-erebo;
   display: grid;
   grid-template:
-    'portrait name '
+    'portrait name-experience '
     'portrait aspects-description'
     'portrait erebo-points';
   grid-template-columns: 0.5fr 1.5fr;
@@ -1110,9 +1110,20 @@ body {
 }
 
 
-#personal-erebo #name {
+#personal-erebo #name-experience {
+}
+
+#name-experience .name {
+  float: left;
   font-size: var(--ultrabigfontsize);
   color: #800000;
+}
+
+#name-experience .experience {
+  float: right;
+  color: #800000;
+  vertical-align: middle;
+  line-height: 33px;
 }
 
 #portrait {

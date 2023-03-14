@@ -2,10 +2,17 @@
     <div id='sheet-tab' class='gurpsactorsheet erebo'>
         <div id='personal-erebo'>
             {{>portrait}}
-            <div id="name" style="border-bottom: 1px groove #C00;">{{actor.name}}
-                {{#if data.traits.title}}
-                ({{data.traits.title}})
-            {{/if}}</div>
+            <div id="name-experience" style="border-bottom: 1px groove #C00;">
+                <span class="name">
+                    {{actor.name}}
+                    {{#if data.traits.title}}
+                        ({{data.traits.title}})
+                    {{/if}}
+                </span>
+                <span class="experience">
+                    Experiencia: {{system.totalpoints.unspent}} puntos
+                </span>
+            </div>
             {{>aspects-description-erebo}}
             {{>block-secondary-attributes-erebo}}
         </div>
