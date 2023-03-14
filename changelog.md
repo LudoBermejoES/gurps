@@ -1,5 +1,12 @@
 ### [Users Guide](https://bit.ly/2JaSlQd) for GURPS 4e Game Aid for Foundry VTT
 
+Release 0.15.32 03/13/2023
+
+- Expose the ApplyDamageDialog via the GURPS global object ()
+- Update for JB2a 0.5.5.1
+- fixed issue where QTYs and user edits were not being saved for various GCS imported items
+- fixed combat tracker reorder
+
 Release 0.15.31 02/22/2023
 
 - Fixed gurpslink parsing, thanks SrAndros!

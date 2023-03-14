@@ -80,6 +80,7 @@ import GurpsWiring from './gurps-wiring.js'
 import { gurpslink } from './utilities/gurpslink.js'
 import { PDFEditorSheet } from './pdf/edit.js'
 import { JournalEntryPageGURPS } from './pdf/index.js'
+import ApplyDamageDialog from './damage/applydamage.js'
 
 let GURPS = undefined
 
@@ -2257,7 +2258,7 @@ if (!globalThis.GURPS) {
 
     GURPS.ActorSheets = { character: GurpsActorSheet }
     GURPS.handlePdf = handlePdf
-    Hooks.call('gurpsinit', GURPS)
+    GURPS.ApplyDamageDialog = ApplyDamageDialogHooks.call('gurpsinit', GURPS)
   })
 
   Hooks.once('ready', async function () {
@@ -2454,13 +2455,16 @@ if (!globalThis.GURPS) {
             target.actor.handleDamageDrop(dropData.payload)
           }
           if (dropData.type === 'initiative') {
-            let target = game.combat.data.combatants.get(combatant)
-            let src = game.combat.data.combatants.get(dropData.combatant)
+            let target = game.combat.combatants.get(combatant)
+            let src = game.combat.combatants.get(dropData.combatant)
             let updates = []
             if (!!target && !!src) {
-              if (target.initiative < src.initiative)
-                updates.push({ _id: dropData.combatant, initiative: target.initiative - 0.00001 })
-              else updates.push({ _id: dropData.combatant, initiative: target.initiative + 0.00001 })
+              if (target.initiative < src.initiative){
+                updates.push({ _id: dropData.combatant, initiative: target.initiative - 0.00001 })console.log("Moving " + src.name + " below " + target.name)
+              } else {
+                updates.push({ _id: dropData.combatant, initiative: target.initiative + 0.00001 })
+                console.log("Moving " + src.name + " above " + target.name)
+              }
               game.combat.updateEmbeddedDocuments('Combatant', updates)
             }
           }
