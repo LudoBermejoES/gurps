@@ -619,18 +619,18 @@
   width: 100% !important;
 }
 
-[data-tooltip] {
+.gurps [data-tooltip] {
   position: relative;
 }
 
-[data-tooltip]:before,
-[data-tooltip]:after {
+.gurps [data-tooltip]:before,
+.gurps [data-tooltip]:after {
   display: none;
   position: absolute;
   top: 0;
 }
 
-[data-tooltip]:before {
+.gurps [data-tooltip]:before {
   border-bottom: .6em solid #09f;
   border-bottom: .6em solid rgba(0,153,255,0.8);
   border-left: 7px solid transparent;
@@ -640,7 +640,7 @@
   margin-top: 1em;
 }
 
-[data-tooltip]:after {
+.gurps [data-tooltip]:after {
   font-size: 12px;
   font-family: 'Roboto', sans-serif !important;
 
@@ -658,7 +658,7 @@
   width: 300px;
 }
 
-[data-tooltip]:hover:after,
-[data-tooltip]:hover:before {
+.gurps [data-tooltip]:hover:after,
+.gurps  [data-tooltip]:hover:before {
   display: block;
 }

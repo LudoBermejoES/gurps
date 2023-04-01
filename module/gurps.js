@@ -2258,7 +2258,8 @@ if (!globalThis.GURPS) {
 
     GURPS.ActorSheets = { character: GurpsActorSheet }
     GURPS.handlePdf = handlePdf
-    GURPS.ApplyDamageDialog = ApplyDamageDialogHooks.call('gurpsinit', GURPS)
+    GURPS.ApplyDamageDialog = ApplyDamageDialog
+    Hooks.call('gurpsinit', GURPS)
   })
 
   Hooks.once('ready', async function () {
@@ -2459,11 +2460,12 @@ if (!globalThis.GURPS) {
             let src = game.combat.combatants.get(dropData.combatant)
             let updates = []
             if (!!target && !!src) {
-              if (target.initiative < src.initiative){
-                updates.push({ _id: dropData.combatant, initiative: target.initiative - 0.00001 })console.log("Moving " + src.name + " below " + target.name)
+              if (target.initiative < src.initiative) {
+                updates.push({ _id: dropData.combatant, initiative: target.initiative - 0.00001 })
+                console.log('Moving ' + src.name + ' below ' + target.name)
               } else {
                 updates.push({ _id: dropData.combatant, initiative: target.initiative + 0.00001 })
-                console.log("Moving " + src.name + " above " + target.name)
+                console.log('Moving ' + src.name + ' above ' + target.name)
               }
               game.combat.updateEmbeddedDocuments('Combatant', updates)
             }
