@@ -38,8 +38,7 @@
 		"styles/css_boilerplate.css",
 		"styles/simplified.css",
 		"styles/npc-input.css",
-		"styles/erebo-input.css",
-    	"styles/apps.css",
+		"styles/apps.css",
 		"styles/color-character-sheet.css",
 		"styles/tinycolorpicker.css"
 	],
@@ -49,11 +48,6 @@
 			"name": "English",
 			"path": "lang/en.json",
 			"flags": {}
-    },
-    {
-      "lang": "es",
-      "name": "Español",
-      "path": "lang/es.json"
 		},
 		{
 			"lang": "pt-BR",

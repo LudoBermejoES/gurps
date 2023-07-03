@@ -756,20 +756,22 @@ export class GurpsActorSheet extends ActorSheet {
     }
 
     let trackermenu = html.find('#combat-trackers')
-    this._makeHeaderMenu(
-      $(trackermenu[0]),
-      '.headermenu',
-      [
-        {
-          name: i18n('GURPS.addTracker'),
-          icon: '<i class="fas fa-plus"></i>',
-          callback: e => {
-            this._addTracker()
+    if (!!trackermenu.length) {
+      this._makeHeaderMenu(
+        $(trackermenu[0]),
+        '.headermenu',
+        [
+          {
+            name: i18n('GURPS.addTracker'),
+            icon: '<i class="fas fa-plus"></i>',
+            callback: e => {
+              this._addTracker()
+            },
           },
-        },
-      ],
-      ClickAndContextMenu
-    )
+        ],
+        ClickAndContextMenu
+      )
+    }
   }
 
   _createEquipmentItemMenus(html) {
@@ -1386,7 +1388,9 @@ export class GurpsActorSheet extends ActorSheet {
   }
 
   _makeHeaderMenu(html, cssclass, menuitems, eventname = 'contextmenu') {
-    new ContextMenu(html, cssclass, menuitems, { eventName: eventname })
+    eventname.split(' ').forEach(function (e) {
+      new ContextMenu(html, cssclass, menuitems, { eventName: e })
+    })
   }
 
   sortAscendingMenu(key) {
