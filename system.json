@@ -79,7 +79,7 @@
       "name": "Español",
       "path": "lang/es.json",
       "flags": {}
-    },
+    }
   ],
   "gridDistance": 1,
   "gridUnits": "yd",
