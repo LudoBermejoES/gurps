@@ -1302,8 +1302,7 @@ export class GurpsActor extends Actor {
       'system.liftingmoving': lm,
       'system.currentmove': cm,
       'system.currentdodge': cd,
-      'system.-=encumbrance': null,
-      'system.encumbrance': es,
+      'system.encumbrance':  es,
       'system.QP': data.QP,
     }
   }
