@@ -145,7 +145,7 @@ export class GurpsActor extends Actor {
       // Oh how I wish we had a typesafe model!
       // I hate treating everything as "maybe its a number, maybe its a string...?!"
 
-      let sizemod = this.system.traits?.sizemod.toString() || '+0'
+      let sizemod = this.system.traits?.sizemod?.toString() || '+0'
       if (sizemod.match(/^\d/g)) sizemod = `+${sizemod}`
       if (sizemod !== '0' && sizemod !== '+0') {
         this.system.conditions.target.modifiers.push(
@@ -1342,6 +1342,7 @@ export class GurpsActor extends Actor {
     ts.eyes = p.eyes || ''
     ts.hair = p.hair || ''
     ts.skin = p.skin || ''
+    ts.sizeod = p.SM || '+0'
 
     const r = {
       'system.-=traits': null,
@@ -1719,7 +1720,6 @@ export class GurpsActor extends Actor {
           if (!l.split) l.split = {}
           l.split[damtype] = +l.import + value
         }
-      console.log(i)
       l.penalty = i.hit_penalty?.toString() || '0'
       while (locations.filter(it => it.where == l.where).length > 0) {
         l.where = l.where + '*'
@@ -2157,12 +2157,13 @@ export class GurpsActor extends Actor {
     }
 
     console.log('Starting commit')
+
     let deletes = Object.fromEntries(Object.entries(commit).filter(([key, value]) => key.includes('.-=')))
     let adds = Object.fromEntries(Object.entries(commit).filter(([key, value]) => !key.includes('.-=')))
 
     try {
       this.ignoreRender = true
-      await this.internalUpdate(deletes, { diff: false })
+      await this.internalUpdate(deletes, { diff: true })
       await this.internalUpdate(adds, { diff: false })
       // This has to be done after everything is loaded
       await this.postImport()

@@ -1,9 +1,8 @@
 <form class='{{cssClass}}' autocomplete='off' style='scroll-padding-top: 5px;'>
-  <div id='sheet' class='gurpsactorsheet'>
+  <div id='sheet' class='gurpsactorsheet reducedMode'>
     <div id='personal'>
       {{>portrait}}
       {{>identity}}
-      {{>miscellaneous}}
       {{>description}}
       {{>points}}
     </div>
@@ -12,10 +11,6 @@
         {{>basic-attributes}}
         {{>secondary-attributes}}
       </div>
-      {{>encumbrance}}
-      {{>quicknote}}
-      {{>lifting}}
-      {{>locations parent=../data}}
       <div id='hp-fp'>
         {{#if useCI}}
           {{>conditional-injury}}

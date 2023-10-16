@@ -777,6 +777,7 @@
   "GURPS.settingRangeStrategyStandard": "Tabla de tamaño y velocidad/alcance",
   "GURPS.settingRangeStrategyRangeBands": "Bandas de Rango de Monster Hunters 2",
   "GURPS.settingRangeStrategyTenPenalties": "-1 por cada 10 hexágonos/yardas/metros",
+  "GURPS.settingRangeStrategyFivePenalties": "-1 por cada 5 hexágonos/yardas/metros",
   "GURPS.settingBasicPDFs": "Set Básico PDF(s)",
   "GURPS.settingHintBasicPDFs": "Selecciona 'Combinado' o 'Separado' y utiliza los códigos PDF asociados cuando configures PDFoundry. Nota: Si seleccionas 'Separado', el PDF de las Campañas Básicas debe abrirse hasta la página 340 durante la prueba de PDFoundry",
   "GURPS.settingBasicPDFsCombined": "Set Básico Combinado (código 'B')",
